@@ -31,14 +31,14 @@ jobs:
     - name: Build locally → send image → run on EC2 (no registry)
       env:
         DEPLOY_HOST: ${{ vars.DEPLOY_HOST_DEV }}
-        DEPLOY_USER: ${{ vars.DEPLOY_USER_DEV }}
+        DEPLOY_USER: ${{ vars.DEPLOY_USER_DEV || }}
       run: |
         # Build the image locally (with full cache, multi-platform if you want)
         docker buildx create --use
-        docker buildx build --platform linux/amd64 -t myfastapi:latest .
+        docker buildx build --load --platform linux/amd64 -t myfastapi:latest .
 
         # Save the image to a tar file and stream it over SSH in one line
-        docker save myfastapi:latest | bzip2 | ssh -i ~/.ssh/deploy_key \
+        docker save myfastapi:latest | gzip | ssh -i ~/.ssh/deploy_key \
           -o StrictHostKeyChecking=no ${DEPLOY_USER}@${DEPLOY_HOST} \
           "bunzip2 | docker load && \
            docker rm -f fastapi || true && \
