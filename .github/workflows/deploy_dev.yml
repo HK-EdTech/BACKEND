@@ -37,10 +37,11 @@ jobs:
         docker buildx create --use
         docker buildx build --load --platform linux/amd64 -t myfastapi:latest .
 
-        # Save the image to a tar file and stream it over SSH in one line
-        docker save myfastapi:latest | gzip | ssh -i ~/.ssh/deploy_key \
-          -o StrictHostKeyChecking=no ${DEPLOY_USER}@${DEPLOY_HOST} \
-          "bunzip2 | docker load && \
-           docker rm -f fastapi || true && \
-           docker run -d --name fastapi --restart unless-stopped \
-             -p 127.0.0.1:8000:8000 myfastapi:latest"
+        # gzip instead of bzip2 → gunzip is guaranteed to exist on Ubuntu
+          docker save myfastapi:latest | gzip | ssh -i ~/.ssh/deploy_key \
+            -o StrictHostKeyChecking=no ${USER}@${HOST} \
+            "gunzip | docker load && \
+             docker rm -f fastapi || true && \
+             docker run -d --name fastapi --restart unless-stopped \
+               -p 127.0.0.1:8000:8000 myfastapi:latest && \
+             echo 'DEPLOYED SUCCESSFULLY! Open http://${HOST} now'"
