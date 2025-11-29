@@ -30,8 +30,8 @@ jobs:
 
     - name: Build locally → send image → run on EC2 (no registry)
       env:
-        DEPLOY_HOST: ${{ vars.DEPLOY_HOST_DEV }}
-        DEPLOY_USER: ${{ vars.DEPLOY_USER_DEV }}
+        HOST: ${{ vars.DEPLOY_HOST_DEV }}
+        USER: ${{ vars.DEPLOY_USER_DEV }}
       run: |
         # Build the image locally (with full cache, multi-platform if you want)
         docker buildx create --use
