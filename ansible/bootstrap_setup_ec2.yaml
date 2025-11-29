@@ -1,0 +1,6 @@
+---
+- name: Bootstrap brand-new EC2 with Docker + Nginx + UFW
+  hosts: ec2
+  become: yes
+  roles:
+    - docker_nginx

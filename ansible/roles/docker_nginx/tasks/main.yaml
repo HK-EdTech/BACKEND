@@ -1,0 +1,90 @@
+---
+# Install Docker the official way
+- name: Install Docker via official script
+  become: yes
+  shell: curl -fsSL https://get.docker.com | sh
+  args:
+    creates: /usr/bin/docker
+
+- name: Add ubuntu user to docker group
+  become: yes
+  user:
+    name: ubuntu
+    groups: docker
+    append: yes
+
+- name: Reset ssh connection to apply new group
+  meta: reset_connection
+
+# Install Nginx + Certbot
+- name: Install nginx and certbot
+  become: yes
+  apt:
+    name:
+    - nginx
+    - certbot
+    - python3-certbot-nginx
+    state: present
+    update_cache: yes
+
+# Deploy the correct FastAPI reverse-proxy config
+- name: Deploy FastAPI nginx site config
+  become: yes
+  copy:
+    dest: /etc/nginx/sites-available/fastapi
+    mode: "0644"
+    content: |
+      server {
+          listen 80;
+          server_name _;
+
+          location / {
+              proxy_pass http://127.0.0.1:8000;
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+          }
+      }
+
+- name: Remove default Nginx site
+  become: yes
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: reload nginx
+
+- name: Enable FastAPI Nginx site
+  become: yes
+  file:
+    src: /etc/nginx/sites-available/fastapi
+    dest: /etc/nginx/sites-enabled/fastapi
+    state: link
+  notify: reload nginx
+
+# UFW firewall — keep it exactly as you had it (it’s perfect)
+- name: Enable UFW and allow SSH
+  become: yes
+  community.general.ufw:
+    state: enabled
+    rule: allow
+    name: OpenSSH
+  notify: reload ufw
+
+- name: Allow Nginx Full in UFW
+  become: yes
+  community.general.ufw:
+    rule: allow
+    name: "Nginx Full"
+  notify: reload ufw
+
+# Ensure services are running
+- name: Ensure services are started and enabled
+  become: yes
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop:
+  - docker
+  - nginx
