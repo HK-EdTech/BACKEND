@@ -1,0 +1,54 @@
+---
+# Install Docker the official way
+- name: Install Docker via official script
+  become: yes
+  shell: |
+    curl -fsSL https://get.docker.com | sh
+  args:
+    creates: /usr/bin/docker
+
+- name: Add ubuntu user to docker group
+  become: yes
+  user:
+    name: ubuntu
+    # or ec2-user if Amazon Linux. Nope this is correct
+    groups: docker
+    append: yes
+
+- name: Reset ssh connection to apply new group
+  meta: reset_connection
+
+- name: Install Nginx and Certbot
+  become: yes
+  apt:
+    name:
+    - nginx
+    - certbot
+    - python3-certbot-nginx
+    state: present
+    update_cache: yes
+
+- name: Enable UFW and allow Nginx + SSH
+  become: yes
+  community.general.ufw:
+    state: enabled
+    rule: allow
+    name: OpenSSH
+  notify: reload ufw
+
+- name: Allow Nginx Full in UFW
+  become: yes
+  community.general.ufw:
+    rule: allow
+    name: "Nginx Full"
+  notify: reload ufw
+
+- name: Make sure Docker and Nginx are started
+  become: yes
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop:
+  - docker
+  - nginx

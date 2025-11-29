@@ -28,9 +28,19 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Deploy to EC2 without Dcoker Hub registry using Docker context
+    - name: Build locally → send image → run on EC2 (no registry)
+      env:
+        DEPLOY_HOST: ${{ vars.DEPLOY_HOST_DEV }}
+        DEPLOY_USER: ${{ vars.DEPLOY_USER_DEV }}
       run: |
-        docker context create remote --docker "host=ssh://${{ vars.DEPLOY_USER_DEV || 'ubuntu' }}@${{ vars.DEPLOY_HOST_DEV }}"
-        docker --context remote build -t myfastapi .
-        docker --context remote rm -f fastapi || true
-        docker --context remote run -d --name fastapi --restart unless-stopped -p 127.0.0.1:8000:8000 myfastapi
+        # Build the image locally (with full cache, multi-platform if you want)
+        docker buildx create --use
+        docker buildx build --platform linux/amd64 -t myfastapi:latest .
+
+        # Save the image to a tar file and stream it over SSH in one line
+        docker save myfastapi:latest | bzip2 | ssh -i ~/.ssh/deploy_key \
+          -o StrictHostKeyChecking=no ${DEPLOY_USER}@${DEPLOY_HOST} \
+          "bunzip2 | docker load && \
+           docker rm -f fastapi || true && \
+           docker run -d --name fastapi --restart unless-stopped \
+             -p 127.0.0.1:8000:8000 myfastapi:latest"

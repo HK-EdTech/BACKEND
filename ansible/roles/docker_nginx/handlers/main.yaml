@@ -1,0 +1,5 @@
+---
+- name: reload ufw
+  become: yes
+  community.general.ufw:
+    state: reloaded
