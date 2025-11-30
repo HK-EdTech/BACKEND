@@ -4,6 +4,7 @@ FROM python:3.12-slim
 # Prevents Python from writing pyc files and buffering stdout/stderr
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DEBUG_TOKEN=super-secret-fake-debug-token
 
 WORKDIR /app
 
