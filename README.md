@@ -3,7 +3,7 @@
 ## High level run down
 1. Ansible - For setting up EC2 box (lifting firewall, setting reverse proxy configs, installing docker, nginx...)
 2. Github Action - For on push deployment
-3. 
+3. Supabase Auth - Auth provider
 
 ## Setting up EC2 dev server
 dev local box run: `python3 -m pip install --user ansible`

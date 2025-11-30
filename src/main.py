@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from enum import Enum
+from fastapi import Depends
+from .deps import get_current_user
 
 class Tags(str, Enum):
     """Beautiful color-coded tags for the Swagger UI"""
@@ -10,22 +12,22 @@ class Tags(str, Enum):
 
 
 app = FastAPI(
-    title="My Awesome API",
+    title="HK EdTech API",
     description="Fully automated CI/CD → EC2 → Docker → Nginx → HTTPS ready",
     version="2.0.0",
     contact={
-        "name": "Your Name",
-        "email": "you@example.com",
+        "name": "milton chow",
+        "email": "milton@gmail.com",
     },
     license_info={
         "name": "MIT",
     },
 )
 
-# Home
+# Home - Protecting ALL routes (or just specific ones)
 @app.get("/", tags=[Tags.home])
-def read_root():
-    return {"message": "Welcome to the coolest FastAPI you've ever seen", "docs": "/docs"}
+def read_root(user = Depends(get_current_user)):
+    return {"message": "Welcome, authenticated user!"}
 
 # Health
 @app.get("/health", tags=[Tags.health])
