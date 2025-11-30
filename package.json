@@ -1,0 +1,28 @@
+{
+  "name": "ai-marking-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI Marking Platform - Monorepo",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "pnpm --filter frontend dev",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:backend": "cd apps/backend && uvicorn src.main:app --reload --host 0.0.0.0 --port 8000",
+    "build": "pnpm --filter frontend build",
+    "build:frontend": "pnpm --filter frontend build",
+    "lint": "pnpm -r lint",
+    "install:backend": "cd apps/backend && pip install -r requirements.txt"
+  },
+  "keywords": [
+    "monorepo",
+    "nextjs",
+    "fastapi",
+    "ai",
+    "marking"
+  ],
+  "author": "milton chow",
+  "license": "MIT"
+}
