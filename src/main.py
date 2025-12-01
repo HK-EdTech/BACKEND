@@ -1,6 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from enum import Enum
-from fastapi import Depends
+from fastapi.routing import APIRoute
 from .deps import get_current_user
 
 class Tags(str, Enum):
@@ -30,7 +30,7 @@ def health():
     return {"status": "healthy", "service": "fastapi-ec2-prod"}
 
 
-protected = app.router.route_class(dependencies=[Depends(get_current_user)])
+app.router.route_class = lambda **kwargs: APIRoute(**kwargs, dependencies=[Depends(get_current_user)])
 
 # Home - Protecting ALL routes (or just specific ones)
 @app.get("/", tags=[Tags.home])

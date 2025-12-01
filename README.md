@@ -9,6 +9,9 @@
 dev local box run: `python3 -m pip install --user ansible`
 run: `ansible-playbook -i inventory/hosts.ini bootstrap_setup_ec2.yaml`
 
+## Seeing docker logs on dev EC2 instance:
+`ssh -i ../dev01.pem ubuntu@x.xx.xx.xx "docker logs -f fastapi"`
+
 ## TODO List:
 Add a real domain + free HTTPS (one command):Bashsudo certbot --nginx -d yourdomain.com
 Add health checks + auto-rollback in GitHub Actions (I’ll give you the 5-line addition)
