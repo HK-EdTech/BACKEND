@@ -30,7 +30,9 @@ def health():
     return {"status": "healthy", "service": "fastapi-ec2-prod"}
 
 
-app.router.route_class = lambda **kwargs: APIRoute(**kwargs, dependencies=[Depends(get_current_user)])
+app.router.route_class = type("AuthRoute", (APIRoute,), {
+    "get_dependencies": lambda self: [Depends(get_current_user)] + super(APIRoute, self).get_dependencies()
+})
 
 # Home - Protecting ALL routes (or just specific ones)
 @app.get("/", tags=[Tags.home])
