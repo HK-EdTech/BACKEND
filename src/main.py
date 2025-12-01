@@ -49,8 +49,8 @@ async def supabase_auth_middleware(request: Request, call_next):
 
 # Home - Protecting ALL routes (or just specific ones)
 @app.get("/", tags=[Tags.home])
-def read_root(user = Depends(get_current_user)):
-# def read_root():
+# def read_root(user = Depends(get_current_user)):
+def read_root():
     return {"message": "Welcome, authenticated user!"}
 
 # Example CRUD endpoints with perfect colors in Swagger
@@ -58,7 +58,7 @@ def read_root(user = Depends(get_current_user)):
 def create_user(name: str, email: str):
     return {"id": 42, "name": name, "email": email}
 
-@app.get("/users/{user_id}", tags=[Tags.users], summary="Get user by ID", user = Depends(get_current_user))
+@app.get("/users/{user_id}", tags=[Tags.users], summary="Get user by ID")
 def get_user(user_id: int):
     return {"id": user_id, "name": "Milton", "email": "milton@example.com"}
 
