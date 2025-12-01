@@ -1,6 +1,5 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request, HTTPException, status
 from enum import Enum
-from fastapi.routing import APIRoute
 from .deps import get_current_user
 
 class Tags(str, Enum):
@@ -19,15 +18,33 @@ app = FastAPI(
         "name": "Developer: milton chow",
         "email": "milton@gmail.com",
     },
-    license_info={
-        "name": "MIT",
-    },
+    license_info={"name": "MIT"},
 )
 
 # Health (Anyone can call this)
 @app.get("/health", tags=[Tags.health])
 def health():
     return {"status": "healthy", "service": "fastapi-ec2-prod"}
+
+# GLOBAL AUTH MIDDLEWARE — protects EVERYTHING below (except the ones above)
+@app.middleware("http")
+async def supabase_auth_middleware(request: Request, call_next):
+    # These paths stay public forever
+    if request.url.path.startswith(("/docs", "/redoc", "/openapi.json", "/health")):
+        return await call_next(request)
+
+    # All other paths → require valid Supabase JWT
+    try:
+        user = await get_current_user(request)   
+        request.state.user = user               
+    except HTTPException:
+        return HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or missing Authorization: Bearer <token>",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    return await call_next(request)
 
 
 # Home - Protecting ALL routes (or just specific ones)
