@@ -4,7 +4,7 @@ from fastapi import Depends
 from .deps import get_current_user
 
 class Tags(str, Enum):
-    """Beautiful color-coded tags for the Swagger UI"""
+    """Color-coded tags for the Swagger UI"""
     home = "Home"
     health = "Health Checks"
     users = "User Management"
@@ -16,7 +16,7 @@ app = FastAPI(
     description="Fully automated CI/CD → EC2 → Docker → Nginx → HTTPS ready",
     version="2.0.0",
     contact={
-        "name": "milton chow",
+        "name": "Developer: milton chow",
         "email": "milton@gmail.com",
     },
     license_info={
@@ -24,15 +24,18 @@ app = FastAPI(
     },
 )
 
+# Health (Anyone can call this)
+@app.get("/health", tags=[Tags.health])
+def health():
+    return {"status": "healthy", "service": "fastapi-ec2-prod"}
+
+
+protected = app.router.route_class(dependencies=[Depends(get_current_user)])
+
 # Home - Protecting ALL routes (or just specific ones)
 @app.get("/", tags=[Tags.home])
 def read_root(user = Depends(get_current_user)):
     return {"message": "Welcome, authenticated user!"}
-
-# Health
-@app.get("/health", tags=[Tags.health])
-def health():
-    return {"status": "healthy", "service": "fastapi-ec2-prod"}
 
 # Example CRUD endpoints with perfect colors in Swagger
 @app.post("/users", tags=[Tags.users], summary="Create a new user")

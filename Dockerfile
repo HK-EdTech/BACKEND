@@ -6,11 +6,12 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # Debug token (override with docker run -e or docker-compose)
-ENV DEBUG_TOKEN=super-secret-debug-token-123
+# Ergo this DEBUG_TOKEN is no longer needed due to CI handling it in github action
+# ENV DEBUG_TOKEN=super-secret-debug-token-123 
 
 WORKDIR /app
 
-# Install dependencies
+# Install python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 

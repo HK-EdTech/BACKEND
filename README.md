@@ -14,4 +14,5 @@ Add a real domain + free HTTPS (one command):Bashsudo certbot --nginx -d yourdom
 Add health checks + auto-rollback in GitHub Actions (I’ll give you the 5-line addition)
 Add Prometheus metrics endpoint to your FastAPI (takes 10 lines)
 
-JWT secret implementation
+
+~~JWT secret implementation~~ - Finished
