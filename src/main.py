@@ -1,6 +1,9 @@
 from fastapi import FastAPI, Depends, Request, HTTPException, status
 from enum import Enum
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from .deps import get_current_user
+
+bearer_scheme = HTTPBearer(auto_error=False)
 
 class Tags(str, Enum):
     """Color-coded tags for the Swagger UI"""
@@ -29,18 +32,28 @@ def health():
 # GLOBAL AUTH MIDDLEWARE — protects EVERYTHING below (except the ones above)
 @app.middleware("http")
 async def supabase_auth_middleware(request: Request, call_next):
-    # These paths stay public forever
-    if request.url.path.startswith(("/docs", "/redoc", "/openapi.json", "/health")):
+    # Let these paths through without auth (including Swagger UI files)
+    if request.url.path in {"/health"} or request.url.path.startswith((
+        "/docs", "/redoc", "/openapi.json", "/favicon.ico"
+    )):
         return await call_next(request)
 
-    # All other paths → require valid Supabase JWT
+    # Extract Bearer token the same way your original deps.py does
+    auth = request.headers.get("Authorization")
+    if auth and auth.lower().startswith("bearer "):
+        token = auth[len("bearer "):].strip()
+        credentials = HTTPAuthorizationCredentials(scheme="bearer", credentials=token)
+    else:
+        credentials = None
+
+    # Use your **existing** get_current_user exactly as it was written
     try:
-        user = await get_current_user(request)   
-        request.state.user = user               
-    except HTTPException:
-        return HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or missing Authorization: Bearer <token>",
+        user = await get_current_user(credentials)  # ← unchanged!
+        request.state.user = user
+    except HTTPException as exc:
+        return JSONResponse(
+            status_code=exc.status_code,
+            content={"detail": exc.detail},
             headers={"WWW-Authenticate": "Bearer"},
         )
 
@@ -65,16 +78,3 @@ def get_user(user_id: int):
 @app.put("/users/{user_id}", tags=[Tags.users], summary="Update user")
 def update_user(user_id: int, name: str | None = None):
     return {"id": user_id, "updated": True, "name": name or "unchanged"}
-
-@app.delete("/users/{user_id}", tags=[Tags.users], summary="Delete user")
-def delete_user(user_id: int):
-    return {"id": user_id, "deleted": True}
-
-# Bonus: Items endpoints (green in Swagger)
-@app.post("/items", tags=[Tags.items], summary="Create item")
-def create_item(name: str):
-    return {"id": 123, "name": name}
-
-@app.get("/items", tags=[Tags.items], summary="List all items")
-def list_items():
-    return [{"id": 123, "name": "Magic Sword"}]
