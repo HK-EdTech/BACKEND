@@ -36,6 +36,10 @@ app = FastAPI(
 async def health():
     return {"status": "healthy", "service": "fastapi-ec2-prod"}
 
+@app.get("/snowboard", tags=[Tags.health], include_in_schema=True)
+async def health():
+    return {"status": "healthy", "service": "i-love-snowboard"}
+
 # GLOBAL AUTH MIDDLEWARE (protects everything except the paths below)
 @app.middleware("http")
 async def supabase_auth_middleware(request: Request, call_next):
