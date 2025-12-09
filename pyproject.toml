@@ -1,0 +1,4 @@
+description="Packaging and testing Python modules/libs"
+authors=["milton chow <miltonycchow@gmail.com>"]
+readme="README.md"
+packages = [{include="src"}]
