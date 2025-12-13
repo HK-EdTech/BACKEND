@@ -208,3 +208,6 @@ __marimo__/
 
 # ignoring .pem for dev01 private key
 dev01.pem
+
+# ignoring API keys directory
+src/*/api_keys/*.json

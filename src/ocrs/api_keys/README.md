@@ -1,0 +1,1 @@
+# This directory contains API keys for OCR services
