@@ -156,8 +156,8 @@ if __name__ == "__main__":
     try:
         result = GoogleCloudVisionAPI.detect_document(image_path)
 
-        # logger.info("EXTRACTED TEXT:")
-        # logger.info(result["full_text"])
+        logger.info("EXTRACTED TEXT:")
+        logger.info(result["full_text"])
 
         logger.info(f"AVERAGE CONFIDENCE: {result["pages"][0]["confidence"]*100}")
 
@@ -165,11 +165,10 @@ if __name__ == "__main__":
         output_json = image_path.split(".")[0] + ".ocr.json"
         with open(output_json, "w", encoding="utf-8") as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
-        print(f"\nFull detailed result saved to: {output_json}")
+        logger.info(f"\nFull detailed result saved to: {output_json}")
 
     except Exception as e:
-        print(f"\nError: {e}")
-        print("Make sure:")
-        print("   • GOOGLE_APPLICATION_CREDENTIALS env var is set")
-        print("   • Vision API is enabled in your Google Cloud project")
-        print("   • The image file exists and is readable")
+        logger.error(f"\nError: {e}. \n Please Make sure:\
+                        • GOOGLE_APPLICATION_CREDENTIALS env var is set\
+                        • Vision API is enabled in your Google Cloud project\
+                        • The image file exists and is readable")

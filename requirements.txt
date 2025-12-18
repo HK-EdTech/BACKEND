@@ -5,3 +5,8 @@ python-jose[cryptography]==3.3.0
 httpx==0.27.0
 # For GCV OCR
 google-cloud-vision==3.11.0
+# For PyTesseract OCR
+pytesseract==0.3.13
+pillow>=10.0.0
+#For EasyOCR
+easyocr==1.7.1
