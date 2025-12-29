@@ -84,5 +84,3 @@ async def get_user(user_id: int):
 async def update_user(user_id: int, name: str | None = None):
     return {"id": user_id, "updated": True, "name": name or "unchanged"}
 
-
-##test commit
