@@ -1,9 +1,14 @@
 # src/main.py
+from dotenv import load_dotenv
+load_dotenv()  # Load environment variables first
+
 from fastapi import FastAPI, Request, Depends, status
-from fastapi.responses import JSONResponse          # ← THIS WAS MISSING
+from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from enum import Enum
-from .deps import get_current_user   # ← your original function stays 100% unchanged
+from contextlib import asynccontextmanager
+from .deps import get_current_user
+from .database import connect_db, disconnect_db
 
 # This makes the green lock button appear in Swagger UI
 security = HTTPBearer(auto_error=False)
@@ -14,12 +19,22 @@ class Tags(str, Enum):
     users = "User Management"
     items = "Items"
 
+# Database lifecycle management
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: Connect to database
+    await connect_db()
+    yield
+    # Shutdown: Disconnect from database
+    await disconnect_db()
+
 app = FastAPI(
     title="HK EdTech API",
     version="2.0.0",
     description="Fully automated CI/CD → EC2 → Docker → Nginx → HTTPS ready",
     contact={"name": "Developer: milton chow", "email": "milton@gmail.com"},
     license_info={"name": "MIT"},
+    lifespan=lifespan,  # Database lifecycle management
     # This line adds the Authorize button in Swagger/Redoc
     openapi_tags=[
         {"name": "Home", "description": "Protected endpoints"},
