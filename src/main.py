@@ -10,6 +10,10 @@ from contextlib import asynccontextmanager
 from .deps import get_current_user
 from .database import connect_db, disconnect_db
 
+# Import routers from modules
+from .modules.auth.auth_controller import router as auth_router
+from .modules.profile.profile_controller import router as profile_router
+
 # This makes the green lock button appear in Swagger UI
 security = HTTPBearer(auto_error=False)
 
@@ -41,10 +45,16 @@ app = FastAPI(
         {"name": "Health Checks", "description": "Public"},
         {"name": "User Management"},
         {"name": "Items"},
+        {"name": "Authentication", "description": "User signup and authentication"},
+        {"name": "Profile", "description": "User profile management"},
     ],
     # This makes the lock appear
     dependencies=[Depends(security)],   # ← important
 )
+
+# Register module routers
+app.include_router(auth_router)
+app.include_router(profile_router)
 
 # PUBLIC ENDPOINTS
 @app.get("/health", tags=[Tags.health], include_in_schema=True)
