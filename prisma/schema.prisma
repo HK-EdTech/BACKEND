@@ -509,9 +509,10 @@ model profiles {
 }
 
 model roles {
-  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name          String          @unique
-  profile_roles profile_roles[]
+  id                String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String             @unique
+  profile_roles     profile_roles[]
+  role_module_perms role_module_perm[]
 
   @@schema("public")
 }
@@ -523,6 +524,49 @@ model profile_roles {
   roles      roles    @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@id([profile_id, role_id])
+  @@schema("public")
+}
+
+/// Module permission system models
+model modules {
+  module_code          String             @id @db.VarChar(50)
+  module_eng_name      String             @db.VarChar(100)
+  module_chi_name      String             @db.VarChar(100)
+  seq_no               Int
+  description          String?            @db.Text
+  descriptive_message  String?            @db.Text
+  route                String             @db.VarChar(100)
+  parent_module_code   String?            @db.VarChar(50)
+  created_at           DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at           DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+
+  parent_module        modules?           @relation("ModuleHierarchy", fields: [parent_module_code], references: [module_code], onDelete: Cascade)
+  child_modules        modules[]          @relation("ModuleHierarchy")
+  role_module_perms    role_module_perm[]
+
+  @@schema("public")
+}
+
+model permissions {
+  permission_code      String             @id @db.VarChar(20)
+  created_at           DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  role_module_perms    role_module_perm[]
+
+  @@schema("public")
+}
+
+model role_module_perm {
+  id                   Int        @id @default(autoincrement())
+  role_id              String     @db.Uuid
+  module_code          String     @db.VarChar(50)
+  permission_code      String     @db.VarChar(20)
+  created_at           DateTime   @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+
+  roles                roles      @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  modules              modules    @relation(fields: [module_code], references: [module_code], onDelete: Cascade)
+  permissions          permissions @relation(fields: [permission_code], references: [permission_code], onDelete: Cascade)
+
+  @@unique([role_id, module_code, permission_code])
   @@schema("public")
 }
 

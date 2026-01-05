@@ -5,6 +5,7 @@ load_dotenv()  # Load environment variables first
 from fastapi import FastAPI, Request, Depends, status
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.middleware.cors import CORSMiddleware
 from enum import Enum
 from contextlib import asynccontextmanager
 from .deps import get_current_user
@@ -50,6 +51,17 @@ app = FastAPI(
     dependencies=[Depends(security)],   # ← important
 )
 
+# Configure CORS
+import os
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3010")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[frontend_url],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Register module routers
 app.include_router(profile_router)
 
@@ -65,6 +77,9 @@ async def health():
 # GLOBAL AUTH MIDDLEWARE (protects everything except the paths below)
 @app.middleware("http")
 async def supabase_auth_middleware(request: Request, call_next):
+    # ADD skip options to pass the cors checking to the app.add_middleware to check
+    if request.method == "OPTIONS":
+        return await call_next(request)
     # These paths are always public
     if request.url.path in {"/health", "/openapi.json", "/favicon.ico"} or \
        request.url.path.startswith(("/docs", "/redoc")):
