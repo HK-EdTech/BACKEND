@@ -1,9 +1,18 @@
 # src/main.py
+from dotenv import load_dotenv
+load_dotenv()  # Load environment variables first
+
 from fastapi import FastAPI, Request, Depends, status
-from fastapi.responses import JSONResponse          # ← THIS WAS MISSING
+from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.middleware.cors import CORSMiddleware
 from enum import Enum
-from .deps import get_current_user   # ← your original function stays 100% unchanged
+from contextlib import asynccontextmanager
+from .deps import get_current_user
+from .database import connect_db, disconnect_db
+
+# Import routers from modules
+from .modules.profile.profile_controller import router as profile_router
 
 # This makes the green lock button appear in Swagger UI
 security = HTTPBearer(auto_error=False)
@@ -14,22 +23,47 @@ class Tags(str, Enum):
     users = "User Management"
     items = "Items"
 
+# Database lifecycle management
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: Connect to database
+    await connect_db()
+    yield
+    # Shutdown: Disconnect from database
+    await disconnect_db()
+
 app = FastAPI(
     title="HK EdTech API",
     version="2.0.0",
     description="Fully automated CI/CD → EC2 → Docker → Nginx → HTTPS ready",
     contact={"name": "Developer: milton chow", "email": "milton@gmail.com"},
     license_info={"name": "MIT"},
+    lifespan=lifespan,  # Database lifecycle management
     # This line adds the Authorize button in Swagger/Redoc
     openapi_tags=[
         {"name": "Home", "description": "Protected endpoints"},
         {"name": "Health Checks", "description": "Public"},
         {"name": "User Management"},
         {"name": "Items"},
+        {"name": "Profile", "description": "User profile management"},
     ],
     # This makes the lock appear
     dependencies=[Depends(security)],   # ← important
 )
+
+# Configure CORS
+import os
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3010")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[frontend_url],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Register module routers
+app.include_router(profile_router)
 
 # PUBLIC ENDPOINTS
 @app.get("/health", tags=[Tags.health], include_in_schema=True)
@@ -43,9 +77,16 @@ async def health():
 # GLOBAL AUTH MIDDLEWARE (protects everything except the paths below)
 @app.middleware("http")
 async def supabase_auth_middleware(request: Request, call_next):
+    print(f"[AUTH] {request.method} {request.url.path}")
+
+    # ADD skip options to pass the cors checking to the app.add_middleware to check
+    if request.method == "OPTIONS":
+        print("[AUTH] ✅ Allowing OPTIONS (CORS preflight)")
+        return await call_next(request)
     # These paths are always public
     if request.url.path in {"/health", "/openapi.json", "/favicon.ico"} or \
        request.url.path.startswith(("/docs", "/redoc")):
+        print(f"[AUTH] ✅ Public path")
         return await call_next(request)
 
     # Extract Bearer token manually (so your original get_current_user works unchanged)
@@ -54,11 +95,16 @@ async def supabase_auth_middleware(request: Request, call_next):
     if auth_header and auth_header.lower().startswith("bearer "):
         token = auth_header[7:].strip()
         credentials = HTTPAuthorizationCredentials(scheme="bearer", credentials=token)
+        print(f"[AUTH] 🔑 Token: {token[:30]}...")
+    else:
+        print("[AUTH] ❌ No Authorization header")
 
     try:
         user = await get_current_user(credentials)   # ← your original function, untouched
         request.state.user = user
+        print(f"[AUTH] ✅ User: {user.get('email', user.get('sub'))}")
     except Exception as e:
+        print(f"[AUTH] ❌ Auth failed: {type(e).__name__}: {str(e)}")
         return JSONResponse(
             status_code=status.HTTP_401_UNAUTHORIZED,
             content={"detail": "Invalid or missing token"},
@@ -83,3 +129,4 @@ async def get_user(user_id: int):
 @app.put("/users/{user_id}", tags=[Tags.users])
 async def update_user(user_id: int, name: str | None = None):
     return {"id": user_id, "updated": True, "name": name or "unchanged"}
+
