@@ -77,12 +77,16 @@ async def health():
 # GLOBAL AUTH MIDDLEWARE (protects everything except the paths below)
 @app.middleware("http")
 async def supabase_auth_middleware(request: Request, call_next):
+    print(f"[AUTH] {request.method} {request.url.path}")
+
     # ADD skip options to pass the cors checking to the app.add_middleware to check
     if request.method == "OPTIONS":
+        print("[AUTH] ✅ Allowing OPTIONS (CORS preflight)")
         return await call_next(request)
     # These paths are always public
     if request.url.path in {"/health", "/openapi.json", "/favicon.ico"} or \
        request.url.path.startswith(("/docs", "/redoc")):
+        print(f"[AUTH] ✅ Public path")
         return await call_next(request)
 
     # Extract Bearer token manually (so your original get_current_user works unchanged)
@@ -91,11 +95,16 @@ async def supabase_auth_middleware(request: Request, call_next):
     if auth_header and auth_header.lower().startswith("bearer "):
         token = auth_header[7:].strip()
         credentials = HTTPAuthorizationCredentials(scheme="bearer", credentials=token)
+        print(f"[AUTH] 🔑 Token: {token[:30]}...")
+    else:
+        print("[AUTH] ❌ No Authorization header")
 
     try:
         user = await get_current_user(credentials)   # ← your original function, untouched
         request.state.user = user
+        print(f"[AUTH] ✅ User: {user.get('email', user.get('sub'))}")
     except Exception as e:
+        print(f"[AUTH] ❌ Auth failed: {type(e).__name__}: {str(e)}")
         return JSONResponse(
             status_code=status.HTTP_401_UNAUTHORIZED,
             content={"detail": "Invalid or missing token"},
