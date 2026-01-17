@@ -13,7 +13,7 @@ ENV PATH="/venv/bin:$PATH"
 
 # Install system dependencies required for Prisma CLI (Node.js installation)
 RUN apt-get update && \
-    apt-get install -y libatomic1 && \
+    apt-get install -y libatomic1 openssl ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
