@@ -74,7 +74,7 @@ jobs:
              -p 127.0.0.1:8000:8000 \
              -e DEBUG_TOKEN='${DEBUG_TOKEN}' \
              -e SUPABASE_URL='${SUPABASE_URL}' \
-             -e DATABASE_URL='postgresql://postgres.${DB_PROJECT_REF}:${DB_PASSWORD}@aws-0-us-east-1.pooler.supabase.com:6543/postgres' \
+             -e DATABASE_URL='postgresql://postgres.${DB_PROJECT_REF}:${DB_PASSWORD}@aws-1-ap-northeast-1.pooler.supabase.com:5432/postgres' \
              myfastapi:latest \
              uvicorn src.main:app --host 0.0.0.0 --port 8000 && \
            echo 'DEPLOYED SUCCESSFULLY! Open http://${HOST} now' && \
