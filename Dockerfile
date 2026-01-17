@@ -20,6 +20,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire project
 COPY . .
 
+# Generate Prisma client (required before using the client in the app)
+RUN prisma generate
+
 # Make the project root importable
 ENV PYTHONPATH=/app
 
