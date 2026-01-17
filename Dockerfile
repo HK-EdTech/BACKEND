@@ -11,6 +11,11 @@ ENV PYTHONUNBUFFERED=1
 RUN python -m venv /venv
 ENV PATH="/venv/bin:$PATH"
 
+# Install system dependencies required for Prisma CLI (Node.js installation)
+RUN apt-get update && \
+    apt-get install -y libatomic1 && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 # Install python dependencies using the venv
