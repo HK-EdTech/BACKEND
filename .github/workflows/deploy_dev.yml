@@ -17,13 +17,6 @@ jobs:
     - name: Debug disk space
       run: df -h
 
-    - name: Prune Docker images and containers
-      run: |
-        docker system prune --all --force
-
-    - name: Debug disk space
-      run: df -h
-
     - name: Write SSH deploy key
       run: |
         mkdir -p ~/.ssh
@@ -31,6 +24,20 @@ jobs:
         chmod 600 ~/.ssh/deploy_key
         echo -e "Host ${{ vars.DEPLOY_HOST_DEV }}\n  HostName ${{ vars.DEPLOY_HOST_DEV }}\n  User ${{ vars.DEPLOY_USER_DEV || 'ubuntu' }}\n  IdentityFile ~/.ssh/deploy_key\n  StrictHostKeyChecking no" >> ~/.ssh/config
 
+    - name: Prune Docker images and containers, volumes, builder cache
+      env:
+        HOST: ${{ vars.DEPLOY_HOST_DEV }}
+        USER: ${{ vars.DEPLOY_USER_DEV }}
+      run: |
+        ssh -i ~/.ssh/deploy_key \
+          -o StrictHostKeyChecking=no \
+          -o ServerAliveInterval=60 \
+          -o LogLevel=ERROR \
+          "${USER}@${HOST}" \
+          "
+          docker system prune --all --force --volumes
+          docker builder prune --all --force
+          "
     - name: Currently NOT IN USE - Login to Docker Hub (optional)
       if: env.DOCKERHUB_USERNAME
       uses: docker/login-action@v3
