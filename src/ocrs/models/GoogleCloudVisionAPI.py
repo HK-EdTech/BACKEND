@@ -162,7 +162,7 @@ if __name__ == "__main__":
         logger.info(f"AVERAGE CONFIDENCE: {result["pages"][0]["confidence"]*100}")
 
         # Optional: Save full JSON output
-        output_json = image_path.split(".")[0] + ".ocr.json"
+        output_json = f"{image_path.split("ocr_")[0]}conf_scores/{image_path.split("/")[-1].split(".")[0]}.ocr.json" 
         with open(output_json, "w", encoding="utf-8") as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
         logger.info(f"\nFull detailed result saved to: {output_json}")
