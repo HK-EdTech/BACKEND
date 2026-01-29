@@ -445,7 +445,7 @@ model classes {
   organization_id           String?                    @db.Uuid
   created_at                DateTime                   @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
   educational_organizations educational_organizations? @relation(fields: [organization_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  profiles                  profiles                   @relation(fields: [teacher_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  teacher_profile           teacher_profiles           @relation(fields: [teacher_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   enrollments               enrollments[]
 
   @@index([organization_id], map: "idx_classes_org")
@@ -471,12 +471,12 @@ model educational_organizations {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model enrollments {
-  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  student_id      String   @db.Uuid
-  class_id        String   @db.Uuid
-  enrollment_date DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  classes         classes  @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  profiles        profiles @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  student_id      String           @db.Uuid
+  class_id        String           @db.Uuid
+  enrollment_date DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  classes         classes          @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  student_profile student_profiles @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@unique([student_id, class_id])
   @@index([class_id], map: "idx_enrollments_class")
@@ -492,19 +492,48 @@ model profiles {
   surname                   String
   full_name                 String?                    @default(dbgenerated("((first_name || ' '::text) || surname)"))
   username                  String
-  class_level               String?
   organization_id           String?                    @db.Uuid
   avatar_url                String?
   created_at                DateTime                   @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
   updated_at                DateTime                   @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  classes                   classes[]
-  enrollments               enrollments[]
+
+  student_profile           student_profiles?
+  teacher_profile           teacher_profiles?
+
   profile_roles             profile_roles[]
   users                     users                      @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction) @ignore
   educational_organizations educational_organizations? @relation(fields: [organization_id], references: [id], onUpdate: NoAction)
 
-  @@index([class_level], map: "idx_profiles_class_level")
   @@index([organization_id], map: "idx_profiles_org")
+  @@schema("public")
+}
+
+/// Student-specific profile information
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model student_profiles {
+  id          String        @id @db.Uuid @map("profile_id")
+  level       String?
+  created_at  DateTime      @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at  DateTime      @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+
+  profile     profiles      @relation(fields: [id], references: [id], onDelete: Cascade)
+  enrollments enrollments[]
+
+  @@index([level], map: "idx_student_profiles_level")
+  @@schema("public")
+}
+
+/// Teacher-specific profile information
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model teacher_profiles {
+  id         String    @id @db.Uuid @map("profile_id")
+  bio        String?   @db.Text
+  created_at DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+
+  profile    profiles  @relation(fields: [id], references: [id], onDelete: Cascade)
+  classes    classes[]
+
   @@schema("public")
 }
 

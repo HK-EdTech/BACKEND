@@ -9,13 +9,28 @@ class ProfileService:
         self.db = db
 
     async def get_profile_by_id(self, user_id: UUID):
-        """Get profile by auth user ID with role"""
+        """Get profile by auth user ID with role and specialized profiles"""
         profile = await self.db.profiles.find_unique(
             where={"id": str(user_id)},
             include={
                 "profile_roles": {
                     "include": {"roles": True}
-                }
+                },
+                "student_profile": {
+                    "include": {
+                        "enrollments": {
+                            "include": {
+                                "classes": True
+                            }
+                        }
+                    }
+                },
+                "teacher_profile": {
+                    "include": {
+                        "classes": True
+                    }
+                },
+                "educational_organizations": True
             }
         )
         if not profile:
@@ -31,10 +46,9 @@ class ProfileService:
         first_name: Optional[str] = None,
         surname: Optional[str] = None,
         username: Optional[str] = None,
-        class_level: Optional[str] = None,
         avatar_url: Optional[str] = None,
     ):
-        """Update user profile (no role changes)"""
+        """Update base user profile (no role changes)"""
         update_data = {}
         if first_name is not None:
             update_data["first_name"] = first_name
@@ -42,8 +56,6 @@ class ProfileService:
             update_data["surname"] = surname
         if username is not None:
             update_data["username"] = username
-        if class_level is not None:
-            update_data["class_level"] = class_level
         if avatar_url is not None:
             update_data["avatar_url"] = avatar_url
 
@@ -52,3 +64,53 @@ class ProfileService:
             data=update_data
         )
         return profile
+
+    async def get_student_profile(self, user_id: UUID):
+        """Get student-specific profile with enrollments"""
+        student_profile = await self.db.student_profiles.find_unique(
+            where={"id": str(user_id)},
+            include={
+                "profile": True,
+                "enrollments": {
+                    "include": {
+                        "classes": True
+                    }
+                }
+            }
+        )
+        if not student_profile:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Student profile not found"
+            )
+        return student_profile
+
+    async def update_student_level(self, user_id: UUID, level: str):
+        """Update student's class level"""
+        return await self.db.student_profiles.update(
+            where={"id": str(user_id)},
+            data={"level": level}
+        )
+
+    async def get_teacher_profile(self, user_id: UUID):
+        """Get teacher-specific profile with classes"""
+        teacher_profile = await self.db.teacher_profiles.find_unique(
+            where={"id": str(user_id)},
+            include={
+                "profile": True,
+                "classes": True
+            }
+        )
+        if not teacher_profile:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Teacher profile not found"
+            )
+        return teacher_profile
+
+    async def update_teacher_bio(self, user_id: UUID, bio: Optional[str]):
+        """Update teacher bio"""
+        return await self.db.teacher_profiles.update(
+            where={"id": str(user_id)},
+            data={"bio": bio}
+        )
