@@ -1,0 +1,2976 @@
+{
+  "full_text": "© Imgur\nuse video, horizon readings + extra info.\nHOMEWORK\nYou are to assume the role of a Chinese immigrant in 1870 and write a letter\nhome describing your experiences\nYour letter should include the following:\nyour contributions and experiences in the West.\n我在這裏生活得很差。\n工作環境不佳,福利缺少。\n不過不用擔心,每天只有大概十個人受重傷,\n而我亦很小心。\n我們開了一間小鋪,生意不俗。\n雖然我英文不是很認識,但是也能略略\n明白那些白人所說的話。\n希望能夠出人頭地吧!我在這裏會努力工作,也\n會小心身體的。\n你們還好吧?\n很掛念你們,希望我們能夠再見面。",
+  "pages": [
+    {
+      "width": 634,
+      "height": 753,
+      "confidence": 0.9349597692489624,
+      "blocks": [
+        {
+          "confidence": 0.8132326006889343,
+          "bounding_box": [
+            [
+              5,
+              739
+            ],
+            [
+              52,
+              740
+            ],
+            [
+              52,
+              752
+            ],
+            [
+              5,
+              751
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "©Imgur",
+              "confidence": 0.8132326006889343,
+              "words": [
+                {
+                  "text": "©",
+                  "confidence": 0.2645721733570099,
+                  "symbols": [
+                    {
+                      "text": "©",
+                      "confidence": 0.2645721733570099,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "Imgur",
+                  "confidence": 0.9229646921157837,
+                  "symbols": [
+                    {
+                      "text": "I",
+                      "confidence": 0.6892970204353333,
+                      "is_break": true
+                    },
+                    {
+                      "text": "m",
+                      "confidence": 0.9734514951705933,
+                      "is_break": true
+                    },
+                    {
+                      "text": "g",
+                      "confidence": 0.9817354679107666,
+                      "is_break": true
+                    },
+                    {
+                      "text": "u",
+                      "confidence": 0.9854435324668884,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9848959445953369,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9010496735572815,
+          "bounding_box": [
+            [
+              83,
+              12
+            ],
+            [
+              557,
+              14
+            ],
+            [
+              557,
+              40
+            ],
+            [
+              83,
+              38
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "usevideo,horizonreadings+extrainfo.",
+              "confidence": 0.9010496735572815,
+              "words": [
+                {
+                  "text": "use",
+                  "confidence": 0.958808183670044,
+                  "symbols": [
+                    {
+                      "text": "u",
+                      "confidence": 0.9174391627311707,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9758009910583496,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9831844568252563,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "video",
+                  "confidence": 0.9787871837615967,
+                  "symbols": [
+                    {
+                      "text": "v",
+                      "confidence": 0.9450979232788086,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9838434457778931,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9905827045440674,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9905105233192444,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9839013814926147,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.9312323331832886,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.9312323331832886,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "horizon",
+                  "confidence": 0.8224450349807739,
+                  "symbols": [
+                    {
+                      "text": "h",
+                      "confidence": 0.9295375943183899,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.8121338486671448,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.5191438794136047,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.5591652989387512,
+                      "is_break": true
+                    },
+                    {
+                      "text": "z",
+                      "confidence": 0.9706383347511292,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9836516976356506,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9828445315361023,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "readings",
+                  "confidence": 0.9457563757896423,
+                  "symbols": [
+                    {
+                      "text": "r",
+                      "confidence": 0.9931648373603821,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9949954748153687,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9852501749992371,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9839457869529724,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9189928770065308,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9518031477928162,
+                      "is_break": true
+                    },
+                    {
+                      "text": "g",
+                      "confidence": 0.9483921527862549,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.7895065546035767,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "+",
+                  "confidence": 0.47369933128356934,
+                  "symbols": [
+                    {
+                      "text": "+",
+                      "confidence": 0.47369933128356934,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "extra",
+                  "confidence": 0.8393217325210571,
+                  "symbols": [
+                    {
+                      "text": "e",
+                      "confidence": 0.8794998526573181,
+                      "is_break": true
+                    },
+                    {
+                      "text": "x",
+                      "confidence": 0.5970444679260254,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.8824104070663452,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.8713878989219666,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9662660956382751,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "info",
+                  "confidence": 0.9833098649978638,
+                  "symbols": [
+                    {
+                      "text": "i",
+                      "confidence": 0.994825541973114,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9938178658485413,
+                      "is_break": true
+                    },
+                    {
+                      "text": "f",
+                      "confidence": 0.9796350598335266,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9649611115455627,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.9084325432777405,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.9084325432777405,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9880576133728027,
+          "bounding_box": [
+            [
+              257,
+              71
+            ],
+            [
+              362,
+              72
+            ],
+            [
+              362,
+              86
+            ],
+            [
+              257,
+              85
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "HOMEWORK",
+              "confidence": 0.9880576133728027,
+              "words": [
+                {
+                  "text": "HOMEWORK",
+                  "confidence": 0.9880576133728027,
+                  "symbols": [
+                    {
+                      "text": "H",
+                      "confidence": 0.9851195812225342,
+                      "is_break": true
+                    },
+                    {
+                      "text": "O",
+                      "confidence": 0.9857819080352783,
+                      "is_break": true
+                    },
+                    {
+                      "text": "M",
+                      "confidence": 0.9926182627677917,
+                      "is_break": true
+                    },
+                    {
+                      "text": "E",
+                      "confidence": 0.983249843120575,
+                      "is_break": true
+                    },
+                    {
+                      "text": "W",
+                      "confidence": 0.991100013256073,
+                      "is_break": true
+                    },
+                    {
+                      "text": "O",
+                      "confidence": 0.9938976764678955,
+                      "is_break": true
+                    },
+                    {
+                      "text": "R",
+                      "confidence": 0.9922162294387817,
+                      "is_break": true
+                    },
+                    {
+                      "text": "K",
+                      "confidence": 0.9804775714874268,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.986278235912323,
+          "bounding_box": [
+            [
+              60,
+              103
+            ],
+            [
+              549,
+              107
+            ],
+            [
+              549,
+              127
+            ],
+            [
+              60,
+              123
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "YouaretoassumetheroleofaChineseimmigrantin1870andwritealetter",
+              "confidence": 0.986278235912323,
+              "words": [
+                {
+                  "text": "You",
+                  "confidence": 0.981089174747467,
+                  "symbols": [
+                    {
+                      "text": "Y",
+                      "confidence": 0.966896116733551,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9890667796134949,
+                      "is_break": true
+                    },
+                    {
+                      "text": "u",
+                      "confidence": 0.9873046278953552,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "are",
+                  "confidence": 0.9910361766815186,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9940142631530762,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9908487200737,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9882456064224243,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "to",
+                  "confidence": 0.9911907315254211,
+                  "symbols": [
+                    {
+                      "text": "t",
+                      "confidence": 0.9900030493736267,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9923784136772156,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "assume",
+                  "confidence": 0.9695017337799072,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9848799109458923,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9646701812744141,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9384488463401794,
+                      "is_break": true
+                    },
+                    {
+                      "text": "u",
+                      "confidence": 0.9621754288673401,
+                      "is_break": true
+                    },
+                    {
+                      "text": "m",
+                      "confidence": 0.9774526357650757,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.989383339881897,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "the",
+                  "confidence": 0.9925004243850708,
+                  "symbols": [
+                    {
+                      "text": "t",
+                      "confidence": 0.994035542011261,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.9911636710166931,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9923021197319031,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "role",
+                  "confidence": 0.9833577871322632,
+                  "symbols": [
+                    {
+                      "text": "r",
+                      "confidence": 0.9879670739173889,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9841392636299133,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9754080772399902,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9859166145324707,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "of",
+                  "confidence": 0.9887063503265381,
+                  "symbols": [
+                    {
+                      "text": "o",
+                      "confidence": 0.9888810515403748,
+                      "is_break": true
+                    },
+                    {
+                      "text": "f",
+                      "confidence": 0.9885315895080566,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "a",
+                  "confidence": 0.9896600842475891,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9896600842475891,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "Chinese",
+                  "confidence": 0.9853042364120483,
+                  "symbols": [
+                    {
+                      "text": "C",
+                      "confidence": 0.9882803559303284,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.9846280813217163,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.981879711151123,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9766981601715088,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9892200231552124,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.982398271560669,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9940248727798462,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "immigrant",
+                  "confidence": 0.98296058177948,
+                  "symbols": [
+                    {
+                      "text": "i",
+                      "confidence": 0.9924640655517578,
+                      "is_break": true
+                    },
+                    {
+                      "text": "m",
+                      "confidence": 0.9882962107658386,
+                      "is_break": true
+                    },
+                    {
+                      "text": "m",
+                      "confidence": 0.9853930473327637,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9896568059921265,
+                      "is_break": true
+                    },
+                    {
+                      "text": "g",
+                      "confidence": 0.9903526306152344,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9735021591186523,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9751803874969482,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9690260291099548,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9827738404273987,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "in",
+                  "confidence": 0.9911853671073914,
+                  "symbols": [
+                    {
+                      "text": "i",
+                      "confidence": 0.993094801902771,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9892759323120117,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "1870",
+                  "confidence": 0.9920884370803833,
+                  "symbols": [
+                    {
+                      "text": "1",
+                      "confidence": 0.9863596558570862,
+                      "is_break": true
+                    },
+                    {
+                      "text": "8",
+                      "confidence": 0.9947779178619385,
+                      "is_break": true
+                    },
+                    {
+                      "text": "7",
+                      "confidence": 0.9942052364349365,
+                      "is_break": true
+                    },
+                    {
+                      "text": "0",
+                      "confidence": 0.9930108785629272,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "and",
+                  "confidence": 0.9895867109298706,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9922531843185425,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9860872030258179,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9904198050498962,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "write",
+                  "confidence": 0.9952792525291443,
+                  "symbols": [
+                    {
+                      "text": "w",
+                      "confidence": 0.994762659072876,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9946563839912415,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9959179759025574,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9951632618904114,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9958958625793457,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "a",
+                  "confidence": 0.9896522760391235,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9896522760391235,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "letter",
+                  "confidence": 0.9899821281433105,
+                  "symbols": [
+                    {
+                      "text": "l",
+                      "confidence": 0.9829798340797424,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.983263373374939,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.990759015083313,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9933326840400696,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9958658814430237,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9936920404434204,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.968269944190979,
+          "bounding_box": [
+            [
+              61,
+              120
+            ],
+            [
+              546,
+              124
+            ],
+            [
+              545,
+              287
+            ],
+            [
+              60,
+              283
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "homedescribingyourexperiences",
+              "confidence": 0.988567054271698,
+              "words": [
+                {
+                  "text": "home",
+                  "confidence": 0.9824579358100891,
+                  "symbols": [
+                    {
+                      "text": "h",
+                      "confidence": 0.9704555869102478,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9784353971481323,
+                      "is_break": true
+                    },
+                    {
+                      "text": "m",
+                      "confidence": 0.9886484742164612,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9922922253608704,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "describing",
+                  "confidence": 0.9897416830062866,
+                  "symbols": [
+                    {
+                      "text": "d",
+                      "confidence": 0.9921345710754395,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9899654388427734,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9862056374549866,
+                      "is_break": true
+                    },
+                    {
+                      "text": "c",
+                      "confidence": 0.9696994423866272,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.991401195526123,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9940717220306396,
+                      "is_break": true
+                    },
+                    {
+                      "text": "b",
+                      "confidence": 0.9928750395774841,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9951595067977905,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9939451813697815,
+                      "is_break": true
+                    },
+                    {
+                      "text": "g",
+                      "confidence": 0.9919587969779968,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "your",
+                  "confidence": 0.9811303019523621,
+                  "symbols": [
+                    {
+                      "text": "y",
+                      "confidence": 0.9884772896766663,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9879370927810669,
+                      "is_break": true
+                    },
+                    {
+                      "text": "u",
+                      "confidence": 0.9741440415382385,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9739627242088318,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "experiences",
+                  "confidence": 0.9924249649047852,
+                  "symbols": [
+                    {
+                      "text": "e",
+                      "confidence": 0.9892370104789734,
+                      "is_break": true
+                    },
+                    {
+                      "text": "x",
+                      "confidence": 0.9887994527816772,
+                      "is_break": true
+                    },
+                    {
+                      "text": "p",
+                      "confidence": 0.9916720390319824,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.994981586933136,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.99495929479599,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9941453337669373,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9947450160980225,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9952012300491333,
+                      "is_break": true
+                    },
+                    {
+                      "text": "c",
+                      "confidence": 0.9927290081977844,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9937624335289001,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9864421486854553,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "Yourlettershouldincludethefollowing:",
+              "confidence": 0.9829636812210083,
+              "words": [
+                {
+                  "text": "Your",
+                  "confidence": 0.9824725985527039,
+                  "symbols": [
+                    {
+                      "text": "Y",
+                      "confidence": 0.9816559553146362,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9793523550033569,
+                      "is_break": true
+                    },
+                    {
+                      "text": "u",
+                      "confidence": 0.9866014122962952,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9822806715965271,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "letter",
+                  "confidence": 0.9936450123786926,
+                  "symbols": [
+                    {
+                      "text": "l",
+                      "confidence": 0.9933136701583862,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9964714646339417,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9976019263267517,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9967064261436462,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9939203858375549,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9838563203811646,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "should",
+                  "confidence": 0.9707970023155212,
+                  "symbols": [
+                    {
+                      "text": "s",
+                      "confidence": 0.9735831618309021,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.922051191329956,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9643852114677429,
+                      "is_break": true
+                    },
+                    {
+                      "text": "u",
+                      "confidence": 0.9808598160743713,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9936987161636353,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9902040362358093,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "include",
+                  "confidence": 0.9854074716567993,
+                  "symbols": [
+                    {
+                      "text": "i",
+                      "confidence": 0.9950551986694336,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.988037645816803,
+                      "is_break": true
+                    },
+                    {
+                      "text": "c",
+                      "confidence": 0.9641062617301941,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9763579964637756,
+                      "is_break": true
+                    },
+                    {
+                      "text": "u",
+                      "confidence": 0.9918882846832275,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9888596534729004,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9935471415519714,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "the",
+                  "confidence": 0.9962167739868164,
+                  "symbols": [
+                    {
+                      "text": "t",
+                      "confidence": 0.9986226558685303,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.9959364533424377,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.994091272354126,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "following",
+                  "confidence": 0.9901673793792725,
+                  "symbols": [
+                    {
+                      "text": "f",
+                      "confidence": 0.9952328205108643,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9956087470054626,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9944165945053101,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.992206335067749,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9933438301086426,
+                      "is_break": true
+                    },
+                    {
+                      "text": "w",
+                      "confidence": 0.9901162385940552,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.993377149105072,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9863278865814209,
+                      "is_break": true
+                    },
+                    {
+                      "text": "g",
+                      "confidence": 0.9708766341209412,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ":",
+                  "confidence": 0.8721403479576111,
+                  "symbols": [
+                    {
+                      "text": ":",
+                      "confidence": 0.8721403479576111,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "yourcontributionsandexperiencesintheWest.",
+              "confidence": 0.9740056395530701,
+              "words": [
+                {
+                  "text": "your",
+                  "confidence": 0.988537609577179,
+                  "symbols": [
+                    {
+                      "text": "y",
+                      "confidence": 0.9735981225967407,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9917728304862976,
+                      "is_break": true
+                    },
+                    {
+                      "text": "u",
+                      "confidence": 0.9948417544364929,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9939377307891846,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "contributions",
+                  "confidence": 0.9711777567863464,
+                  "symbols": [
+                    {
+                      "text": "c",
+                      "confidence": 0.9836622476577759,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9648247957229614,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9336643218994141,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9419211149215698,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9689124226570129,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9692561030387878,
+                      "is_break": true
+                    },
+                    {
+                      "text": "b",
+                      "confidence": 0.9892902970314026,
+                      "is_break": true
+                    },
+                    {
+                      "text": "u",
+                      "confidence": 0.9926937818527222,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9944403171539307,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9939625859260559,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9853546023368835,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9515763521194458,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9557517766952515,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "and",
+                  "confidence": 0.9929024577140808,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9930776953697205,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9931464195251465,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9924832582473755,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "experiences",
+                  "confidence": 0.9883460998535156,
+                  "symbols": [
+                    {
+                      "text": "e",
+                      "confidence": 0.9921641945838928,
+                      "is_break": true
+                    },
+                    {
+                      "text": "x",
+                      "confidence": 0.9920992255210876,
+                      "is_break": true
+                    },
+                    {
+                      "text": "p",
+                      "confidence": 0.9939053654670715,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9950843453407288,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9913461208343506,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9930916428565979,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9679597616195679,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9922142624855042,
+                      "is_break": true
+                    },
+                    {
+                      "text": "c",
+                      "confidence": 0.9823116660118103,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9814921021461487,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9901387095451355,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "in",
+                  "confidence": 0.9925646781921387,
+                  "symbols": [
+                    {
+                      "text": "i",
+                      "confidence": 0.9913970828056335,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.993732213973999,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "the",
+                  "confidence": 0.9853572845458984,
+                  "symbols": [
+                    {
+                      "text": "t",
+                      "confidence": 0.9912058115005493,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.9837436676025391,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9811223149299622,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "West",
+                  "confidence": 0.9635784029960632,
+                  "symbols": [
+                    {
+                      "text": "W",
+                      "confidence": 0.9104683995246887,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9904333353042603,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9802150726318359,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.973196804523468,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.7087401151657104,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.7087401151657104,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "我在這裏生活得很差。",
+              "confidence": 0.9459721446037292,
+              "words": [
+                {
+                  "text": "我",
+                  "confidence": 0.9738495349884033,
+                  "symbols": [
+                    {
+                      "text": "我",
+                      "confidence": 0.9738495349884033,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "在",
+                  "confidence": 0.9690252542495728,
+                  "symbols": [
+                    {
+                      "text": "在",
+                      "confidence": 0.9690252542495728,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "這裏",
+                  "confidence": 0.9167450666427612,
+                  "symbols": [
+                    {
+                      "text": "這",
+                      "confidence": 0.9347674250602722,
+                      "is_break": true
+                    },
+                    {
+                      "text": "裏",
+                      "confidence": 0.8987227082252502,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "生活",
+                  "confidence": 0.9670718908309937,
+                  "symbols": [
+                    {
+                      "text": "生",
+                      "confidence": 0.9748522639274597,
+                      "is_break": true
+                    },
+                    {
+                      "text": "活",
+                      "confidence": 0.9592914581298828,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "得",
+                  "confidence": 0.9254539012908936,
+                  "symbols": [
+                    {
+                      "text": "得",
+                      "confidence": 0.9254539012908936,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "很差",
+                  "confidence": 0.9402955770492554,
+                  "symbols": [
+                    {
+                      "text": "很",
+                      "confidence": 0.9640730619430542,
+                      "is_break": true
+                    },
+                    {
+                      "text": "差",
+                      "confidence": 0.9165180921554565,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "。",
+                  "confidence": 0.9431675672531128,
+                  "symbols": [
+                    {
+                      "text": "。",
+                      "confidence": 0.9431675672531128,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "工作環境不佳,福利缺少。",
+              "confidence": 0.9343091249465942,
+              "words": [
+                {
+                  "text": "工作",
+                  "confidence": 0.9872723817825317,
+                  "symbols": [
+                    {
+                      "text": "工",
+                      "confidence": 0.982323169708252,
+                      "is_break": true
+                    },
+                    {
+                      "text": "作",
+                      "confidence": 0.9922216534614563,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "環境",
+                  "confidence": 0.988616406917572,
+                  "symbols": [
+                    {
+                      "text": "環",
+                      "confidence": 0.9907671809196472,
+                      "is_break": true
+                    },
+                    {
+                      "text": "境",
+                      "confidence": 0.9864656329154968,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "不佳",
+                  "confidence": 0.8544148206710815,
+                  "symbols": [
+                    {
+                      "text": "不",
+                      "confidence": 0.9313847422599792,
+                      "is_break": true
+                    },
+                    {
+                      "text": "佳",
+                      "confidence": 0.7774448990821838,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.9409244656562805,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.9409244656562805,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "福利",
+                  "confidence": 0.9614009857177734,
+                  "symbols": [
+                    {
+                      "text": "福",
+                      "confidence": 0.9617382884025574,
+                      "is_break": true
+                    },
+                    {
+                      "text": "利",
+                      "confidence": 0.9610636234283447,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "缺少",
+                  "confidence": 0.9062671661376953,
+                  "symbols": [
+                    {
+                      "text": "缺",
+                      "confidence": 0.9630676507949829,
+                      "is_break": true
+                    },
+                    {
+                      "text": "少",
+                      "confidence": 0.8494667410850525,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "。",
+                  "confidence": 0.8748413324356079,
+                  "symbols": [
+                    {
+                      "text": "。",
+                      "confidence": 0.8748413324356079,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "不過不用擔心,每天只有大概十個人受重傷,",
+              "confidence": 0.9321576952934265,
+              "words": [
+                {
+                  "text": "不過",
+                  "confidence": 0.9911580085754395,
+                  "symbols": [
+                    {
+                      "text": "不",
+                      "confidence": 0.9922430515289307,
+                      "is_break": true
+                    },
+                    {
+                      "text": "過",
+                      "confidence": 0.9900729656219482,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "不用",
+                  "confidence": 0.9795444011688232,
+                  "symbols": [
+                    {
+                      "text": "不",
+                      "confidence": 0.9756338000297546,
+                      "is_break": true
+                    },
+                    {
+                      "text": "用",
+                      "confidence": 0.9834549427032471,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "擔心",
+                  "confidence": 0.9673783183097839,
+                  "symbols": [
+                    {
+                      "text": "擔",
+                      "confidence": 0.9706065654754639,
+                      "is_break": true
+                    },
+                    {
+                      "text": "心",
+                      "confidence": 0.964150071144104,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.9831474423408508,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.9831474423408508,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "每天",
+                  "confidence": 0.968298077583313,
+                  "symbols": [
+                    {
+                      "text": "每",
+                      "confidence": 0.9730432629585266,
+                      "is_break": true
+                    },
+                    {
+                      "text": "天",
+                      "confidence": 0.9635528922080994,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "只有",
+                  "confidence": 0.9359710216522217,
+                  "symbols": [
+                    {
+                      "text": "只",
+                      "confidence": 0.921939492225647,
+                      "is_break": true
+                    },
+                    {
+                      "text": "有",
+                      "confidence": 0.9500026106834412,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "大概",
+                  "confidence": 0.9342445135116577,
+                  "symbols": [
+                    {
+                      "text": "大",
+                      "confidence": 0.9694289565086365,
+                      "is_break": true
+                    },
+                    {
+                      "text": "概",
+                      "confidence": 0.8990601301193237,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "十",
+                  "confidence": 0.4990003705024719,
+                  "symbols": [
+                    {
+                      "text": "十",
+                      "confidence": 0.4990003705024719,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "個人",
+                  "confidence": 0.8826314210891724,
+                  "symbols": [
+                    {
+                      "text": "個",
+                      "confidence": 0.8106481432914734,
+                      "is_break": true
+                    },
+                    {
+                      "text": "人",
+                      "confidence": 0.9546146988868713,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "受",
+                  "confidence": 0.9785041809082031,
+                  "symbols": [
+                    {
+                      "text": "受",
+                      "confidence": 0.9785041809082031,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "重傷",
+                  "confidence": 0.9865469932556152,
+                  "symbols": [
+                    {
+                      "text": "重",
+                      "confidence": 0.9884332418441772,
+                      "is_break": true
+                    },
+                    {
+                      "text": "傷",
+                      "confidence": 0.9846606850624084,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.8909562230110168,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.8909562230110168,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9676423072814941,
+          "bounding_box": [
+            [
+              74,
+              290
+            ],
+            [
+              245,
+              286
+            ],
+            [
+              246,
+              315
+            ],
+            [
+              75,
+              319
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "而我亦很小心。",
+              "confidence": 0.9676423072814941,
+              "words": [
+                {
+                  "text": "而",
+                  "confidence": 0.9880369901657104,
+                  "symbols": [
+                    {
+                      "text": "而",
+                      "confidence": 0.9880369901657104,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "我",
+                  "confidence": 0.989525318145752,
+                  "symbols": [
+                    {
+                      "text": "我",
+                      "confidence": 0.989525318145752,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "亦很",
+                  "confidence": 0.9733657836914062,
+                  "symbols": [
+                    {
+                      "text": "亦",
+                      "confidence": 0.9821210503578186,
+                      "is_break": true
+                    },
+                    {
+                      "text": "很",
+                      "confidence": 0.9646105766296387,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "小心",
+                  "confidence": 0.9631029367446899,
+                  "symbols": [
+                    {
+                      "text": "小",
+                      "confidence": 0.9611166715621948,
+                      "is_break": true
+                    },
+                    {
+                      "text": "心",
+                      "confidence": 0.9650891423225403,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "。",
+                  "confidence": 0.9229962825775146,
+                  "symbols": [
+                    {
+                      "text": "。",
+                      "confidence": 0.9229962825775146,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9102295637130737,
+          "bounding_box": [
+            [
+              74,
+              321
+            ],
+            [
+              598,
+              293
+            ],
+            [
+              602,
+              368
+            ],
+            [
+              78,
+              396
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "我們開了一間小鋪,生意不俗。",
+              "confidence": 0.854003369808197,
+              "words": [
+                {
+                  "text": "我們",
+                  "confidence": 0.9750670194625854,
+                  "symbols": [
+                    {
+                      "text": "我",
+                      "confidence": 0.9853595495223999,
+                      "is_break": true
+                    },
+                    {
+                      "text": "們",
+                      "confidence": 0.964774489402771,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "開",
+                  "confidence": 0.4678193926811218,
+                  "symbols": [
+                    {
+                      "text": "開",
+                      "confidence": 0.4678193926811218,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "了",
+                  "confidence": 0.5545741319656372,
+                  "symbols": [
+                    {
+                      "text": "了",
+                      "confidence": 0.5545741319656372,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "一",
+                  "confidence": 0.5425911545753479,
+                  "symbols": [
+                    {
+                      "text": "一",
+                      "confidence": 0.5425911545753479,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "間",
+                  "confidence": 0.7745365500450134,
+                  "symbols": [
+                    {
+                      "text": "間",
+                      "confidence": 0.7745365500450134,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "小鋪",
+                  "confidence": 0.9368693232536316,
+                  "symbols": [
+                    {
+                      "text": "小",
+                      "confidence": 0.9258897304534912,
+                      "is_break": true
+                    },
+                    {
+                      "text": "鋪",
+                      "confidence": 0.947848916053772,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.9459676146507263,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.9459676146507263,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "生意",
+                  "confidence": 0.9693557024002075,
+                  "symbols": [
+                    {
+                      "text": "生",
+                      "confidence": 0.9742411971092224,
+                      "is_break": true
+                    },
+                    {
+                      "text": "意",
+                      "confidence": 0.9644702672958374,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "不俗",
+                  "confidence": 0.9770357608795166,
+                  "symbols": [
+                    {
+                      "text": "不",
+                      "confidence": 0.9733290076255798,
+                      "is_break": true
+                    },
+                    {
+                      "text": "俗",
+                      "confidence": 0.9807425141334534,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "。",
+                  "confidence": 0.9539029598236084,
+                  "symbols": [
+                    {
+                      "text": "。",
+                      "confidence": 0.9539029598236084,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "雖然我英文不是很認識,但是也能略略",
+              "confidence": 0.9565334916114807,
+              "words": [
+                {
+                  "text": "雖然",
+                  "confidence": 0.9906378984451294,
+                  "symbols": [
+                    {
+                      "text": "雖",
+                      "confidence": 0.989247739315033,
+                      "is_break": true
+                    },
+                    {
+                      "text": "然",
+                      "confidence": 0.9920281171798706,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "我",
+                  "confidence": 0.9515723586082458,
+                  "symbols": [
+                    {
+                      "text": "我",
+                      "confidence": 0.9515723586082458,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "英文",
+                  "confidence": 0.9807391166687012,
+                  "symbols": [
+                    {
+                      "text": "英",
+                      "confidence": 0.9702840447425842,
+                      "is_break": true
+                    },
+                    {
+                      "text": "文",
+                      "confidence": 0.9911942481994629,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "不是",
+                  "confidence": 0.9801376461982727,
+                  "symbols": [
+                    {
+                      "text": "不",
+                      "confidence": 0.9787926077842712,
+                      "is_break": true
+                    },
+                    {
+                      "text": "是",
+                      "confidence": 0.9814826846122742,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "很",
+                  "confidence": 0.9594637751579285,
+                  "symbols": [
+                    {
+                      "text": "很",
+                      "confidence": 0.9594637751579285,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "認識",
+                  "confidence": 0.965143084526062,
+                  "symbols": [
+                    {
+                      "text": "認",
+                      "confidence": 0.9716251492500305,
+                      "is_break": true
+                    },
+                    {
+                      "text": "識",
+                      "confidence": 0.9586609601974487,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.9734713435173035,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.9734713435173035,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "但是",
+                  "confidence": 0.9714347124099731,
+                  "symbols": [
+                    {
+                      "text": "但",
+                      "confidence": 0.9745648503303528,
+                      "is_break": true
+                    },
+                    {
+                      "text": "是",
+                      "confidence": 0.9683045744895935,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "也",
+                  "confidence": 0.7224110960960388,
+                  "symbols": [
+                    {
+                      "text": "也",
+                      "confidence": 0.7224110960960388,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "能",
+                  "confidence": 0.9484496116638184,
+                  "symbols": [
+                    {
+                      "text": "能",
+                      "confidence": 0.9484496116638184,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "略略",
+                  "confidence": 0.9647581577301025,
+                  "symbols": [
+                    {
+                      "text": "略",
+                      "confidence": 0.9569622278213501,
+                      "is_break": true
+                    },
+                    {
+                      "text": "略",
+                      "confidence": 0.972554087638855,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9510912895202637,
+          "bounding_box": [
+            [
+              75,
+              449
+            ],
+            [
+              612,
+              409
+            ],
+            [
+              618,
+              493
+            ],
+            [
+              81,
+              533
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "明白那些白人所說的話。",
+              "confidence": 0.9469419717788696,
+              "words": [
+                {
+                  "text": "明白",
+                  "confidence": 0.9822540879249573,
+                  "symbols": [
+                    {
+                      "text": "明",
+                      "confidence": 0.9798523187637329,
+                      "is_break": true
+                    },
+                    {
+                      "text": "白",
+                      "confidence": 0.9846558570861816,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "那些",
+                  "confidence": 0.9754753708839417,
+                  "symbols": [
+                    {
+                      "text": "那",
+                      "confidence": 0.9680801033973694,
+                      "is_break": true
+                    },
+                    {
+                      "text": "些",
+                      "confidence": 0.9828706383705139,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "白人",
+                  "confidence": 0.9135651588439941,
+                  "symbols": [
+                    {
+                      "text": "白",
+                      "confidence": 0.8610635995864868,
+                      "is_break": true
+                    },
+                    {
+                      "text": "人",
+                      "confidence": 0.9660667181015015,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "所說",
+                  "confidence": 0.9525530338287354,
+                  "symbols": [
+                    {
+                      "text": "所",
+                      "confidence": 0.9540624022483826,
+                      "is_break": true
+                    },
+                    {
+                      "text": "說",
+                      "confidence": 0.9510436654090881,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "的",
+                  "confidence": 0.9760172963142395,
+                  "symbols": [
+                    {
+                      "text": "的",
+                      "confidence": 0.9760172963142395,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "話",
+                  "confidence": 0.9493021965026855,
+                  "symbols": [
+                    {
+                      "text": "話",
+                      "confidence": 0.9493021965026855,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "。",
+                  "confidence": 0.8433470726013184,
+                  "symbols": [
+                    {
+                      "text": "。",
+                      "confidence": 0.8433470726013184,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "希望能夠出人頭地吧!我在這裏會努力工作,也",
+              "confidence": 0.9532647728919983,
+              "words": [
+                {
+                  "text": "希望",
+                  "confidence": 0.9906185865402222,
+                  "symbols": [
+                    {
+                      "text": "希",
+                      "confidence": 0.9862653613090515,
+                      "is_break": true
+                    },
+                    {
+                      "text": "望",
+                      "confidence": 0.994971752166748,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "能夠",
+                  "confidence": 0.9656338095664978,
+                  "symbols": [
+                    {
+                      "text": "能",
+                      "confidence": 0.955727756023407,
+                      "is_break": true
+                    },
+                    {
+                      "text": "夠",
+                      "confidence": 0.9755398631095886,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "出",
+                  "confidence": 0.9336890578269958,
+                  "symbols": [
+                    {
+                      "text": "出",
+                      "confidence": 0.9336890578269958,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "人頭",
+                  "confidence": 0.9246748685836792,
+                  "symbols": [
+                    {
+                      "text": "人",
+                      "confidence": 0.9280684590339661,
+                      "is_break": true
+                    },
+                    {
+                      "text": "頭",
+                      "confidence": 0.9212812185287476,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "地",
+                  "confidence": 0.9637951254844666,
+                  "symbols": [
+                    {
+                      "text": "地",
+                      "confidence": 0.9637951254844666,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "吧",
+                  "confidence": 0.9724516868591309,
+                  "symbols": [
+                    {
+                      "text": "吧",
+                      "confidence": 0.9724516868591309,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "!",
+                  "confidence": 0.9884483218193054,
+                  "symbols": [
+                    {
+                      "text": "!",
+                      "confidence": 0.9884483218193054,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "我",
+                  "confidence": 0.9802600741386414,
+                  "symbols": [
+                    {
+                      "text": "我",
+                      "confidence": 0.9802600741386414,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "在",
+                  "confidence": 0.9458146691322327,
+                  "symbols": [
+                    {
+                      "text": "在",
+                      "confidence": 0.9458146691322327,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "這裏",
+                  "confidence": 0.8360504508018494,
+                  "symbols": [
+                    {
+                      "text": "這",
+                      "confidence": 0.9589810967445374,
+                      "is_break": true
+                    },
+                    {
+                      "text": "裏",
+                      "confidence": 0.7131198048591614,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "會",
+                  "confidence": 0.9668036103248596,
+                  "symbols": [
+                    {
+                      "text": "會",
+                      "confidence": 0.9668036103248596,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "努力",
+                  "confidence": 0.9416007995605469,
+                  "symbols": [
+                    {
+                      "text": "努",
+                      "confidence": 0.8932904601097107,
+                      "is_break": true
+                    },
+                    {
+                      "text": "力",
+                      "confidence": 0.9899111986160278,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "工作",
+                  "confidence": 0.9880616664886475,
+                  "symbols": [
+                    {
+                      "text": "工",
+                      "confidence": 0.9815556406974792,
+                      "is_break": true
+                    },
+                    {
+                      "text": "作",
+                      "confidence": 0.9945677518844604,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.988124430179596,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.988124430179596,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "也",
+                  "confidence": 0.985892653465271,
+                  "symbols": [
+                    {
+                      "text": "也",
+                      "confidence": 0.985892653465271,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9569424986839294,
+          "bounding_box": [
+            [
+              84,
+              544
+            ],
+            [
+              294,
+              532
+            ],
+            [
+              299,
+              629
+            ],
+            [
+              90,
+              641
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "會小心身體的。",
+              "confidence": 0.9431861042976379,
+              "words": [
+                {
+                  "text": "會",
+                  "confidence": 0.9318361282348633,
+                  "symbols": [
+                    {
+                      "text": "會",
+                      "confidence": 0.9318361282348633,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "小心",
+                  "confidence": 0.9687014818191528,
+                  "symbols": [
+                    {
+                      "text": "小",
+                      "confidence": 0.9613311886787415,
+                      "is_break": true
+                    },
+                    {
+                      "text": "心",
+                      "confidence": 0.9760717153549194,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "身體",
+                  "confidence": 0.9813121557235718,
+                  "symbols": [
+                    {
+                      "text": "身",
+                      "confidence": 0.9826797246932983,
+                      "is_break": true
+                    },
+                    {
+                      "text": "體",
+                      "confidence": 0.9799445271492004,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "的",
+                  "confidence": 0.9326955676078796,
+                  "symbols": [
+                    {
+                      "text": "的",
+                      "confidence": 0.9326955676078796,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "。",
+                  "confidence": 0.8377436995506287,
+                  "symbols": [
+                    {
+                      "text": "。",
+                      "confidence": 0.8377436995506287,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "text": "你們還好吧?",
+              "confidence": 0.9729917049407959,
+              "words": [
+                {
+                  "text": "你們",
+                  "confidence": 0.9827814102172852,
+                  "symbols": [
+                    {
+                      "text": "你",
+                      "confidence": 0.9798365235328674,
+                      "is_break": true
+                    },
+                    {
+                      "text": "們",
+                      "confidence": 0.9857262969017029,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "還",
+                  "confidence": 0.9513300657272339,
+                  "symbols": [
+                    {
+                      "text": "還",
+                      "confidence": 0.9513300657272339,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "好吧",
+                  "confidence": 0.9860043525695801,
+                  "symbols": [
+                    {
+                      "text": "好",
+                      "confidence": 0.9879397749900818,
+                      "is_break": true
+                    },
+                    {
+                      "text": "吧",
+                      "confidence": 0.9840688705444336,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "?",
+                  "confidence": 0.9490485191345215,
+                  "symbols": [
+                    {
+                      "text": "?",
+                      "confidence": 0.9490485191345215,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.906804084777832,
+          "bounding_box": [
+            [
+              93,
+              647
+            ],
+            [
+              551,
+              620
+            ],
+            [
+              553,
+              658
+            ],
+            [
+              95,
+              685
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "很掛念你們,希望我們能夠再見面。",
+              "confidence": 0.906804084777832,
+              "words": [
+                {
+                  "text": "很",
+                  "confidence": 0.9232276082038879,
+                  "symbols": [
+                    {
+                      "text": "很",
+                      "confidence": 0.9232276082038879,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "掛念",
+                  "confidence": 0.9295438528060913,
+                  "symbols": [
+                    {
+                      "text": "掛",
+                      "confidence": 0.9712355136871338,
+                      "is_break": true
+                    },
+                    {
+                      "text": "念",
+                      "confidence": 0.8878521919250488,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "你們",
+                  "confidence": 0.9727990627288818,
+                  "symbols": [
+                    {
+                      "text": "你",
+                      "confidence": 0.9694989323616028,
+                      "is_break": true
+                    },
+                    {
+                      "text": "們",
+                      "confidence": 0.9760991930961609,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.9955834746360779,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.9955834746360779,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "希望",
+                  "confidence": 0.9968740940093994,
+                  "symbols": [
+                    {
+                      "text": "希",
+                      "confidence": 0.9962883591651917,
+                      "is_break": true
+                    },
+                    {
+                      "text": "望",
+                      "confidence": 0.9974598288536072,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "我們",
+                  "confidence": 0.9837405681610107,
+                  "symbols": [
+                    {
+                      "text": "我",
+                      "confidence": 0.9798591732978821,
+                      "is_break": true
+                    },
+                    {
+                      "text": "們",
+                      "confidence": 0.9876219034194946,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "能夠",
+                  "confidence": 0.9206754565238953,
+                  "symbols": [
+                    {
+                      "text": "能",
+                      "confidence": 0.9725521206855774,
+                      "is_break": true
+                    },
+                    {
+                      "text": "夠",
+                      "confidence": 0.8687987923622131,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "再",
+                  "confidence": 0.8654834032058716,
+                  "symbols": [
+                    {
+                      "text": "再",
+                      "confidence": 0.8654834032058716,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "見面",
+                  "confidence": 0.6530746221542358,
+                  "symbols": [
+                    {
+                      "text": "見",
+                      "confidence": 0.44610127806663513,
+                      "is_break": true
+                    },
+                    {
+                      "text": "面",
+                      "confidence": 0.8600479960441589,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "。",
+                  "confidence": 0.811155378818512,
+                  "symbols": [
+                    {
+                      "text": "。",
+                      "confidence": 0.811155378818512,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "average_confidence": null
+}

@@ -8,11 +8,14 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
+    - name: Step 1 - Checkout source code from repo
       uses: actions/checkout@v4
 
-    - name: Set up Docker Buildx
+    - name: Step 2 - Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
+
+    - name: Debug disk space
+      run: df -h
 
     - name: Write SSH deploy key
       run: |
@@ -21,6 +24,20 @@ jobs:
         chmod 600 ~/.ssh/deploy_key
         echo -e "Host ${{ vars.DEPLOY_HOST_DEV }}\n  HostName ${{ vars.DEPLOY_HOST_DEV }}\n  User ${{ vars.DEPLOY_USER_DEV || 'ubuntu' }}\n  IdentityFile ~/.ssh/deploy_key\n  StrictHostKeyChecking no" >> ~/.ssh/config
 
+    - name: Prune Docker images and containers, volumes, builder cache
+      env:
+        HOST: ${{ vars.DEPLOY_HOST_DEV }}
+        USER: ${{ vars.DEPLOY_USER_DEV }}
+      run: |
+        ssh -i ~/.ssh/deploy_key \
+          -o StrictHostKeyChecking=no \
+          -o ServerAliveInterval=60 \
+          -o LogLevel=ERROR \
+          "${USER}@${HOST}" \
+          "
+          docker system prune --all --force --volumes
+          docker builder prune --all --force
+          "
     - name: Currently NOT IN USE - Login to Docker Hub (optional)
       if: env.DOCKERHUB_USERNAME
       uses: docker/login-action@v3
@@ -34,6 +51,8 @@ jobs:
         USER: ${{ vars.DEPLOY_USER_DEV }}
         DEBUG_TOKEN: ${{ secrets.JWT_DEV_TOKEN }}
         SUPABASE_URL: ${{ vars.DEV_SUPABASE_URL }}
+        DB_PROJECT_REF: ${{ vars.DB_PROJECT_REF }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: |
         set -euo pipefail
 
@@ -55,6 +74,7 @@ jobs:
              -p 127.0.0.1:8000:8000 \
              -e DEBUG_TOKEN='${DEBUG_TOKEN}' \
              -e SUPABASE_URL='${SUPABASE_URL}' \
+             -e DATABASE_URL='postgresql://postgres.${DB_PROJECT_REF}:${DB_PASSWORD}@aws-1-ap-northeast-1.pooler.supabase.com:5432/postgres' \
              myfastapi:latest \
              uvicorn src.main:app --host 0.0.0.0 --port 8000 && \
            echo 'DEPLOYED SUCCESSFULLY! Open http://${HOST} now' && \

@@ -1,0 +1,4563 @@
+{
+  "full_text": "Answers written in the margins will not be marked.\n7.\nIn a polar coordinate system, ○ is the pole. The polar coordinates of the points P, Q and R\nare (11,59°), (60, 149°) and (144,239°) respectively.\n(a)\nFind ZPOQ.\n(b)\nAre P, O and R collinear? Explain your answer.\n(c) Find the perimeter of APQR.\n(a)\nLPOQ = 149°-59°\n(b)\n(c)\n=\n90°\nLPOR = 239°-59°\n:.\nP\n- 180°\nO and R are\n=\nPQ √11²+60² = 61\nQR\n=\n602 +1442156\n:. Perimeter\nAnswers written in the margins will not be marked.\n2024-DSE-MATH-CP 1-5\ncollinear\nAPQR = 61+156 + (11 +144)\n• 372\n5\nGo on to the next page\n(4 marks)\nAnswers written in the margins will not be marked.",
+  "pages": [
+    {
+      "width": 1053,
+      "height": 1387,
+      "confidence": 0.8932748436927795,
+      "blocks": [
+        {
+          "confidence": 0.9833558201789856,
+          "bounding_box": [
+            [
+              52,
+              786
+            ],
+            [
+              52,
+              394
+            ],
+            [
+              70,
+              394
+            ],
+            [
+              70,
+              786
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "Answerswritteninthemarginswillnotbemarked.",
+              "confidence": 0.9833558201789856,
+              "words": [
+                {
+                  "text": "Answers",
+                  "confidence": 0.9766281843185425,
+                  "symbols": [
+                    {
+                      "text": "A",
+                      "confidence": 0.9524531960487366,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9588894844055176,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9734858870506287,
+                      "is_break": true
+                    },
+                    {
+                      "text": "w",
+                      "confidence": 0.9763466119766235,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9911481738090515,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9917896389961243,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9922842383384705,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "written",
+                  "confidence": 0.9924623370170593,
+                  "symbols": [
+                    {
+                      "text": "w",
+                      "confidence": 0.9934518337249756,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9926656484603882,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9917417168617249,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9929159283638,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9928216338157654,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9932090640068054,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9904304146766663,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "in",
+                  "confidence": 0.9811300039291382,
+                  "symbols": [
+                    {
+                      "text": "i",
+                      "confidence": 0.9853737354278564,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9768863320350647,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "the",
+                  "confidence": 0.9909988045692444,
+                  "symbols": [
+                    {
+                      "text": "t",
+                      "confidence": 0.9906522035598755,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.9909607768058777,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9913834929466248,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "margins",
+                  "confidence": 0.9835405945777893,
+                  "symbols": [
+                    {
+                      "text": "m",
+                      "confidence": 0.9788867235183716,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9773224592208862,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9774324297904968,
+                      "is_break": true
+                    },
+                    {
+                      "text": "g",
+                      "confidence": 0.9852311015129089,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9910130500793457,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9900941848754883,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9848042726516724,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "will",
+                  "confidence": 0.9712209701538086,
+                  "symbols": [
+                    {
+                      "text": "w",
+                      "confidence": 0.9855178594589233,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9784404635429382,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9643606543540955,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9565647840499878,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "not",
+                  "confidence": 0.9856728315353394,
+                  "symbols": [
+                    {
+                      "text": "n",
+                      "confidence": 0.9880703091621399,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9884337782859802,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9805144667625427,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "be",
+                  "confidence": 0.9807884693145752,
+                  "symbols": [
+                    {
+                      "text": "b",
+                      "confidence": 0.9663015007972717,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9952754378318787,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "marked",
+                  "confidence": 0.9936017990112305,
+                  "symbols": [
+                    {
+                      "text": "m",
+                      "confidence": 0.993747353553772,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9964263439178467,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9938871264457703,
+                      "is_break": true
+                    },
+                    {
+                      "text": "k",
+                      "confidence": 0.9941782355308533,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9909863471984863,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9923855066299438,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.9321799278259277,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.9321799278259277,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9717366099357605,
+          "bounding_box": [
+            [
+              82,
+              93
+            ],
+            [
+              97,
+              93
+            ],
+            [
+              97,
+              105
+            ],
+            [
+              82,
+              105
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "7.",
+              "confidence": 0.9717366099357605,
+              "words": [
+                {
+                  "text": "7",
+                  "confidence": 0.9809221029281616,
+                  "symbols": [
+                    {
+                      "text": "7",
+                      "confidence": 0.9809221029281616,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.9625511169433594,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.9625511169433594,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.956130862236023,
+          "bounding_box": [
+            [
+              136,
+              92
+            ],
+            [
+              954,
+              92
+            ],
+            [
+              954,
+              131
+            ],
+            [
+              136,
+              131
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "Inapolarcoordinatesystem,○isthepole.ThepolarcoordinatesofthepointsP,QandRare(11,59°),(60,149°)and(144,239°)respectively.",
+              "confidence": 0.956130862236023,
+              "words": [
+                {
+                  "text": "In",
+                  "confidence": 0.9582239985466003,
+                  "symbols": [
+                    {
+                      "text": "I",
+                      "confidence": 0.9461759328842163,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9702720642089844,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "a",
+                  "confidence": 0.9879305362701416,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9879305362701416,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "polar",
+                  "confidence": 0.9909408092498779,
+                  "symbols": [
+                    {
+                      "text": "p",
+                      "confidence": 0.9893698692321777,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9876195192337036,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9899362921714783,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9931185841560364,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9946598410606384,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "coordinate",
+                  "confidence": 0.9877321124076843,
+                  "symbols": [
+                    {
+                      "text": "c",
+                      "confidence": 0.9889796376228333,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9865971803665161,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9834757447242737,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9850550889968872,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9859210848808289,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9916213750839233,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9862073063850403,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9886060357093811,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9849771857261658,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9958804845809937,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "system",
+                  "confidence": 0.9862063527107239,
+                  "symbols": [
+                    {
+                      "text": "s",
+                      "confidence": 0.9909750819206238,
+                      "is_break": true
+                    },
+                    {
+                      "text": "y",
+                      "confidence": 0.991948127746582,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.98970627784729,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9928942918777466,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9855788946151733,
+                      "is_break": true
+                    },
+                    {
+                      "text": "m",
+                      "confidence": 0.9661353826522827,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.9145406484603882,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.9145406484603882,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "○",
+                  "confidence": 0.24187861382961273,
+                  "symbols": [
+                    {
+                      "text": "○",
+                      "confidence": 0.24187861382961273,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "is",
+                  "confidence": 0.9714466333389282,
+                  "symbols": [
+                    {
+                      "text": "i",
+                      "confidence": 0.956666111946106,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9862271547317505,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "the",
+                  "confidence": 0.9901713728904724,
+                  "symbols": [
+                    {
+                      "text": "t",
+                      "confidence": 0.9917327761650085,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.9906569123268127,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9881244897842407,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "pole",
+                  "confidence": 0.95820152759552,
+                  "symbols": [
+                    {
+                      "text": "p",
+                      "confidence": 0.9659678936004639,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9656569361686707,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.939219057559967,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9619621634483337,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.9796028733253479,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.9796028733253479,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "The",
+                  "confidence": 0.9809749126434326,
+                  "symbols": [
+                    {
+                      "text": "T",
+                      "confidence": 0.9907875657081604,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.9706147909164429,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9815223217010498,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "polar",
+                  "confidence": 0.9847906231880188,
+                  "symbols": [
+                    {
+                      "text": "p",
+                      "confidence": 0.9777026176452637,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9749146103858948,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9886330962181091,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9921897649765015,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9905129671096802,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "coordinates",
+                  "confidence": 0.9793460965156555,
+                  "symbols": [
+                    {
+                      "text": "c",
+                      "confidence": 0.973762035369873,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9389912486076355,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9592459797859192,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9755969047546387,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9853129982948303,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9903446435928345,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9895539879798889,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9902032017707825,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9863816499710083,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9940014481544495,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9894126653671265,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "of",
+                  "confidence": 0.9861350655555725,
+                  "symbols": [
+                    {
+                      "text": "o",
+                      "confidence": 0.987075686454773,
+                      "is_break": true
+                    },
+                    {
+                      "text": "f",
+                      "confidence": 0.9851944446563721,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "the",
+                  "confidence": 0.9909080266952515,
+                  "symbols": [
+                    {
+                      "text": "t",
+                      "confidence": 0.9893313646316528,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.9912785291671753,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.992114245891571,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "points",
+                  "confidence": 0.9446338415145874,
+                  "symbols": [
+                    {
+                      "text": "p",
+                      "confidence": 0.9866585731506348,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9612534046173096,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9376730918884277,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.8859773874282837,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.940975546836853,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.95526522397995,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "P",
+                  "confidence": 0.9672232270240784,
+                  "symbols": [
+                    {
+                      "text": "P",
+                      "confidence": 0.9672232270240784,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.9199327826499939,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.9199327826499939,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "Q",
+                  "confidence": 0.9452089667320251,
+                  "symbols": [
+                    {
+                      "text": "Q",
+                      "confidence": 0.9452089667320251,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "and",
+                  "confidence": 0.9630631804466248,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9811596870422363,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9423649907112122,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9656648635864258,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "R",
+                  "confidence": 0.9911682605743408,
+                  "symbols": [
+                    {
+                      "text": "R",
+                      "confidence": 0.9911682605743408,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "are",
+                  "confidence": 0.9771100282669067,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9808086156845093,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9801626205444336,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9703589081764221,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "(",
+                  "confidence": 0.8917072415351868,
+                  "symbols": [
+                    {
+                      "text": "(",
+                      "confidence": 0.8917072415351868,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "11,59",
+                  "confidence": 0.9346166849136353,
+                  "symbols": [
+                    {
+                      "text": "1",
+                      "confidence": 0.9333555102348328,
+                      "is_break": true
+                    },
+                    {
+                      "text": "1",
+                      "confidence": 0.9595561623573303,
+                      "is_break": true
+                    },
+                    {
+                      "text": ",",
+                      "confidence": 0.909959614276886,
+                      "is_break": true
+                    },
+                    {
+                      "text": "5",
+                      "confidence": 0.9618679881095886,
+                      "is_break": true
+                    },
+                    {
+                      "text": "9",
+                      "confidence": 0.9083441495895386,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "°",
+                  "confidence": 0.5983255505561829,
+                  "symbols": [
+                    {
+                      "text": "°",
+                      "confidence": 0.5983255505561829,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ")",
+                  "confidence": 0.7379657030105591,
+                  "symbols": [
+                    {
+                      "text": ")",
+                      "confidence": 0.7379657030105591,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.7579619288444519,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.7579619288444519,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "(",
+                  "confidence": 0.9676952362060547,
+                  "symbols": [
+                    {
+                      "text": "(",
+                      "confidence": 0.9676952362060547,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "60",
+                  "confidence": 0.9831688404083252,
+                  "symbols": [
+                    {
+                      "text": "6",
+                      "confidence": 0.9806287884712219,
+                      "is_break": true
+                    },
+                    {
+                      "text": "0",
+                      "confidence": 0.9857089519500732,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.9734781384468079,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.9734781384468079,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "149",
+                  "confidence": 0.974770724773407,
+                  "symbols": [
+                    {
+                      "text": "1",
+                      "confidence": 0.9854685664176941,
+                      "is_break": true
+                    },
+                    {
+                      "text": "4",
+                      "confidence": 0.9772161245346069,
+                      "is_break": true
+                    },
+                    {
+                      "text": "9",
+                      "confidence": 0.9616274237632751,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "°",
+                  "confidence": 0.6905255317687988,
+                  "symbols": [
+                    {
+                      "text": "°",
+                      "confidence": 0.6905255317687988,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ")",
+                  "confidence": 0.9232434034347534,
+                  "symbols": [
+                    {
+                      "text": ")",
+                      "confidence": 0.9232434034347534,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "and",
+                  "confidence": 0.9702959656715393,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9879034757614136,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.960651695728302,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9623327851295471,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "(",
+                  "confidence": 0.9623087644577026,
+                  "symbols": [
+                    {
+                      "text": "(",
+                      "confidence": 0.9623087644577026,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "144,239",
+                  "confidence": 0.9797555208206177,
+                  "symbols": [
+                    {
+                      "text": "1",
+                      "confidence": 0.9899885654449463,
+                      "is_break": true
+                    },
+                    {
+                      "text": "4",
+                      "confidence": 0.9867005944252014,
+                      "is_break": true
+                    },
+                    {
+                      "text": "4",
+                      "confidence": 0.9919028282165527,
+                      "is_break": true
+                    },
+                    {
+                      "text": ",",
+                      "confidence": 0.9887554049491882,
+                      "is_break": true
+                    },
+                    {
+                      "text": "2",
+                      "confidence": 0.9911845922470093,
+                      "is_break": true
+                    },
+                    {
+                      "text": "3",
+                      "confidence": 0.9713926315307617,
+                      "is_break": true
+                    },
+                    {
+                      "text": "9",
+                      "confidence": 0.9383641481399536,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "°",
+                  "confidence": 0.7013763785362244,
+                  "symbols": [
+                    {
+                      "text": "°",
+                      "confidence": 0.7013763785362244,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ")",
+                  "confidence": 0.9270867109298706,
+                  "symbols": [
+                    {
+                      "text": ")",
+                      "confidence": 0.9270867109298706,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "respectively",
+                  "confidence": 0.9921455383300781,
+                  "symbols": [
+                    {
+                      "text": "r",
+                      "confidence": 0.9897451996803284,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9925653338432312,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.991367757320404,
+                      "is_break": true
+                    },
+                    {
+                      "text": "p",
+                      "confidence": 0.9901118278503418,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9938058257102966,
+                      "is_break": true
+                    },
+                    {
+                      "text": "c",
+                      "confidence": 0.9962037205696106,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9945016503334045,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9940906763076782,
+                      "is_break": true
+                    },
+                    {
+                      "text": "v",
+                      "confidence": 0.9865939617156982,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9947943687438965,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9893208742141724,
+                      "is_break": true
+                    },
+                    {
+                      "text": "y",
+                      "confidence": 0.9926454424858093,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.9329609274864197,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.9329609274864197,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9684192538261414,
+          "bounding_box": [
+            [
+              136,
+              163
+            ],
+            [
+              157,
+              163
+            ],
+            [
+              157,
+              179
+            ],
+            [
+              136,
+              179
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "(a)",
+              "confidence": 0.9684192538261414,
+              "words": [
+                {
+                  "text": "(",
+                  "confidence": 0.9579620361328125,
+                  "symbols": [
+                    {
+                      "text": "(",
+                      "confidence": 0.9579620361328125,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "a",
+                  "confidence": 0.9662625789642334,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9662625789642334,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ")",
+                  "confidence": 0.9810331463813782,
+                  "symbols": [
+                    {
+                      "text": ")",
+                      "confidence": 0.9810331463813782,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.8584756851196289,
+          "bounding_box": [
+            [
+              192,
+              159
+            ],
+            [
+              313,
+              163
+            ],
+            [
+              312,
+              181
+            ],
+            [
+              191,
+              177
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "FindZPOQ.",
+              "confidence": 0.8584756851196289,
+              "words": [
+                {
+                  "text": "Find",
+                  "confidence": 0.9766273498535156,
+                  "symbols": [
+                    {
+                      "text": "F",
+                      "confidence": 0.9672094583511353,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.985113263130188,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9867597818374634,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9674270153045654,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "ZPOQ",
+                  "confidence": 0.7847399115562439,
+                  "symbols": [
+                    {
+                      "text": "Z",
+                      "confidence": 0.5819351077079773,
+                      "is_break": true
+                    },
+                    {
+                      "text": "P",
+                      "confidence": 0.8080304265022278,
+                      "is_break": true
+                    },
+                    {
+                      "text": "O",
+                      "confidence": 0.8496110439300537,
+                      "is_break": true
+                    },
+                    {
+                      "text": "Q",
+                      "confidence": 0.8993831276893616,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.6808117628097534,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.6808117628097534,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9799904227256775,
+          "bounding_box": [
+            [
+              136,
+              212
+            ],
+            [
+              160,
+              212
+            ],
+            [
+              160,
+              228
+            ],
+            [
+              136,
+              228
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "(b)",
+              "confidence": 0.9799904227256775,
+              "words": [
+                {
+                  "text": "(",
+                  "confidence": 0.9777457118034363,
+                  "symbols": [
+                    {
+                      "text": "(",
+                      "confidence": 0.9777457118034363,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "b",
+                  "confidence": 0.9860274791717529,
+                  "symbols": [
+                    {
+                      "text": "b",
+                      "confidence": 0.9860274791717529,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ")",
+                  "confidence": 0.9761980175971985,
+                  "symbols": [
+                    {
+                      "text": ")",
+                      "confidence": 0.9761980175971985,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9772863388061523,
+          "bounding_box": [
+            [
+              190,
+              208
+            ],
+            [
+              596,
+              211
+            ],
+            [
+              596,
+              230
+            ],
+            [
+              190,
+              227
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "AreP,OandRcollinear?Explainyouranswer.",
+              "confidence": 0.9772863388061523,
+              "words": [
+                {
+                  "text": "Are",
+                  "confidence": 0.9768909811973572,
+                  "symbols": [
+                    {
+                      "text": "A",
+                      "confidence": 0.9710889458656311,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9762259721755981,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9833580255508423,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "P",
+                  "confidence": 0.9714919328689575,
+                  "symbols": [
+                    {
+                      "text": "P",
+                      "confidence": 0.9714919328689575,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ",",
+                  "confidence": 0.8988344669342041,
+                  "symbols": [
+                    {
+                      "text": ",",
+                      "confidence": 0.8988344669342041,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "O",
+                  "confidence": 0.8683518171310425,
+                  "symbols": [
+                    {
+                      "text": "O",
+                      "confidence": 0.8683518171310425,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "and",
+                  "confidence": 0.9816298484802246,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9800324440002441,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9816919565200806,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9831650853157043,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "R",
+                  "confidence": 0.985891580581665,
+                  "symbols": [
+                    {
+                      "text": "R",
+                      "confidence": 0.985891580581665,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "collinear",
+                  "confidence": 0.9892064929008484,
+                  "symbols": [
+                    {
+                      "text": "c",
+                      "confidence": 0.9821966886520386,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9821116924285889,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9846379160881042,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.991047203540802,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9945478439331055,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9953708052635193,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9956690073013306,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9926254749298096,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9846516847610474,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "?",
+                  "confidence": 0.9371533989906311,
+                  "symbols": [
+                    {
+                      "text": "?",
+                      "confidence": 0.9371533989906311,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "Explain",
+                  "confidence": 0.985724687576294,
+                  "symbols": [
+                    {
+                      "text": "E",
+                      "confidence": 0.9789076447486877,
+                      "is_break": true
+                    },
+                    {
+                      "text": "x",
+                      "confidence": 0.9819446206092834,
+                      "is_break": true
+                    },
+                    {
+                      "text": "p",
+                      "confidence": 0.9798969030380249,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9926795959472656,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9927108287811279,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9875054359436035,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.986427903175354,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "your",
+                  "confidence": 0.9830232858657837,
+                  "symbols": [
+                    {
+                      "text": "y",
+                      "confidence": 0.9897383451461792,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9761528968811035,
+                      "is_break": true
+                    },
+                    {
+                      "text": "u",
+                      "confidence": 0.9764843583106995,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.989717423915863,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "answer",
+                  "confidence": 0.9881963729858398,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9946616888046265,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9927460551261902,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9875258803367615,
+                      "is_break": true
+                    },
+                    {
+                      "text": "w",
+                      "confidence": 0.9836469888687134,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.982233464717865,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9883642792701721,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.9353921413421631,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.9353921413421631,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9582369923591614,
+          "bounding_box": [
+            [
+              136,
+              254
+            ],
+            [
+              437,
+              255
+            ],
+            [
+              437,
+              275
+            ],
+            [
+              136,
+              274
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "(c)FindtheperimeterofAPQR.",
+              "confidence": 0.9582369923591614,
+              "words": [
+                {
+                  "text": "(",
+                  "confidence": 0.9637743234634399,
+                  "symbols": [
+                    {
+                      "text": "(",
+                      "confidence": 0.9637743234634399,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "c",
+                  "confidence": 0.9477540850639343,
+                  "symbols": [
+                    {
+                      "text": "c",
+                      "confidence": 0.9477540850639343,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ")",
+                  "confidence": 0.9843190908432007,
+                  "symbols": [
+                    {
+                      "text": ")",
+                      "confidence": 0.9843190908432007,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "Find",
+                  "confidence": 0.9746623039245605,
+                  "symbols": [
+                    {
+                      "text": "F",
+                      "confidence": 0.9639440178871155,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9740546941757202,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9837112426757812,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9769391417503357,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "the",
+                  "confidence": 0.984419047832489,
+                  "symbols": [
+                    {
+                      "text": "t",
+                      "confidence": 0.9875616431236267,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.9832892417907715,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9824062585830688,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "perimeter",
+                  "confidence": 0.9922683238983154,
+                  "symbols": [
+                    {
+                      "text": "p",
+                      "confidence": 0.9878603219985962,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9913511872291565,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9891379475593567,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9938369393348694,
+                      "is_break": true
+                    },
+                    {
+                      "text": "m",
+                      "confidence": 0.9934724569320679,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.994767427444458,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9936589598655701,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9934235215187073,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9929062724113464,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "of",
+                  "confidence": 0.9635757207870483,
+                  "symbols": [
+                    {
+                      "text": "o",
+                      "confidence": 0.966050386428833,
+                      "is_break": true
+                    },
+                    {
+                      "text": "f",
+                      "confidence": 0.9611010551452637,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "APQR",
+                  "confidence": 0.8631967306137085,
+                  "symbols": [
+                    {
+                      "text": "A",
+                      "confidence": 0.8919960260391235,
+                      "is_break": true
+                    },
+                    {
+                      "text": "P",
+                      "confidence": 0.9276759624481201,
+                      "is_break": true
+                    },
+                    {
+                      "text": "Q",
+                      "confidence": 0.6825953722000122,
+                      "is_break": true
+                    },
+                    {
+                      "text": "R",
+                      "confidence": 0.9505195617675781,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.8560553193092346,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.8560553193092346,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9703368544578552,
+          "bounding_box": [
+            [
+              232,
+              322
+            ],
+            [
+              268,
+              322
+            ],
+            [
+              268,
+              342
+            ],
+            [
+              232,
+              342
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "(a)",
+              "confidence": 0.9703368544578552,
+              "words": [
+                {
+                  "text": "(",
+                  "confidence": 0.9684256315231323,
+                  "symbols": [
+                    {
+                      "text": "(",
+                      "confidence": 0.9684256315231323,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "a",
+                  "confidence": 0.9643303751945496,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9643303751945496,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ")",
+                  "confidence": 0.9782546162605286,
+                  "symbols": [
+                    {
+                      "text": ")",
+                      "confidence": 0.9782546162605286,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.7571195960044861,
+          "bounding_box": [
+            [
+              314,
+              325
+            ],
+            [
+              499,
+              324
+            ],
+            [
+              499,
+              345
+            ],
+            [
+              314,
+              346
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "LPOQ=149°-59°",
+              "confidence": 0.7571195960044861,
+              "words": [
+                {
+                  "text": "LPOQ",
+                  "confidence": 0.7317790389060974,
+                  "symbols": [
+                    {
+                      "text": "L",
+                      "confidence": 0.4076874554157257,
+                      "is_break": true
+                    },
+                    {
+                      "text": "P",
+                      "confidence": 0.8296540379524231,
+                      "is_break": true
+                    },
+                    {
+                      "text": "O",
+                      "confidence": 0.7577429413795471,
+                      "is_break": true
+                    },
+                    {
+                      "text": "Q",
+                      "confidence": 0.9320316314697266,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "=",
+                  "confidence": 0.5042445659637451,
+                  "symbols": [
+                    {
+                      "text": "=",
+                      "confidence": 0.5042445659637451,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "149",
+                  "confidence": 0.9279381632804871,
+                  "symbols": [
+                    {
+                      "text": "1",
+                      "confidence": 0.9625276327133179,
+                      "is_break": true
+                    },
+                    {
+                      "text": "4",
+                      "confidence": 0.952311098575592,
+                      "is_break": true
+                    },
+                    {
+                      "text": "9",
+                      "confidence": 0.8689756989479065,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "°",
+                  "confidence": 0.664456307888031,
+                  "symbols": [
+                    {
+                      "text": "°",
+                      "confidence": 0.664456307888031,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "-59",
+                  "confidence": 0.7329548001289368,
+                  "symbols": [
+                    {
+                      "text": "-",
+                      "confidence": 0.37151771783828735,
+                      "is_break": true
+                    },
+                    {
+                      "text": "5",
+                      "confidence": 0.9297278523445129,
+                      "is_break": true
+                    },
+                    {
+                      "text": "9",
+                      "confidence": 0.8976188898086548,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "°",
+                  "confidence": 0.7640585899353027,
+                  "symbols": [
+                    {
+                      "text": "°",
+                      "confidence": 0.7640585899353027,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.952141284942627,
+          "bounding_box": [
+            [
+              238,
+              459
+            ],
+            [
+              273,
+              459
+            ],
+            [
+              273,
+              479
+            ],
+            [
+              238,
+              479
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "(b)",
+              "confidence": 0.952141284942627,
+              "words": [
+                {
+                  "text": "(",
+                  "confidence": 0.9339895844459534,
+                  "symbols": [
+                    {
+                      "text": "(",
+                      "confidence": 0.9339895844459534,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "b",
+                  "confidence": 0.9586670994758606,
+                  "symbols": [
+                    {
+                      "text": "b",
+                      "confidence": 0.9586670994758606,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ")",
+                  "confidence": 0.9637671113014221,
+                  "symbols": [
+                    {
+                      "text": ")",
+                      "confidence": 0.9637671113014221,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9207345247268677,
+          "bounding_box": [
+            [
+              242,
+              642
+            ],
+            [
+              276,
+              642
+            ],
+            [
+              276,
+              666
+            ],
+            [
+              242,
+              666
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "(c)",
+              "confidence": 0.9207345247268677,
+              "words": [
+                {
+                  "text": "(",
+                  "confidence": 0.9099189043045044,
+                  "symbols": [
+                    {
+                      "text": "(",
+                      "confidence": 0.9099189043045044,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "c",
+                  "confidence": 0.8747677803039551,
+                  "symbols": [
+                    {
+                      "text": "c",
+                      "confidence": 0.8747677803039551,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ")",
+                  "confidence": 0.9775168299674988,
+                  "symbols": [
+                    {
+                      "text": ")",
+                      "confidence": 0.9775168299674988,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.5099750757217407,
+          "bounding_box": [
+            [
+              393,
+              374
+            ],
+            [
+              400,
+              374
+            ],
+            [
+              400,
+              381
+            ],
+            [
+              393,
+              381
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "=",
+              "confidence": 0.5099750757217407,
+              "words": [
+                {
+                  "text": "=",
+                  "confidence": 0.5099750757217407,
+                  "symbols": [
+                    {
+                      "text": "=",
+                      "confidence": 0.5099750757217407,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9103823900222778,
+          "bounding_box": [
+            [
+              413,
+              369
+            ],
+            [
+              442,
+              369
+            ],
+            [
+              442,
+              388
+            ],
+            [
+              413,
+              388
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "90°",
+              "confidence": 0.9103823900222778,
+              "words": [
+                {
+                  "text": "90",
+                  "confidence": 0.9792133569717407,
+                  "symbols": [
+                    {
+                      "text": "9",
+                      "confidence": 0.9827513098716736,
+                      "is_break": true
+                    },
+                    {
+                      "text": "0",
+                      "confidence": 0.9756754636764526,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "°",
+                  "confidence": 0.7727203369140625,
+                  "symbols": [
+                    {
+                      "text": "°",
+                      "confidence": 0.7727203369140625,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.8287087678909302,
+          "bounding_box": [
+            [
+              323,
+              462
+            ],
+            [
+              509,
+              461
+            ],
+            [
+              509,
+              481
+            ],
+            [
+              323,
+              482
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "LPOR=239°-59°",
+              "confidence": 0.8287087678909302,
+              "words": [
+                {
+                  "text": "LPOR",
+                  "confidence": 0.7639761567115784,
+                  "symbols": [
+                    {
+                      "text": "L",
+                      "confidence": 0.4558001458644867,
+                      "is_break": true
+                    },
+                    {
+                      "text": "P",
+                      "confidence": 0.8719895482063293,
+                      "is_break": true
+                    },
+                    {
+                      "text": "O",
+                      "confidence": 0.792281985282898,
+                      "is_break": true
+                    },
+                    {
+                      "text": "R",
+                      "confidence": 0.9358329176902771,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "=",
+                  "confidence": 0.7449410557746887,
+                  "symbols": [
+                    {
+                      "text": "=",
+                      "confidence": 0.7449410557746887,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "239",
+                  "confidence": 0.9584742784500122,
+                  "symbols": [
+                    {
+                      "text": "2",
+                      "confidence": 0.9705467224121094,
+                      "is_break": true
+                    },
+                    {
+                      "text": "3",
+                      "confidence": 0.9627883434295654,
+                      "is_break": true
+                    },
+                    {
+                      "text": "9",
+                      "confidence": 0.9420877695083618,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "°",
+                  "confidence": 0.6944524049758911,
+                  "symbols": [
+                    {
+                      "text": "°",
+                      "confidence": 0.6944524049758911,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "-59",
+                  "confidence": 0.8812453746795654,
+                  "symbols": [
+                    {
+                      "text": "-",
+                      "confidence": 0.9531424045562744,
+                      "is_break": true
+                    },
+                    {
+                      "text": "5",
+                      "confidence": 0.9507320523262024,
+                      "is_break": true
+                    },
+                    {
+                      "text": "9",
+                      "confidence": 0.7398616075515747,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "°",
+                  "confidence": 0.7587574124336243,
+                  "symbols": [
+                    {
+                      "text": "°",
+                      "confidence": 0.7587574124336243,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.6523908376693726,
+          "bounding_box": [
+            [
+              328,
+              559
+            ],
+            [
+              342,
+              559
+            ],
+            [
+              342,
+              569
+            ],
+            [
+              328,
+              569
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": ":.",
+              "confidence": 0.6523908376693726,
+              "words": [
+                {
+                  "text": ":",
+                  "confidence": 0.626802384853363,
+                  "symbols": [
+                    {
+                      "text": ":",
+                      "confidence": 0.626802384853363,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.6779792904853821,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.6779792904853821,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9027645587921143,
+          "bounding_box": [
+            [
+              367,
+              554
+            ],
+            [
+              379,
+              554
+            ],
+            [
+              379,
+              569
+            ],
+            [
+              367,
+              569
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "P",
+              "confidence": 0.9027645587921143,
+              "words": [
+                {
+                  "text": "P",
+                  "confidence": 0.9027645587921143,
+                  "symbols": [
+                    {
+                      "text": "P",
+                      "confidence": 0.9027645587921143,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.8745470643043518,
+          "bounding_box": [
+            [
+              391,
+              506
+            ],
+            [
+              461,
+              507
+            ],
+            [
+              461,
+              525
+            ],
+            [
+              391,
+              524
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "-180°",
+              "confidence": 0.8745470643043518,
+              "words": [
+                {
+                  "text": "-",
+                  "confidence": 0.6156386137008667,
+                  "symbols": [
+                    {
+                      "text": "-",
+                      "confidence": 0.6156386137008667,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "180",
+                  "confidence": 0.9705376625061035,
+                  "symbols": [
+                    {
+                      "text": "1",
+                      "confidence": 0.9893084764480591,
+                      "is_break": true
+                    },
+                    {
+                      "text": "8",
+                      "confidence": 0.9684425592422485,
+                      "is_break": true
+                    },
+                    {
+                      "text": "0",
+                      "confidence": 0.9538619518280029,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "°",
+                  "confidence": 0.8454837799072266,
+                  "symbols": [
+                    {
+                      "text": "°",
+                      "confidence": 0.8454837799072266,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.8972886800765991,
+          "bounding_box": [
+            [
+              410,
+              551
+            ],
+            [
+              558,
+              555
+            ],
+            [
+              557,
+              575
+            ],
+            [
+              409,
+              571
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "OandRare",
+              "confidence": 0.8972886800765991,
+              "words": [
+                {
+                  "text": "O",
+                  "confidence": 0.4278244376182556,
+                  "symbols": [
+                    {
+                      "text": "O",
+                      "confidence": 0.4278244376182556,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "and",
+                  "confidence": 0.933710515499115,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.8607978224754333,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9645088315010071,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9758249521255493,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "R",
+                  "confidence": 0.9904273152351379,
+                  "symbols": [
+                    {
+                      "text": "R",
+                      "confidence": 0.9904273152351379,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "are",
+                  "confidence": 0.9863086938858032,
+                  "symbols": [
+                    {
+                      "text": "a",
+                      "confidence": 0.9892526865005493,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9897807240486145,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9798926115036011,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.8410741090774536,
+          "bounding_box": [
+            [
+              386,
+              646
+            ],
+            [
+              395,
+              646
+            ],
+            [
+              395,
+              654
+            ],
+            [
+              386,
+              654
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "=",
+              "confidence": 0.8410741090774536,
+              "words": [
+                {
+                  "text": "=",
+                  "confidence": 0.8410741090774536,
+                  "symbols": [
+                    {
+                      "text": "=",
+                      "confidence": 0.8410741090774536,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.7374188899993896,
+          "bounding_box": [
+            [
+              335,
+              638
+            ],
+            [
+              555,
+              641
+            ],
+            [
+              555,
+              668
+            ],
+            [
+              335,
+              665
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "PQ√11²+60²=61",
+              "confidence": 0.7374188899993896,
+              "words": [
+                {
+                  "text": "PQ",
+                  "confidence": 0.9754030704498291,
+                  "symbols": [
+                    {
+                      "text": "P",
+                      "confidence": 0.9821488261222839,
+                      "is_break": true
+                    },
+                    {
+                      "text": "Q",
+                      "confidence": 0.968657374382019,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "√11²",
+                  "confidence": 0.6914020776748657,
+                  "symbols": [
+                    {
+                      "text": "√",
+                      "confidence": 0.6006626486778259,
+                      "is_break": true
+                    },
+                    {
+                      "text": "1",
+                      "confidence": 0.8508754372596741,
+                      "is_break": true
+                    },
+                    {
+                      "text": "1",
+                      "confidence": 0.9006683826446533,
+                      "is_break": true
+                    },
+                    {
+                      "text": "²",
+                      "confidence": 0.4134019613265991,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "+",
+                  "confidence": 0.8229999542236328,
+                  "symbols": [
+                    {
+                      "text": "+",
+                      "confidence": 0.8229999542236328,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "60²",
+                  "confidence": 0.6038505434989929,
+                  "symbols": [
+                    {
+                      "text": "6",
+                      "confidence": 0.5827863812446594,
+                      "is_break": true
+                    },
+                    {
+                      "text": "0",
+                      "confidence": 0.9014541506767273,
+                      "is_break": true
+                    },
+                    {
+                      "text": "²",
+                      "confidence": 0.32731112837791443,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "=",
+                  "confidence": 0.5760464668273926,
+                  "symbols": [
+                    {
+                      "text": "=",
+                      "confidence": 0.5760464668273926,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "61",
+                  "confidence": 0.8297165632247925,
+                  "symbols": [
+                    {
+                      "text": "6",
+                      "confidence": 0.7380378246307373,
+                      "is_break": true
+                    },
+                    {
+                      "text": "1",
+                      "confidence": 0.9213953614234924,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9640921354293823,
+          "bounding_box": [
+            [
+              337,
+              691
+            ],
+            [
+              364,
+              691
+            ],
+            [
+              364,
+              708
+            ],
+            [
+              337,
+              708
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "QR",
+              "confidence": 0.9640921354293823,
+              "words": [
+                {
+                  "text": "QR",
+                  "confidence": 0.9640921354293823,
+                  "symbols": [
+                    {
+                      "text": "Q",
+                      "confidence": 0.9661189913749695,
+                      "is_break": true
+                    },
+                    {
+                      "text": "R",
+                      "confidence": 0.9620653390884399,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.707840621471405,
+          "bounding_box": [
+            [
+              385,
+              692
+            ],
+            [
+              392,
+              692
+            ],
+            [
+              392,
+              698
+            ],
+            [
+              385,
+              698
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "=",
+              "confidence": 0.707840621471405,
+              "words": [
+                {
+                  "text": "=",
+                  "confidence": 0.707840621471405,
+                  "symbols": [
+                    {
+                      "text": "=",
+                      "confidence": 0.707840621471405,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.8240674734115601,
+          "bounding_box": [
+            [
+              418,
+              693
+            ],
+            [
+              556,
+              691
+            ],
+            [
+              556,
+              709
+            ],
+            [
+              418,
+              711
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "602+1442156",
+              "confidence": 0.8240674734115601,
+              "words": [
+                {
+                  "text": "602",
+                  "confidence": 0.7498713135719299,
+                  "symbols": [
+                    {
+                      "text": "6",
+                      "confidence": 0.8951602578163147,
+                      "is_break": true
+                    },
+                    {
+                      "text": "0",
+                      "confidence": 0.9045297503471375,
+                      "is_break": true
+                    },
+                    {
+                      "text": "2",
+                      "confidence": 0.4499239921569824,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "+1442156",
+                  "confidence": 0.851891040802002,
+                  "symbols": [
+                    {
+                      "text": "+",
+                      "confidence": 0.7921518087387085,
+                      "is_break": true
+                    },
+                    {
+                      "text": "1",
+                      "confidence": 0.9069454669952393,
+                      "is_break": true
+                    },
+                    {
+                      "text": "4",
+                      "confidence": 0.920955240726471,
+                      "is_break": true
+                    },
+                    {
+                      "text": "4",
+                      "confidence": 0.921937882900238,
+                      "is_break": true
+                    },
+                    {
+                      "text": "2",
+                      "confidence": 0.3421875238418579,
+                      "is_break": true
+                    },
+                    {
+                      "text": "1",
+                      "confidence": 0.9717361927032471,
+                      "is_break": true
+                    },
+                    {
+                      "text": "5",
+                      "confidence": 0.9742182493209839,
+                      "is_break": true
+                    },
+                    {
+                      "text": "6",
+                      "confidence": 0.9849957823753357,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9020837545394897,
+          "bounding_box": [
+            [
+              317,
+              736
+            ],
+            [
+              420,
+              738
+            ],
+            [
+              420,
+              756
+            ],
+            [
+              317,
+              754
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": ":.Perimeter",
+              "confidence": 0.9020837545394897,
+              "words": [
+                {
+                  "text": ":",
+                  "confidence": 0.43265271186828613,
+                  "symbols": [
+                    {
+                      "text": ":",
+                      "confidence": 0.43265271186828613,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.5626230239868164,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.5626230239868164,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "Perimeter",
+                  "confidence": 0.9919605851173401,
+                  "symbols": [
+                    {
+                      "text": "P",
+                      "confidence": 0.9808857440948486,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9939123392105103,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9919446706771851,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9930927753448486,
+                      "is_break": true
+                    },
+                    {
+                      "text": "m",
+                      "confidence": 0.9893433451652527,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9954681396484375,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9934372901916504,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9966285824775696,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9929326176643372,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9842547178268433,
+          "bounding_box": [
+            [
+              85,
+              1248
+            ],
+            [
+              486,
+              1248
+            ],
+            [
+              486,
+              1266
+            ],
+            [
+              85,
+              1266
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "Answerswritteninthemarginswillnotbemarked.",
+              "confidence": 0.9842547178268433,
+              "words": [
+                {
+                  "text": "Answers",
+                  "confidence": 0.9904683232307434,
+                  "symbols": [
+                    {
+                      "text": "A",
+                      "confidence": 0.9848085045814514,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9884863495826721,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9907512068748474,
+                      "is_break": true
+                    },
+                    {
+                      "text": "w",
+                      "confidence": 0.990189254283905,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9925892353057861,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9929087162017822,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9935448169708252,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "written",
+                  "confidence": 0.9941693544387817,
+                  "symbols": [
+                    {
+                      "text": "w",
+                      "confidence": 0.9947343468666077,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9927852749824524,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9935930371284485,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9924653172492981,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9958155751228333,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9959787130355835,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9938132166862488,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "in",
+                  "confidence": 0.9902458190917969,
+                  "symbols": [
+                    {
+                      "text": "i",
+                      "confidence": 0.9902604818344116,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9902310967445374,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "the",
+                  "confidence": 0.9907922148704529,
+                  "symbols": [
+                    {
+                      "text": "t",
+                      "confidence": 0.9908913373947144,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.9903217554092407,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9911635518074036,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "margins",
+                  "confidence": 0.9789288640022278,
+                  "symbols": [
+                    {
+                      "text": "m",
+                      "confidence": 0.9782324433326721,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9825494289398193,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9796552658081055,
+                      "is_break": true
+                    },
+                    {
+                      "text": "g",
+                      "confidence": 0.9849410057067871,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9807651042938232,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9753577709197998,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9710010886192322,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "will",
+                  "confidence": 0.9859097003936768,
+                  "symbols": [
+                    {
+                      "text": "w",
+                      "confidence": 0.9781985282897949,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9887503385543823,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9865100979804993,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.990179717540741,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "not",
+                  "confidence": 0.9683409333229065,
+                  "symbols": [
+                    {
+                      "text": "n",
+                      "confidence": 0.9719725847244263,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9651359915733337,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9679142832756042,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "be",
+                  "confidence": 0.9888691902160645,
+                  "symbols": [
+                    {
+                      "text": "b",
+                      "confidence": 0.9860667586326599,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.991671621799469,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "marked",
+                  "confidence": 0.9883099794387817,
+                  "symbols": [
+                    {
+                      "text": "m",
+                      "confidence": 0.9802303910255432,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9909214973449707,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.988608181476593,
+                      "is_break": true
+                    },
+                    {
+                      "text": "k",
+                      "confidence": 0.9948998689651489,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9905312657356262,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9846687912940979,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.8846055269241333,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.8846055269241333,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.982984721660614,
+          "bounding_box": [
+            [
+              80,
+              1314
+            ],
+            [
+              267,
+              1314
+            ],
+            [
+              267,
+              1327
+            ],
+            [
+              80,
+              1327
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "2024-DSE-MATH-CP1-5",
+              "confidence": 0.982984721660614,
+              "words": [
+                {
+                  "text": "2024",
+                  "confidence": 0.990098237991333,
+                  "symbols": [
+                    {
+                      "text": "2",
+                      "confidence": 0.9891301393508911,
+                      "is_break": true
+                    },
+                    {
+                      "text": "0",
+                      "confidence": 0.9954513311386108,
+                      "is_break": true
+                    },
+                    {
+                      "text": "2",
+                      "confidence": 0.9909186959266663,
+                      "is_break": true
+                    },
+                    {
+                      "text": "4",
+                      "confidence": 0.9848929047584534,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "-",
+                  "confidence": 0.9712199568748474,
+                  "symbols": [
+                    {
+                      "text": "-",
+                      "confidence": 0.9712199568748474,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "DSE",
+                  "confidence": 0.9800394177436829,
+                  "symbols": [
+                    {
+                      "text": "D",
+                      "confidence": 0.9925547242164612,
+                      "is_break": true
+                    },
+                    {
+                      "text": "S",
+                      "confidence": 0.9709587097167969,
+                      "is_break": true
+                    },
+                    {
+                      "text": "E",
+                      "confidence": 0.9766048789024353,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "-",
+                  "confidence": 0.9776217937469482,
+                  "symbols": [
+                    {
+                      "text": "-",
+                      "confidence": 0.9776217937469482,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "MATH",
+                  "confidence": 0.9878993034362793,
+                  "symbols": [
+                    {
+                      "text": "M",
+                      "confidence": 0.9927381873130798,
+                      "is_break": true
+                    },
+                    {
+                      "text": "A",
+                      "confidence": 0.9938260912895203,
+                      "is_break": true
+                    },
+                    {
+                      "text": "T",
+                      "confidence": 0.9882276058197021,
+                      "is_break": true
+                    },
+                    {
+                      "text": "H",
+                      "confidence": 0.9768052697181702,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "-",
+                  "confidence": 0.9797073602676392,
+                  "symbols": [
+                    {
+                      "text": "-",
+                      "confidence": 0.9797073602676392,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "CP",
+                  "confidence": 0.974852442741394,
+                  "symbols": [
+                    {
+                      "text": "C",
+                      "confidence": 0.9794866442680359,
+                      "is_break": true
+                    },
+                    {
+                      "text": "P",
+                      "confidence": 0.970218300819397,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "1-5",
+                  "confidence": 0.9821155071258545,
+                  "symbols": [
+                    {
+                      "text": "1",
+                      "confidence": 0.9792402982711792,
+                      "is_break": true
+                    },
+                    {
+                      "text": "-",
+                      "confidence": 0.9800030589103699,
+                      "is_break": true
+                    },
+                    {
+                      "text": "5",
+                      "confidence": 0.9871032238006592,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9430215358734131,
+          "bounding_box": [
+            [
+              593,
+              552
+            ],
+            [
+              660,
+              553
+            ],
+            [
+              660,
+              572
+            ],
+            [
+              593,
+              571
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "collinear",
+              "confidence": 0.9430215358734131,
+              "words": [
+                {
+                  "text": "collinear",
+                  "confidence": 0.9430215358734131,
+                  "symbols": [
+                    {
+                      "text": "c",
+                      "confidence": 0.7662497162818909,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.8832709789276123,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9700268507003784,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9569567441940308,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9845942854881287,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9825050830841064,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9916619658470154,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9807897806167603,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9711384177207947,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.8818709254264832,
+          "bounding_box": [
+            [
+              452,
+              729
+            ],
+            [
+              736,
+              737
+            ],
+            [
+              734,
+              804
+            ],
+            [
+              450,
+              796
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "APQR=61+156+(11+144)•372",
+              "confidence": 0.8818709254264832,
+              "words": [
+                {
+                  "text": "APQR",
+                  "confidence": 0.9381513595581055,
+                  "symbols": [
+                    {
+                      "text": "A",
+                      "confidence": 0.955777645111084,
+                      "is_break": true
+                    },
+                    {
+                      "text": "P",
+                      "confidence": 0.9452229142189026,
+                      "is_break": true
+                    },
+                    {
+                      "text": "Q",
+                      "confidence": 0.882235586643219,
+                      "is_break": true
+                    },
+                    {
+                      "text": "R",
+                      "confidence": 0.9693691730499268,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "=",
+                  "confidence": 0.5868540406227112,
+                  "symbols": [
+                    {
+                      "text": "=",
+                      "confidence": 0.5868540406227112,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "61",
+                  "confidence": 0.8584895133972168,
+                  "symbols": [
+                    {
+                      "text": "6",
+                      "confidence": 0.8920465111732483,
+                      "is_break": true
+                    },
+                    {
+                      "text": "1",
+                      "confidence": 0.8249325156211853,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "+",
+                  "confidence": 0.68354332447052,
+                  "symbols": [
+                    {
+                      "text": "+",
+                      "confidence": 0.68354332447052,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "156",
+                  "confidence": 0.9044635891914368,
+                  "symbols": [
+                    {
+                      "text": "1",
+                      "confidence": 0.8131542801856995,
+                      "is_break": true
+                    },
+                    {
+                      "text": "5",
+                      "confidence": 0.9358686804771423,
+                      "is_break": true
+                    },
+                    {
+                      "text": "6",
+                      "confidence": 0.9643678665161133,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "+",
+                  "confidence": 0.7534669041633606,
+                  "symbols": [
+                    {
+                      "text": "+",
+                      "confidence": 0.7534669041633606,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "(",
+                  "confidence": 0.9737072587013245,
+                  "symbols": [
+                    {
+                      "text": "(",
+                      "confidence": 0.9737072587013245,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "11",
+                  "confidence": 0.95563805103302,
+                  "symbols": [
+                    {
+                      "text": "1",
+                      "confidence": 0.9442219138145447,
+                      "is_break": true
+                    },
+                    {
+                      "text": "1",
+                      "confidence": 0.9670542478561401,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "+144",
+                  "confidence": 0.9778464436531067,
+                  "symbols": [
+                    {
+                      "text": "+",
+                      "confidence": 0.9518964290618896,
+                      "is_break": true
+                    },
+                    {
+                      "text": "1",
+                      "confidence": 0.9838297963142395,
+                      "is_break": true
+                    },
+                    {
+                      "text": "4",
+                      "confidence": 0.9843315482139587,
+                      "is_break": true
+                    },
+                    {
+                      "text": "4",
+                      "confidence": 0.9913280606269836,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ")",
+                  "confidence": 0.9734745025634766,
+                  "symbols": [
+                    {
+                      "text": ")",
+                      "confidence": 0.9734745025634766,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "•",
+                  "confidence": 0.2319250851869583,
+                  "symbols": [
+                    {
+                      "text": "•",
+                      "confidence": 0.2319250851869583,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "372",
+                  "confidence": 0.9854313731193542,
+                  "symbols": [
+                    {
+                      "text": "3",
+                      "confidence": 0.9797161817550659,
+                      "is_break": true
+                    },
+                    {
+                      "text": "7",
+                      "confidence": 0.9904711842536926,
+                      "is_break": true
+                    },
+                    {
+                      "text": "2",
+                      "confidence": 0.9861066937446594,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9442353844642639,
+          "bounding_box": [
+            [
+              521,
+              1308
+            ],
+            [
+              535,
+              1308
+            ],
+            [
+              535,
+              1325
+            ],
+            [
+              521,
+              1325
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "5",
+              "confidence": 0.9442353844642639,
+              "words": [
+                {
+                  "text": "5",
+                  "confidence": 0.9442353844642639,
+                  "symbols": [
+                    {
+                      "text": "5",
+                      "confidence": 0.9442353844642639,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9759947061538696,
+          "bounding_box": [
+            [
+              792,
+              1305
+            ],
+            [
+              945,
+              1307
+            ],
+            [
+              945,
+              1323
+            ],
+            [
+              792,
+              1321
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "Goontothenextpage",
+              "confidence": 0.9759947061538696,
+              "words": [
+                {
+                  "text": "Go",
+                  "confidence": 0.8646917343139648,
+                  "symbols": [
+                    {
+                      "text": "G",
+                      "confidence": 0.8618463277816772,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.8675371408462524,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "on",
+                  "confidence": 0.9849033355712891,
+                  "symbols": [
+                    {
+                      "text": "o",
+                      "confidence": 0.9787346720695496,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9910720586776733,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "to",
+                  "confidence": 0.9864889979362488,
+                  "symbols": [
+                    {
+                      "text": "t",
+                      "confidence": 0.9883773326873779,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9846006631851196,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "the",
+                  "confidence": 0.9923608303070068,
+                  "symbols": [
+                    {
+                      "text": "t",
+                      "confidence": 0.9932669401168823,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.9908815026283264,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9929341077804565,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "next",
+                  "confidence": 0.9925100207328796,
+                  "symbols": [
+                    {
+                      "text": "n",
+                      "confidence": 0.9950115084648132,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9952230453491211,
+                      "is_break": true
+                    },
+                    {
+                      "text": "x",
+                      "confidence": 0.9887514114379883,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9910541772842407,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "page",
+                  "confidence": 0.9931548237800598,
+                  "symbols": [
+                    {
+                      "text": "p",
+                      "confidence": 0.9923841953277588,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9944084286689758,
+                      "is_break": true
+                    },
+                    {
+                      "text": "g",
+                      "confidence": 0.9946768283843994,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9911497831344604,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9780669212341309,
+          "bounding_box": [
+            [
+              877,
+              285
+            ],
+            [
+              953,
+              285
+            ],
+            [
+              953,
+              301
+            ],
+            [
+              877,
+              301
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "(4marks)",
+              "confidence": 0.9780669212341309,
+              "words": [
+                {
+                  "text": "(",
+                  "confidence": 0.9500167369842529,
+                  "symbols": [
+                    {
+                      "text": "(",
+                      "confidence": 0.9500167369842529,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "4",
+                  "confidence": 0.9764348268508911,
+                  "symbols": [
+                    {
+                      "text": "4",
+                      "confidence": 0.9764348268508911,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "marks",
+                  "confidence": 0.9844304919242859,
+                  "symbols": [
+                    {
+                      "text": "m",
+                      "confidence": 0.987019956111908,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9761171936988831,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.986720085144043,
+                      "is_break": true
+                    },
+                    {
+                      "text": "k",
+                      "confidence": 0.9884836077690125,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9838115572929382,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ")",
+                  "confidence": 0.9759315848350525,
+                  "symbols": [
+                    {
+                      "text": ")",
+                      "confidence": 0.9759315848350525,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "confidence": 0.9810429215431213,
+          "bounding_box": [
+            [
+              974,
+              784
+            ],
+            [
+              974,
+              393
+            ],
+            [
+              991,
+              393
+            ],
+            [
+              991,
+              784
+            ]
+          ],
+          "paragraphs": [
+            {
+              "text": "Answerswritteninthemarginswillnotbemarked.",
+              "confidence": 0.9810429215431213,
+              "words": [
+                {
+                  "text": "Answers",
+                  "confidence": 0.9776515960693359,
+                  "symbols": [
+                    {
+                      "text": "A",
+                      "confidence": 0.956039547920227,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9583047032356262,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9739855527877808,
+                      "is_break": true
+                    },
+                    {
+                      "text": "w",
+                      "confidence": 0.9808269739151001,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9916369915008545,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9919795393943787,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9907880425453186,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "written",
+                  "confidence": 0.9909207224845886,
+                  "symbols": [
+                    {
+                      "text": "w",
+                      "confidence": 0.9859426021575928,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9922674894332886,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9924302697181702,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9933497309684753,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9921325445175171,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9935285449028015,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9867939352989197,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "in",
+                  "confidence": 0.9861510992050171,
+                  "symbols": [
+                    {
+                      "text": "i",
+                      "confidence": 0.986626386642456,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9856758117675781,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "the",
+                  "confidence": 0.992791473865509,
+                  "symbols": [
+                    {
+                      "text": "t",
+                      "confidence": 0.9931541085243225,
+                      "is_break": true
+                    },
+                    {
+                      "text": "h",
+                      "confidence": 0.994125247001648,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9910951256752014,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "margins",
+                  "confidence": 0.9663242697715759,
+                  "symbols": [
+                    {
+                      "text": "m",
+                      "confidence": 0.9857352375984192,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9860568046569824,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9757497310638428,
+                      "is_break": true
+                    },
+                    {
+                      "text": "g",
+                      "confidence": 0.9584038257598877,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9553835391998291,
+                      "is_break": true
+                    },
+                    {
+                      "text": "n",
+                      "confidence": 0.9408227801322937,
+                      "is_break": true
+                    },
+                    {
+                      "text": "s",
+                      "confidence": 0.9621178507804871,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "will",
+                  "confidence": 0.9934280514717102,
+                  "symbols": [
+                    {
+                      "text": "w",
+                      "confidence": 0.9919520020484924,
+                      "is_break": true
+                    },
+                    {
+                      "text": "i",
+                      "confidence": 0.9957321286201477,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9921572208404541,
+                      "is_break": true
+                    },
+                    {
+                      "text": "l",
+                      "confidence": 0.9938708543777466,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "not",
+                  "confidence": 0.9638684988021851,
+                  "symbols": [
+                    {
+                      "text": "n",
+                      "confidence": 0.9653230309486389,
+                      "is_break": true
+                    },
+                    {
+                      "text": "o",
+                      "confidence": 0.9586924314498901,
+                      "is_break": true
+                    },
+                    {
+                      "text": "t",
+                      "confidence": 0.9675899744033813,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "be",
+                  "confidence": 0.9901667833328247,
+                  "symbols": [
+                    {
+                      "text": "b",
+                      "confidence": 0.9874624013900757,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9928712248802185,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": "marked",
+                  "confidence": 0.9885099530220032,
+                  "symbols": [
+                    {
+                      "text": "m",
+                      "confidence": 0.9863756895065308,
+                      "is_break": true
+                    },
+                    {
+                      "text": "a",
+                      "confidence": 0.9892339706420898,
+                      "is_break": true
+                    },
+                    {
+                      "text": "r",
+                      "confidence": 0.9841924905776978,
+                      "is_break": true
+                    },
+                    {
+                      "text": "k",
+                      "confidence": 0.9914160966873169,
+                      "is_break": true
+                    },
+                    {
+                      "text": "e",
+                      "confidence": 0.9865503311157227,
+                      "is_break": true
+                    },
+                    {
+                      "text": "d",
+                      "confidence": 0.9932911992073059,
+                      "is_break": true
+                    }
+                  ]
+                },
+                {
+                  "text": ".",
+                  "confidence": 0.9321387410163879,
+                  "symbols": [
+                    {
+                      "text": ".",
+                      "confidence": 0.9321387410163879,
+                      "is_break": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "average_confidence": null
+}

@@ -8,8 +8,8 @@ google-cloud-vision==3.11.0
 # For PyTesseract OCR
 pytesseract==0.3.13
 pillow>=10.0.0
-#For EasyOCR
-easyocr==1.7.1
+#For EasyOCR (Removing this due to size constraints on deployment)
+# easyocr==1.7.1
 # For Prisma ORM and Environment Management
 prisma==0.15.0
 python-dotenv==1.0.1

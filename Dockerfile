@@ -1,26 +1,36 @@
 # Dockerfile
 FROM python:3.12-slim
 
-# Prevents Python from writing pyc files and buffering stdout/stderr
+# Prevent Python from writing pyc files and buffering stdout/stderr
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Debug token (override with docker run -e or docker-compose)
-# Ergo this DEBUG_TOKEN is no longer needed due to CI handling it in github action
-# ENV DEBUG_TOKEN=super-secret-debug-token-123 
+# Create and activate a virtual environment:
+#   1. We create a venv directory in /venv
+#   2. We prepend /venv/bin to PATH so pip/python use that environment by default
+RUN python -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+
+# Install system dependencies required for Prisma CLI (Node.js installation)
+RUN apt-get update && \
+    apt-get install -y libatomic1 openssl ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Install python dependencies
+# Install python dependencies using the venv
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the entire project
 COPY . .
 
-# This is the magic line — makes the project root importable
+# Generate Prisma client (required before using the client in the app)
+RUN prisma generate
+
+# Make the project root importable
 ENV PYTHONPATH=/app
 
-# Run uvicorn from the project root
+# Expose and launch
 EXPOSE 8000
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
