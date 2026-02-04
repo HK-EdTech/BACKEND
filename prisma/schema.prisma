@@ -538,6 +538,7 @@ model teacher_profiles {
 model roles {
   id                String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name              String             @unique
+  default_route     String?            @db.VarChar
   profile_roles     profile_roles[]
   role_module_perms role_module_perm[]
 
