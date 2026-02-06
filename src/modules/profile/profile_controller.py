@@ -37,15 +37,34 @@ async def get_my_profile(
     user_id = UUID(current_user.get("sub"))
     profile = await profile_service.get_profile_by_id(user_id)
 
+    # Transform profile to extract role_name, default_route, and organization_id
+    profile_dict = profile.model_dump()
+
+    # Each user has exactly one role - extract from profile_roles
+    if profile.profile_roles and len(profile.profile_roles) > 0:
+        user_role = profile.profile_roles[0].roles
+        profile_dict["role_name"] = user_role.name
+        profile_dict["default_route"] = user_role.default_route
+    else:
+        profile_dict["role_name"] = None
+        profile_dict["default_route"] = None
+
+    # organization_id is already in profile, ensure it's included
+    profile_dict["organization_id"] = profile.organization_id
+
+    # Remove profile_roles and educational_organizations from response (internal data)
+    profile_dict.pop("profile_roles", None)
+    profile_dict.pop("educational_organizations", None)
+
     # Check if modules should be included
     if include == "modules":
         modules = await module_service.get_user_modules_with_permissions(str(user_id))
         return ProfileWithModulesResponse(
-            profile=profile.model_dump(),
+            profile=profile_dict,
             modules=[ModuleWithPermissions(**m) for m in modules]
         )
 
-    return profile
+    return ProfileResponse(**profile_dict)
 
 @router.put("/me", response_model=ProfileResponse)
 async def update_my_profile(
