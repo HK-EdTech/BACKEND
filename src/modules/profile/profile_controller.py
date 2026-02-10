@@ -52,9 +52,8 @@ async def get_my_profile(
     # organization_id is already in profile, ensure it's included
     profile_dict["organization_id"] = profile.organization_id
 
-    # Remove profile_roles and educational_organizations from response (internal data)
+    # Remove internal relation data from response
     profile_dict.pop("profile_roles", None)
-    profile_dict.pop("educational_organizations", None)
 
     # Check if modules should be included
     if include == "modules":
