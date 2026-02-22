@@ -5,7 +5,7 @@ terraform {
     bucket         = "hk-edtech-tfstate"
     key            = "dev/terraform.tfstate"
     region         = "ap-southeast-2"
-    dynamodb_table = "hk-edtech-tflock"
+    use_lockfile   = true
     encrypt        = true
   }
 }
