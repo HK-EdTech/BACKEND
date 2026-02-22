@@ -1,8 +1,7 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Request
 from uuid import UUID
 from typing import Optional, Union
 import asyncio
-from ...deps import get_current_user
 from ...database import prisma_client
 from .pydantic_model.profile_pydantic_model import ProfileResponse, StudentProfileResponse, TeacherProfileResponse
 from .pydantic_model.update_profile_pydantic_model import ProfileUpdateRequest, StudentProfileUpdateRequest, TeacherProfileUpdateRequest
@@ -20,8 +19,8 @@ def get_module_service():
 
 @router.get("/me", response_model=Union[ProfileResponse, ProfileWithModulesResponse])
 async def get_my_profile(
+    request: Request,
     include: Optional[str] = Query(None, description="Include related data: 'modules'"),
-    current_user = Depends(get_current_user),
     profile_service = Depends(get_profile_service),
     module_service = Depends(get_module_service)
 ):
@@ -35,7 +34,7 @@ async def get_my_profile(
     - GET /profile/me -> Returns ProfileResponse
     - GET /profile/me?include=modules -> Returns ProfileWithModulesResponse
     """
-    user_id = UUID(current_user.get("sub"))
+    user_id = UUID(request.state.user.get("sub"))
 
     # Fetch profile and modules in parallel when modules are requested
     if include == "modules":
@@ -71,12 +70,12 @@ async def get_my_profile(
 
 @router.put("/me", response_model=ProfileResponse)
 async def update_my_profile(
+    request: Request,
     update_data: ProfileUpdateRequest,
-    current_user = Depends(get_current_user),
     profile_service = Depends(get_profile_service)
 ):
     """Update current user's base profile (name, username, avatar)"""
-    user_id = UUID(current_user.get("sub"))
+    user_id = UUID(request.state.user.get("sub"))
     profile = await profile_service.update_profile(
         user_id=user_id,
         first_name=update_data.first_name,
@@ -88,42 +87,42 @@ async def update_my_profile(
 
 @router.get("/me/student", response_model=StudentProfileResponse)
 async def get_my_student_profile(
-    current_user = Depends(get_current_user),
+    request: Request,
     profile_service = Depends(get_profile_service)
 ):
     """Get current user's student profile with enrollments"""
-    user_id = UUID(current_user.get("sub"))
+    user_id = UUID(request.state.user.get("sub"))
     return await profile_service.get_student_profile(user_id)
 
 @router.put("/me/student", response_model=StudentProfileResponse)
 async def update_my_student_profile(
+    request: Request,
     update_data: StudentProfileUpdateRequest,
-    current_user = Depends(get_current_user),
     profile_service = Depends(get_profile_service)
 ):
     """Update current user's student profile (class level)"""
-    user_id = UUID(current_user.get("sub"))
+    user_id = UUID(request.state.user.get("sub"))
     if update_data.level is not None:
         await profile_service.update_student_level(user_id, update_data.level)
     return await profile_service.get_student_profile(user_id)
 
 @router.get("/me/teacher", response_model=TeacherProfileResponse)
 async def get_my_teacher_profile(
-    current_user = Depends(get_current_user),
+    request: Request,
     profile_service = Depends(get_profile_service)
 ):
     """Get current user's teacher profile with classes"""
-    user_id = UUID(current_user.get("sub"))
+    user_id = UUID(request.state.user.get("sub"))
     return await profile_service.get_teacher_profile(user_id)
 
 @router.put("/me/teacher", response_model=TeacherProfileResponse)
 async def update_my_teacher_profile(
+    request: Request,
     update_data: TeacherProfileUpdateRequest,
-    current_user = Depends(get_current_user),
     profile_service = Depends(get_profile_service)
 ):
     """Update current user's teacher profile (bio)"""
-    user_id = UUID(current_user.get("sub"))
+    user_id = UUID(request.state.user.get("sub"))
     if update_data.bio is not None:
         await profile_service.update_teacher_bio(user_id, update_data.bio)
     return await profile_service.get_teacher_profile(user_id)

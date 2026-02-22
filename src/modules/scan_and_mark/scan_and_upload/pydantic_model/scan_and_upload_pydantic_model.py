@@ -10,6 +10,7 @@ class HomeworkResponse(BaseModel):
     class_id: Optional[str] = None
     due_date: Optional[datetime] = None
     full_score: Optional[float] = None
+    marking_scheme_id: Optional[str] = None
     created_at: datetime
 
     class Config:
