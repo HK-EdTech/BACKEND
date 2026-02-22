@@ -211,3 +211,6 @@ dev01.pem
 
 # ignoring API keys directory
 src/*/api_keys/*.json
+
+# teraform state files
+*/terraform.tfstate
