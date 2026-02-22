@@ -13,6 +13,7 @@ from .database import connect_db, disconnect_db
 
 # Import routers from modules
 from .modules.profile.profile_controller import router as profile_router
+from .modules.scan_and_mark.scan_and_upload.scan_and_upload_controller import router as scan_and_upload_router
 
 # This makes the green lock button appear in Swagger UI
 security = HTTPBearer(auto_error=False)
@@ -46,6 +47,7 @@ app = FastAPI(
         {"name": "User Management"},
         {"name": "Items"},
         {"name": "Profile", "description": "User profile management"},
+        {"name": "Scan and Mark / Scan and Upload", "description": "Scan and upload homework"},
     ],
     # This makes the lock appear
     dependencies=[Depends(security)],   # ← important
@@ -64,6 +66,7 @@ app.add_middleware(
 
 # Register module routers
 app.include_router(profile_router)
+app.include_router(scan_and_upload_router)
 
 # PUBLIC ENDPOINTS
 @app.get("/health", tags=[Tags.health], include_in_schema=True)

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Query
 from uuid import UUID
 from typing import Optional, Union
+import asyncio
 from ...deps import get_current_user
 from ...database import prisma_client
 from .pydantic_model.profile_pydantic_model import ProfileResponse, StudentProfileResponse, TeacherProfileResponse
@@ -35,17 +36,38 @@ async def get_my_profile(
     - GET /profile/me?include=modules -> Returns ProfileWithModulesResponse
     """
     user_id = UUID(current_user.get("sub"))
-    profile = await profile_service.get_profile_by_id(user_id)
 
-    # Check if modules should be included
+    # Fetch profile and modules in parallel when modules are requested
     if include == "modules":
-        modules = await module_service.get_user_modules_with_permissions(str(user_id))
+        profile, modules = await asyncio.gather(
+            profile_service.get_profile_by_id(user_id),
+            module_service.get_user_modules_with_permissions(str(user_id))
+        )
+    else:
+        profile = await profile_service.get_profile_by_id(user_id)
+        modules = None
+
+    # Transform profile: extract role_name and default_route from profile_roles
+    profile_dict = profile.model_dump()
+
+    if profile.profile_roles and len(profile.profile_roles) > 0:
+        user_role = profile.profile_roles[0].roles
+        profile_dict["role_name"] = user_role.name
+        profile_dict["default_route"] = user_role.default_route
+    else:
+        profile_dict["role_name"] = None
+        profile_dict["default_route"] = None
+
+    profile_dict["organization_id"] = profile.organization_id
+    profile_dict.pop("profile_roles", None)
+
+    if modules is not None:
         return ProfileWithModulesResponse(
-            profile=profile.model_dump(),
+            profile=profile_dict,
             modules=[ModuleWithPermissions(**m) for m in modules]
         )
 
-    return profile
+    return ProfileResponse(**profile_dict)
 
 @router.put("/me", response_model=ProfileResponse)
 async def update_my_profile(
