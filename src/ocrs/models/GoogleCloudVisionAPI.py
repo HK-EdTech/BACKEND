@@ -51,10 +51,13 @@ class GoogleCloudVisionAPI:
         '''
 
         client=vision.ImageAnnotatorClient()
+
+
         with open(path, "rb") as image_file:
             content = image_file.read()
 
         image = vision.Image(content=content)
+        print(f"What is this image content type? {type(image.content)}")  # Should be bytes
 
         # Use document_text_detection for dense text (forms, books, PDFs)
         response = client.document_text_detection(
@@ -157,12 +160,12 @@ if __name__ == "__main__":
         result = GoogleCloudVisionAPI.detect_document(image_path)
 
         logger.info("EXTRACTED TEXT:")
-        logger.info(result["full_text"])
+        logger.info(f"\n {result['full_text']}")
 
-        logger.info(f"AVERAGE CONFIDENCE: {result["pages"][0]["confidence"]*100}")
+        logger.info(f"AVERAGE CONFIDENCE: {result['pages'][0]['confidence']*100}")
 
         # Optional: Save full JSON output
-        output_json = f"{image_path.split("ocr_")[0]}conf_scores/{image_path.split("/")[-1].split(".")[0]}.ocr.json" 
+        output_json = f"{image_path.split('ocr_')[0]}conf_scores/{image_path.split('/')[-1].split('.')[0]}.ocr.json" 
         with open(output_json, "w", encoding="utf-8") as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
         logger.info(f"\nFull detailed result saved to: {output_json}")

@@ -2,7 +2,7 @@ name: Deploy FastAPI
 
 on:
   push:
-    branches: [ main, dev ]
+    branches: [ main, dev, milton ]
 
 jobs:
   build-and-deploy:
@@ -14,7 +14,7 @@ jobs:
     - name: Step 2 - Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    - name: Debug disk space
+    - name: Sanity Check - Debug disk space
       run: df -h
 
     - name: Write SSH deploy key
@@ -22,7 +22,7 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.DEPLOY_KEY_DEV }}" > ~/.ssh/deploy_key
         chmod 600 ~/.ssh/deploy_key
-        echo -e "Host ${{ vars.DEPLOY_HOST_DEV }}\n  HostName ${{ vars.DEPLOY_HOST_DEV }}\n  User ${{ vars.DEPLOY_USER_DEV || 'ubuntu' }}\n  IdentityFile ~/.ssh/deploy_key\n  StrictHostKeyChecking no" >> ~/.ssh/config
+        echo -e "Host ${{ vars.DEPLOY_HOST_DEV }}\n  HostName ${{ vars.DEPLOY_HOST_DEV }}\n  User ${{ vars.DEPLOY_USER_DEV }}\n  IdentityFile ~/.ssh/deploy_key\n  StrictHostKeyChecking no" >> ~/.ssh/config
 
     - name: Prune Docker images and containers, volumes, builder cache
       env:

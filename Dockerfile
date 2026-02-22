@@ -1,4 +1,4 @@
-# Dockerfile
+# Base image with Python 3.12
 FROM python:3.12-slim
 
 # Prevent Python from writing pyc files and buffering stdout/stderr
@@ -18,7 +18,7 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-# Install python dependencies using the venv
+# Install required python dependencies using the venv
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
