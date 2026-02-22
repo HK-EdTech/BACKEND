@@ -611,6 +611,8 @@ model homework {
   due_date            DateTime?             @db.Timestamptz(6)
   created_at          DateTime              @default(now()) @db.Timestamptz(6)
   full_score          Float?                @db.Real
+  marking_scheme_id   String?               @db.Uuid
+  marking_scheme      marking_scheme?       @relation(fields: [marking_scheme_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   classes             classes?              @relation(fields: [class_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "homeworks_class_id_fkey")
   homework_sheets     homework_sheets[]
   homework_submission homework_submission[]
@@ -651,6 +653,23 @@ model homework_submission {
   homework_sheets     homework_sheets[]
   homework            homework          @relation(fields: [homework_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   student_profiles    student_profiles  @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model marking_scheme {
+  id               String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at       DateTime   @default(now()) @db.Timestamptz(6)
+  page_number      Int?
+  doc_path         String?
+  file_size_bytes  BigInt?
+  has_handwriting  Boolean?   @default(false)
+  extracted_text   String?
+  latex_content    String?
+  ocr_confidence   Float?
+  formatted_result Json?
+  homework         homework[]
 
   @@schema("public")
 }
