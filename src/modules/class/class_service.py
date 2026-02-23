@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from uuid import UUID
 
 from fastapi import HTTPException, status
@@ -14,6 +14,53 @@ class ClassService:
     async def get_all_classes(self):
         """Get all classes from public.classes"""
         return await self.db.classes.find_many(order={"created_at": "desc"})
+
+
+
+    async def get_teacher_classes(self, user_id: UUID):
+        """Get all classes for the authenticated teacher"""
+        teacher_profile = await self.db.teacher_profiles.find_unique(
+            where={"id": str(user_id)}
+        )
+
+        if not teacher_profile:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Only teacher accounts can access teacher classes",
+            )
+
+        return await self.db.classes.find_many(
+            where={"teacher_id": str(user_id)},
+            order={"created_at": "desc"},
+        )
+
+
+
+    async def get_student_classes(self, user_id: UUID):
+        """Get all classes enrolled by the authenticated student"""
+        student_profile = await self.db.student_profiles.find_unique(
+            where={"id": str(user_id)},
+            include={
+                "enrollments": {
+                    "include": {
+                        "classes": True
+                    }
+                }
+            }
+        )
+
+        if not student_profile:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Only student accounts can access enrolled classes",
+            )
+
+        classes: List = [
+            enrollment.classes for enrollment in student_profile.enrollments if enrollment.classes
+        ]
+
+        classes.sort(key=lambda c: c.created_at, reverse=True)
+        return classes
 
     async def create_class(
         self,
