@@ -9,28 +9,13 @@ class ProfileService:
         self.db = db
 
     async def get_profile_by_id(self, user_id: UUID):
-        """Get profile by auth user ID with role and specialized profiles"""
+        """Get profile by auth user ID with role info"""
         profile = await self.db.profiles.find_unique(
             where={"id": str(user_id)},
             include={
                 "profile_roles": {
                     "include": {"roles": True}
-                },
-                "student_profile": {
-                    "include": {
-                        "enrollments": {
-                            "include": {
-                                "classes": True
-                            }
-                        }
-                    }
-                },
-                "teacher_profile": {
-                    "include": {
-                        "classes": True
-                    }
-                },
-                "educational_organizations": True
+                }
             }
         )
         if not profile:

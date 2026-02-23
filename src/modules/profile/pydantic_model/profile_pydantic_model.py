@@ -34,6 +34,7 @@ class ProfileResponse(BaseModel):
     full_name: Optional[str] = Field(None, description="Auto-generated from first_name + surname")
     username: str
     role_name: Optional[str] = Field(None, description="User role: 'student', 'teacher', or 'private_tutor'")
+    default_route: Optional[str] = Field(None, description="Default route for this user's role")
     organization_id: Optional[UUID] = None
     avatar_url: Optional[str] = None
     created_at: datetime

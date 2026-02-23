@@ -4,15 +4,24 @@ from jose import jwt, JWTError
 from jose.exceptions import JWKError
 import httpx
 import os
-from typing import Dict, Any
+import time
+from typing import Dict, Any, Tuple
 
 bearer_scheme = HTTPBearer(auto_error=False)
 
+# JWKS cache: {kid: (key_dict, fetched_timestamp)}
+_jwks_cache: Dict[str, Tuple[Dict[str, Any], float]] = {}
+_JWKS_CACHE_TTL = 21600  # Cache keys for 6 hours
+
 async def get_public_key(kid: str, supabase_url: str) -> Dict[str, Any]:
-    """Fetch the public key from Supabase JWKS endpoint."""
+    """Fetch the public key from Supabase JWKS endpoint (cached)."""
+    if kid in _jwks_cache:
+        cached_key, cached_at = _jwks_cache[kid]
+        if time.time() - cached_at < _JWKS_CACHE_TTL:
+            return cached_key
+
     jwks_url = f"{supabase_url}/auth/v1/.well-known/jwks.json"
 
-    # Supabase JWKS endpoint requires API key header
     anon_key = os.getenv("SUPABASE_ANON_KEY")
     headers = {"apikey": anon_key} if anon_key else {}
 
@@ -21,10 +30,12 @@ async def get_public_key(kid: str, supabase_url: str) -> Dict[str, Any]:
         response.raise_for_status()
         jwks = response.json()
 
-    # Find the key matching the kid
+    now = time.time()
     for key in jwks["keys"]:
-        if key["kid"] == kid:
-            return key
+        _jwks_cache[key["kid"]] = (key, now)
+
+    if kid in _jwks_cache:
+        return _jwks_cache[kid][0]
     raise HTTPException(status_code=401, detail="Public key not found")
 
 async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme)) -> Dict[str, Any]:
