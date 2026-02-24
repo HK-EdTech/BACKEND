@@ -2,7 +2,8 @@ name: Deploy FastAPI
 
 on:
   push:
-    branches: [ main, dev, milton ]
+    # branches: [ main, dev, milton ]
+    branches: [ main, milton ]
 
 jobs:
   build-and-deploy:
@@ -19,7 +20,7 @@ jobs:
 
     # Write the deploy key early so Terraform can reference its path when
     # generating the Ansible inventory (TF_VAR_ssh_private_key_path).
-    - name: Write SSH deploy key
+    - name: Write SSH deploy key to Github runner's filesystem
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.DEPLOY_KEY_DEV }}" > ~/.ssh/deploy_key
