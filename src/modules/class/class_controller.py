@@ -6,7 +6,16 @@ from fastapi import APIRouter, Depends, status
 from ...database import prisma_client
 from ...deps import get_current_user
 from .class_service import ClassService
-from .pydantic_model.class_pydantic_model import ClassResponse, CreateClassRequest
+from .pydantic_model.class_pydantic_model import (
+    AddClassStudentRequest,
+    ClassDetailResponse,
+    ClassHomeworkResponse,
+    ClassResponse,
+    ClassStudentResponse,
+    ClassTeacherResponse,
+    CreateClassHomeworkRequest,
+    CreateClassRequest,
+)
 
 router = APIRouter(prefix="/class", tags=["Class"])
 
@@ -19,8 +28,6 @@ def get_class_service():
 async def get_classes(class_service=Depends(get_class_service)):
     """Get all classes from classes table"""
     return await class_service.get_all_classes()
-
-
 
 
 @router.get("/me/teacher", response_model=List[ClassResponse])
@@ -42,6 +49,7 @@ async def get_my_student_classes(
     user_id = UUID(current_user.get("sub"))
     return await class_service.get_student_classes(user_id)
 
+
 @router.post("", response_model=ClassResponse, status_code=status.HTTP_201_CREATED)
 async def create_class(
     payload: CreateClassRequest,
@@ -58,3 +66,84 @@ async def create_class(
         organization_id=str(payload.organization_id) if payload.organization_id else None,
     )
     return created
+
+
+@router.get("/{class_id}", response_model=ClassDetailResponse)
+async def get_class_detail(
+    class_id: UUID,
+    current_user=Depends(get_current_user),
+    class_service=Depends(get_class_service),
+):
+    """Get class details by class_id"""
+    user_id = UUID(current_user.get("sub"))
+    return await class_service.get_class_detail(user_id=user_id, class_id=class_id)
+
+
+@router.get("/{class_id}/homework", response_model=List[ClassHomeworkResponse])
+async def get_class_homework(
+    class_id: UUID,
+    current_user=Depends(get_current_user),
+    class_service=Depends(get_class_service),
+):
+    """Get homework under a class"""
+    user_id = UUID(current_user.get("sub"))
+    return await class_service.get_class_homework(user_id=user_id, class_id=class_id)
+
+
+@router.post("/{class_id}/homework", response_model=ClassHomeworkResponse, status_code=status.HTTP_201_CREATED)
+async def create_class_homework(
+    class_id: UUID,
+    payload: CreateClassHomeworkRequest,
+    current_user=Depends(get_current_user),
+    class_service=Depends(get_class_service),
+):
+    """Create homework under a class"""
+    user_id = UUID(current_user.get("sub"))
+    return await class_service.create_class_homework(
+        user_id=user_id,
+        class_id=class_id,
+        title=payload.title,
+        subject=payload.subject,
+        due_date=payload.due_date,
+        full_score=payload.full_score,
+    )
+
+
+@router.get("/{class_id}/students", response_model=List[ClassStudentResponse])
+async def get_class_students(
+    class_id: UUID,
+    current_user=Depends(get_current_user),
+    class_service=Depends(get_class_service),
+):
+    """Get students under a class"""
+    user_id = UUID(current_user.get("sub"))
+    return await class_service.get_class_students(user_id=user_id, class_id=class_id)
+
+
+@router.post("/{class_id}/students", response_model=ClassStudentResponse, status_code=status.HTTP_201_CREATED)
+async def add_class_student(
+    class_id: UUID,
+    payload: AddClassStudentRequest,
+    current_user=Depends(get_current_user),
+    class_service=Depends(get_class_service),
+):
+    """Enroll a student into a class"""
+    user_id = UUID(current_user.get("sub"))
+    return await class_service.add_class_student(
+        user_id=user_id,
+        class_id=class_id,
+        student_id=payload.student_id,
+        username=payload.username,
+        full_name=payload.full_name,
+    )
+
+
+@router.get("/{class_id}/teachers", response_model=List[ClassTeacherResponse])
+async def get_class_teachers(
+    class_id: UUID,
+    current_user=Depends(get_current_user),
+    class_service=Depends(get_class_service),
+):
+    """Get teachers under a class"""
+    user_id = UUID(current_user.get("sub"))
+    return await class_service.get_class_teachers(user_id=user_id, class_id=class_id)
