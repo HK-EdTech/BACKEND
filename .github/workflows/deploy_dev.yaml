@@ -23,7 +23,7 @@ jobs:
     - name: Write SSH deploy key to Github runner's filesystem
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/deploy_key
+        echo "${{ secret.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/deploy_key
         chmod 600 ~/.ssh/deploy_key
 
     - name: Set up Terraform
