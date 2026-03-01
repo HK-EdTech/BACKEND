@@ -74,10 +74,15 @@ resource "aws_security_group" "app" {
   }
 }
 
+resource "aws_key_pair" "app" {
+  key_name   = "${var.environment}-deploy-key"
+  public_key = var.ssh_public_key
+}
+
 resource "aws_instance" "app" {
   ami                                  = data.aws_ami.ubuntu.id
   instance_type                        = var.instance_type
-  key_name                             = var.key_pair_name
+  key_name                             = aws_key_pair.app.key_name
   vpc_security_group_ids               = [aws_security_group.app.id]
   instance_initiated_shutdown_behavior = "terminate"
 

@@ -208,6 +208,7 @@ __marimo__/
 
 # ignoring .pem for dev01 private key
 dev01.pem
+id_ed25519
 
 # ignoring API keys directory
 src/*/api_keys/*.json

@@ -16,10 +16,9 @@ variable "instance_type" {
   default     = "t3.micro"
 }
 
-variable "key_pair_name" {
-  description = "Name of the existing AWS key pair to attach to the instance"
+variable "ssh_public_key" {
+  description = "SSH public key content to register as an AWS key pair at deploy time"
   type        = string
-  default     = "dev01"
 }
 
 variable "ssh_private_key_path" {
