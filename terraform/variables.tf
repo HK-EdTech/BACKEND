@@ -38,5 +38,5 @@ variable "root_volume_size" {
 variable "ttl_hours" {
   description = "Hours until the instance automatically terminates"
   type        = number
-  default     = 6
+  default     = 1
 }
