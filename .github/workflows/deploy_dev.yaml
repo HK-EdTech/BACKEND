@@ -64,11 +64,11 @@ jobs:
       run: |
         HOST=${{ steps.tf_output.outputs.host }}
         for i in $(seq 1 20); do
-          if ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=5 ubuntu@${HOST} "docker info" 2>/dev/null; then
+          if ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=5 ubuntu@${HOST} "sudo docker info" 2>/dev/null; then
             echo "Docker is ready"
             exit 0
           fi
-          echo "Attempt $i/20 - waiting for Docker..."
+          echo "Attempt $i/20 - $i min(s) has passed - waiting for Docker..."
           sleep 60
         done
         echo "Docker did not become ready in time"
