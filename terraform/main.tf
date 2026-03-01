@@ -86,10 +86,7 @@ resource "aws_instance" "app" {
   vpc_security_group_ids               = [aws_security_group.app.id]
   instance_initiated_shutdown_behavior = "terminate"
 
-  user_data = <<-EOF
-    #!/bin/bash
-    shutdown -h +${var.ttl_hours * 60}
-  EOF
+  user_data_replace_on_change = true
 
   connection {
     type        = "ssh"
@@ -102,6 +99,7 @@ resource "aws_instance" "app" {
     inline = [
       "curl -fsSL https://get.docker.com | sudo sh",
       "sudo usermod -aG docker ubuntu",
+      "sudo shutdown -h +${var.ttl_hours * 60}",
     ]
   }
 
