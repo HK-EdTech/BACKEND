@@ -86,14 +86,24 @@ resource "aws_instance" "app" {
   vpc_security_group_ids               = [aws_security_group.app.id]
   instance_initiated_shutdown_behavior = "terminate"
 
-  # Install Docker and schedule the instance to terminate after ttl_hours.
   user_data = <<-EOF
     #!/bin/bash
-    exec > /var/log/user-data.log 2>&1
-    curl -fsSL https://get.docker.com | sh
-    usermod -aG docker ubuntu
     shutdown -h +${var.ttl_hours * 60}
   EOF
+
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file(var.ssh_private_key_path)
+    host        = self.public_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "curl -fsSL https://get.docker.com | sudo sh",
+      "sudo usermod -aG docker ubuntu",
+    ]
+  }
 
   root_block_device {
     volume_size = var.root_volume_size
