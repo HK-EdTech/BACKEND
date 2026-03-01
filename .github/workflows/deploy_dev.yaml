@@ -69,7 +69,7 @@ jobs:
             exit 0
           fi
           echo "Attempt $i/20 - waiting for Docker..."
-          sleep 15
+          sleep 60
         done
         echo "Docker did not become ready in time"
         exit 1
