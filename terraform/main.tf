@@ -97,7 +97,8 @@ resource "aws_instance" "app" {
 
   provisioner "remote-exec" {
     inline = [
-      "curl -fsSL https://get.docker.com | sudo sh",
+      "sudo apt-get update -y",
+      "sudo apt-get install -y docker.io",
       "sudo usermod -aG docker ubuntu",
       "sudo shutdown -h +${var.ttl_hours * 60}",
     ]
