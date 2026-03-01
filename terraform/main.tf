@@ -87,18 +87,10 @@ resource "aws_instance" "app" {
   instance_initiated_shutdown_behavior = "terminate"
 
   # Install Docker and schedule the instance to terminate after ttl_hours.
-  # Note: $$ escapes shell $ signs inside Terraform heredocs.
   user_data = <<-EOF
     #!/bin/bash
     exec > /var/log/user-data.log 2>&1
-    apt-get update -y
-    apt-get install -y ca-certificates curl gnupg
-    install -m 0755 -d /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    chmod a+r /etc/apt/keyrings/docker.gpg
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-    apt-get update -y
-    apt-get install -y docker-ce docker-ce-cli containerd.io
+    curl -fsSL https://get.docker.com | sh
     usermod -aG docker ubuntu
     shutdown -h +${var.ttl_hours * 60}
   EOF
