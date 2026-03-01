@@ -106,7 +106,7 @@ jobs:
            docker run -d \
              --name fastapi \
              --restart unless-stopped \
-             -p 127.0.0.1:8000:8000 \
+             -p 80:8000 \
              -e DEBUG_TOKEN='${DEBUG_TOKEN}' \
              -e SUPABASE_URL='${SUPABASE_URL}' \
              -e DATABASE_URL='postgresql://postgres.${DB_PROJECT_REF}:${DB_PASSWORD}@aws-1-ap-northeast-1.pooler.supabase.com:5432/postgres' \
