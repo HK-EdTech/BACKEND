@@ -1,6 +1,6 @@
 output "public_ip" {
-  description = "Public IP of the EC2 instance (used by GitHub Actions and SSH)"
-  value       = aws_instance.app.public_ip
+  description = "Elastic IP (stable across deploys)"
+  value       = aws_eip.app.public_ip
 }
 
 output "public_dns" {
