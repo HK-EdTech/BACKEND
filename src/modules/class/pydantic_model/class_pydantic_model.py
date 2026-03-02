@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -89,9 +89,23 @@ class ClassStudentResponse(BaseModel):
 class AddClassStudentRequest(BaseModel):
     """Payload to enroll an existing student into a classroom"""
 
+    student_ids: Optional[List[UUID]] = None
     student_id: Optional[UUID] = None
     username: Optional[str] = Field(None, max_length=120)
     full_name: Optional[str] = Field(None, max_length=240)
+
+
+class ClassCandidateStudentResponse(BaseModel):
+    """Student candidates from teacher's organization for class enrollment"""
+
+    id: UUID
+    full_name: str
+    username: str
+    avatar_url: Optional[str] = None
+    class_level: Optional[str] = None
+
+    class Config:
+        from_attributes = True
 
 
 class ClassTeacherResponse(BaseModel):

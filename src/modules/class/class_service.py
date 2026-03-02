@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Any, Dict, List, Optional
 from uuid import UUID
 
 from fastapi import HTTPException, status
@@ -80,6 +80,45 @@ class ClassService:
             )
 
         return class_record
+
+    async def _get_teacher_organization_id(self, user_id: UUID, class_record=None) -> str:
+        profile = await self.db.profiles.find_unique(where={"id": str(user_id)})
+
+        organization_id = profile.organization_id if profile else None
+        if not organization_id and class_record:
+            organization_id = class_record.organization_id
+
+        if not organization_id:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Teacher account is not linked to an organization",
+            )
+
+        return organization_id
+
+    @staticmethod
+    def _dedupe_ids(values: List[str]) -> List[str]:
+        seen = set()
+        result = []
+        for value in values:
+            if value in seen:
+                continue
+            seen.add(value)
+            result.append(value)
+        return result
+
+    @staticmethod
+    def _to_class_student_response(student_profile, enrollment):
+        profile = student_profile.profile
+        return {
+            "id": profile.id,
+            "full_name": ClassService._display_name(profile),
+            "username": profile.username,
+            "avatar_url": profile.avatar_url,
+            "class_level": student_profile.level,
+            "status": "active",
+            "enrolled_at": enrollment.enrollment_date,
+        }
 
     async def get_all_classes(self):
         """Get all classes from public.classes"""
@@ -308,15 +347,48 @@ class ClassService:
             if not profile:
                 continue
 
-            result.append({
-                "id": profile.id,
-                "full_name": self._display_name(profile),
-                "username": profile.username,
-                "avatar_url": profile.avatar_url,
-                "class_level": student_profile.level if student_profile else None,
-                "status": "active",
-                "enrolled_at": enrollment.enrollment_date,
-            })
+            result.append(
+                self._to_class_student_response(student_profile, enrollment)
+            )
+
+        return result
+
+    async def get_class_student_candidates(self, user_id: UUID, class_id: UUID):
+        """
+        List all student profiles in teacher's organization that are not yet
+        enrolled in the target class.
+        """
+        class_record = await self._ensure_teacher_owns_class(user_id, class_id)
+        teacher_org_id = await self._get_teacher_organization_id(user_id, class_record)
+
+        enrollments = await self.db.enrollments.find_many(
+            where={"class_id": str(class_id)}
+        )
+        enrolled_student_ids = {enrollment.student_id for enrollment in enrollments}
+
+        profiles = await self.db.profiles.find_many(
+            where={"organization_id": teacher_org_id},
+            include={"student_profile": True},
+            order={"full_name": "asc"},
+        )
+
+        result = []
+        for profile in profiles:
+            student_profile = profile.student_profile
+            if not student_profile:
+                continue
+            if profile.id in enrolled_student_ids:
+                continue
+
+            result.append(
+                {
+                    "id": profile.id,
+                    "full_name": self._display_name(profile),
+                    "username": profile.username,
+                    "avatar_url": profile.avatar_url,
+                    "class_level": student_profile.level,
+                }
+            )
 
         return result
 
@@ -324,84 +396,140 @@ class ClassService:
         self,
         user_id: UUID,
         class_id: UUID,
+        student_ids: Optional[List[UUID]] = None,
         student_id: Optional[UUID] = None,
         username: Optional[str] = None,
         full_name: Optional[str] = None,
     ):
-        """Enroll an existing student profile into class"""
-        await self._ensure_teacher_owns_class(user_id, class_id)
+        """
+        Enroll one or many existing student profiles into class.
 
-        if not student_id and not username and not full_name:
+        Supports:
+        - bulk mode via student_ids
+        - legacy single mode via student_id / username / full_name
+        """
+        class_record = await self._ensure_teacher_owns_class(user_id, class_id)
+        teacher_org_id = await self._get_teacher_organization_id(user_id, class_record)
+
+        candidate_ids: List[str] = []
+
+        if student_ids:
+            candidate_ids = [str(value) for value in student_ids]
+        elif student_id or username or full_name:
+            resolved_student_profile = None
+
+            if student_id:
+                resolved_student_profile = await self.db.student_profiles.find_unique(
+                    where={"id": str(student_id)},
+                    include={"profile": True},
+                )
+
+            if not resolved_student_profile and username:
+                profile = await self.db.profiles.find_unique(
+                    where={"username": username.strip()},
+                )
+                if profile:
+                    resolved_student_profile = await self.db.student_profiles.find_unique(
+                        where={"id": profile.id},
+                        include={"profile": True},
+                    )
+
+            if not resolved_student_profile and full_name:
+                profile = await self.db.profiles.find_first(
+                    where={"full_name": full_name.strip()},
+                )
+                if profile:
+                    resolved_student_profile = await self.db.student_profiles.find_unique(
+                        where={"id": profile.id},
+                        include={"profile": True},
+                    )
+
+            if not resolved_student_profile or not resolved_student_profile.profile:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Student profile not found",
+                )
+
+            candidate_ids = [resolved_student_profile.id]
+        else:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Provide student_id, username, or full_name",
+                detail="Provide student_ids, or one of student_id/username/full_name",
             )
 
-        student_profile = None
-
-        if student_id:
-            student_profile = await self.db.student_profiles.find_unique(
-                where={"id": str(student_id)},
-                include={"profile": True},
+        deduped_candidate_ids = self._dedupe_ids(candidate_ids)
+        if len(deduped_candidate_ids) == 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="No student selected for enrollment",
             )
 
-        if not student_profile and username:
-            profile = await self.db.profiles.find_unique(
-                where={"username": username.strip()},
-            )
-            if profile:
-                student_profile = await self.db.student_profiles.find_unique(
-                    where={"id": profile.id},
-                    include={"profile": True},
-                )
+        student_profiles = await self.db.student_profiles.find_many(
+            where={"id": {"in": deduped_candidate_ids}},
+            include={"profile": True},
+        )
 
-        if not student_profile and full_name:
-            profile = await self.db.profiles.find_first(
-                where={"full_name": full_name.strip()},
-            )
-            if profile:
-                student_profile = await self.db.student_profiles.find_unique(
-                    where={"id": profile.id},
-                    include={"profile": True},
-                )
+        student_profile_by_id: Dict[str, Any] = {
+            student_profile.id: student_profile
+            for student_profile in student_profiles
+            if student_profile.profile
+        }
 
-        if not student_profile or not student_profile.profile:
+        missing_ids = [value for value in deduped_candidate_ids if value not in student_profile_by_id]
+        if missing_ids:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="Student profile not found",
+                detail="One or more student profiles were not found",
             )
 
-        existing = await self.db.enrollments.find_first(
+        for value in deduped_candidate_ids:
+            profile = student_profile_by_id[value].profile
+            if profile.organization_id != teacher_org_id:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Selected students must belong to your organization",
+                )
+
+        existing_enrollments = await self.db.enrollments.find_many(
             where={
                 "class_id": str(class_id),
-                "student_id": student_profile.id,
+                "student_id": {"in": deduped_candidate_ids},
             }
         )
+        existing_student_ids = {enrollment.student_id for enrollment in existing_enrollments}
 
-        if existing:
+        ids_to_enroll = [value for value in deduped_candidate_ids if value not in existing_student_ids]
+        if len(ids_to_enroll) == 0:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
-                detail="Student is already enrolled in this class",
+                detail="All selected students are already enrolled in this class",
             )
 
-        enrollment = await self.db.enrollments.create(
-            data={
-                "class_id": str(class_id),
-                "student_id": student_profile.id,
-            }
-        )
+        created_enrollments = []
+        for value in ids_to_enroll:
+            created_enrollments.append(
+                await self.db.enrollments.create(
+                    data={
+                        "class_id": str(class_id),
+                        "student_id": value,
+                    }
+                )
+            )
 
-        profile = student_profile.profile
-
-        return {
-            "id": profile.id,
-            "full_name": self._display_name(profile),
-            "username": profile.username,
-            "avatar_url": profile.avatar_url,
-            "class_level": student_profile.level,
-            "status": "active",
-            "enrolled_at": enrollment.enrollment_date,
+        enrollment_by_student_id = {
+            enrollment.student_id: enrollment for enrollment in created_enrollments
         }
+
+        result = []
+        for value in ids_to_enroll:
+            result.append(
+                self._to_class_student_response(
+                    student_profile_by_id[value],
+                    enrollment_by_student_id[value],
+                )
+            )
+
+        return result
 
     async def get_class_teachers(self, user_id: UUID, class_id: UUID):
         """Get teachers associated with class (current schema has single teacher)"""

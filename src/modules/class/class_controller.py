@@ -8,6 +8,7 @@ from ...deps import get_current_user
 from .class_service import ClassService
 from .pydantic_model.class_pydantic_model import (
     AddClassStudentRequest,
+    ClassCandidateStudentResponse,
     ClassDetailResponse,
     ClassHomeworkResponse,
     ClassResponse,
@@ -120,7 +121,18 @@ async def get_class_students(
     return await class_service.get_class_students(user_id=user_id, class_id=class_id)
 
 
-@router.post("/{class_id}/students", response_model=ClassStudentResponse, status_code=status.HTTP_201_CREATED)
+@router.get("/{class_id}/students/candidates", response_model=List[ClassCandidateStudentResponse])
+async def get_class_student_candidates(
+    class_id: UUID,
+    current_user=Depends(get_current_user),
+    class_service=Depends(get_class_service),
+):
+    """Get candidate students from teacher organization (excluding enrolled)"""
+    user_id = UUID(current_user.get("sub"))
+    return await class_service.get_class_student_candidates(user_id=user_id, class_id=class_id)
+
+
+@router.post("/{class_id}/students", response_model=List[ClassStudentResponse], status_code=status.HTTP_201_CREATED)
 async def add_class_student(
     class_id: UUID,
     payload: AddClassStudentRequest,
@@ -132,6 +144,7 @@ async def add_class_student(
     return await class_service.add_class_student(
         user_id=user_id,
         class_id=class_id,
+        student_ids=payload.student_ids,
         student_id=payload.student_id,
         username=payload.username,
         full_name=payload.full_name,
