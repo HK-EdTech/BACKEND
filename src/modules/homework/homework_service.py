@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from uuid import UUID
 
 from fastapi import HTTPException, status
@@ -51,6 +51,41 @@ class HomeworkService:
                 )
 
         return class_id_values
+
+    async def _get_homework_or_404_for_teacher(self, user_id: UUID, homework_id: UUID):
+        homework = await self.db.homework.find_first(
+            where={
+                "id": str(homework_id),
+                "teacher_id": str(user_id),
+            },
+        )
+
+        if not homework:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Homework not found",
+            )
+
+        return homework
+
+    async def _replace_homework_classes(
+        self,
+        homework_id: str,
+        user_id: UUID,
+        class_ids: List[str],
+    ):
+        await self.db.homework_classes.delete_many(
+            where={"homework_id": homework_id}
+        )
+
+        for class_id in class_ids:
+            await self.db.homework_classes.create(
+                data={
+                    "homework_id": homework_id,
+                    "class_id": class_id,
+                    "assign_by": str(user_id),
+                }
+            )
 
     async def _get_homework_with_relations(self, homework_id: str):
         return await self.db.homework.find_unique(
@@ -143,10 +178,10 @@ class HomeworkService:
         self,
         user_id: UUID,
         title: str,
-        subject: str | None = None,
+        subject: Optional[str] = None,
         due_date=None,
-        full_score: float | None = None,
-        class_ids: List[UUID] | None = None,
+        full_score: Optional[float] = None,
+        class_ids: Optional[List[UUID]] = None,
     ) -> dict:
         """Create homework and assignment rows in homework_classes"""
         await self._ensure_teacher_profile(user_id)
@@ -167,14 +202,7 @@ class HomeworkService:
             }
         )
 
-        for class_id in validated_class_ids:
-            await self.db.homework_classes.create(
-                data={
-                    "homework_id": created.id,
-                    "class_id": class_id,
-                    "assign_by": str(user_id),
-                }
-            )
+        await self._replace_homework_classes(created.id, user_id, validated_class_ids)
 
         created_with_relations = await self._get_homework_with_relations(created.id)
         return self._to_teacher_homework_response(created_with_relations)
@@ -187,38 +215,20 @@ class HomeworkService:
     ) -> dict:
         """Re-assign homework to class list via homework_classes"""
         await self._ensure_teacher_profile(user_id)
-
-        homework = await self.db.homework.find_first(
-            where={
-                "id": str(homework_id),
-                "teacher_id": str(user_id),
-            },
-        )
-
-        if not homework:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Homework not found",
-            )
+        await self._get_homework_or_404_for_teacher(user_id, homework_id)
 
         validated_class_ids = await self._validate_owned_classes(user_id, class_ids or [])
-
-        await self.db.homework_classes.delete_many(
-            where={"homework_id": str(homework_id)}
-        )
-
-        for class_id in validated_class_ids:
-            await self.db.homework_classes.create(
-                data={
-                    "homework_id": str(homework_id),
-                    "class_id": class_id,
-                    "assign_by": str(user_id),
-                }
+        if not validated_class_ids:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Please select at least one class",
             )
+
+        await self._replace_homework_classes(str(homework_id), user_id, validated_class_ids)
 
         await self.db.homework.update(
             where={"id": str(homework_id)},
-            data={"class_id": validated_class_ids[0] if validated_class_ids else None},
+            data={"class_id": validated_class_ids[0]},
         )
 
         updated_with_relations = await self._get_homework_with_relations(str(homework_id))
