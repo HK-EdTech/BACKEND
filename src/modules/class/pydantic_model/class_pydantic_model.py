@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, RootModel
 
 
 class ClassResponse(BaseModel):
@@ -119,3 +119,34 @@ class ClassTeacherResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class ClassManagementHomeworkItem(BaseModel):
+    """Homework item in class management grouped response"""
+
+    id: UUID
+    title: Optional[str] = None
+    due_date: Optional[datetime] = None
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class ClassManagementSubject(BaseModel):
+    """Subject under a class name grouping"""
+
+    id: UUID
+    subjectName: str
+    homework: List[ClassManagementHomeworkItem]
+
+
+class ClassManagementGroup(BaseModel):
+    """Group of subjects for a class name"""
+
+    className: str
+    subjects: List[ClassManagementSubject]
+
+
+class ClassManagementResponse(RootModel[List[ClassManagementGroup]]):
+    """Response model for teacher class management view"""

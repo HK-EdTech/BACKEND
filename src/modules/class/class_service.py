@@ -141,6 +141,90 @@ class ClassService:
             order={"created_at": "desc"},
         )
 
+    async def get_class_management(self, user_id: UUID):
+        """Get grouped class management data for authenticated teacher"""
+        teacher_profile = await self.db.teacher_profiles.find_unique(
+            where={"id": str(user_id)}
+        )
+
+        if not teacher_profile:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Only teacher accounts can access class management data",
+            )
+
+        classes = await self.db.classes.find_many(
+            where={"teacher_id": str(user_id)},
+            include={
+                "homework_classes": {
+                    "include": {
+                        "homework": True,
+                    }
+                }
+            },
+        )
+
+        sorted_classes = sorted(
+            classes,
+            key=lambda item: ((item.name or "").lower(), (item.subject or "").lower()),
+        )
+
+        groups_by_name: Dict[str, Dict[str, object]] = {}
+
+        for class_record in sorted_classes:
+            group = groups_by_name.setdefault(
+                class_record.name,
+                {
+                    "className": class_record.name,
+                    "subjects": [],
+                },
+            )
+
+            assignments = class_record.homework_classes or []
+            seen_homework_ids = set()
+            homework_items = []
+
+            for assignment in assignments:
+                homework = assignment.homework
+                if not homework:
+                    continue
+                if homework.id in seen_homework_ids:
+                    continue
+
+                seen_homework_ids.add(homework.id)
+                homework_items.append(
+                    {
+                        "id": homework.id,
+                        "title": homework.title,
+                        "due_date": homework.due_date,
+                        "created_at": homework.created_at,
+                    }
+                )
+
+            homework_items.sort(
+                key=lambda item: item.get("created_at"),
+                reverse=True,
+            )
+
+            group["subjects"].append(
+                {
+                    "id": class_record.id,
+                    "subjectName": class_record.subject,
+                    "homework": homework_items,
+                }
+            )
+
+        groups_list = list(groups_by_name.values())
+
+        for group in groups_list:
+            group["subjects"].sort(
+                key=lambda item: (item.get("subjectName") or "").lower(),
+            )
+
+        groups_list.sort(key=lambda item: (item.get("className") or "").lower())
+
+        return groups_list
+
     async def get_student_classes(self, user_id: UUID):
         """Get all classes enrolled by the authenticated student"""
         student_profile = await self.db.student_profiles.find_unique(

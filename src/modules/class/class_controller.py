@@ -11,6 +11,7 @@ from .pydantic_model.class_pydantic_model import (
     ClassCandidateStudentResponse,
     ClassDetailResponse,
     ClassHomeworkResponse,
+    ClassManagementResponse,
     ClassResponse,
     ClassStudentResponse,
     ClassTeacherResponse,
@@ -39,6 +40,16 @@ async def get_my_teacher_classes(
     """Get classes taught by authenticated teacher"""
     user_id = UUID(current_user.get("sub"))
     return await class_service.get_teacher_classes(user_id)
+
+
+@router.get("/me/teacher/management", response_model=ClassManagementResponse)
+async def get_my_teacher_class_management(
+    current_user=Depends(get_current_user),
+    class_service=Depends(get_class_service),
+):
+    """Get grouped class management data for authenticated teacher"""
+    user_id = UUID(current_user.get("sub"))
+    return await class_service.get_class_management(user_id)
 
 
 @router.get("/me/student", response_model=List[ClassResponse])
