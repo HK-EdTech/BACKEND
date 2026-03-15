@@ -11,6 +11,7 @@ from .pydantic_model.class_pydantic_model import (
     ClassCandidateStudentResponse,
     ClassDetailResponse,
     ClassHomeworkResponse,
+    ClassHomeworkSubmissionResponse,
     ClassManagementResponse,
     ClassResponse,
     ClassStudentResponse,
@@ -100,6 +101,22 @@ async def get_class_homework(
     """Get homework under a class"""
     user_id = UUID(current_user.get("sub"))
     return await class_service.get_class_homework(user_id=user_id, class_id=class_id)
+
+
+@router.get("/{class_id}/homework/{homework_id}/submissions", response_model=List[ClassHomeworkSubmissionResponse])
+async def get_class_homework_submissions(
+    class_id: UUID,
+    homework_id: UUID,
+    current_user=Depends(get_current_user),
+    class_service=Depends(get_class_service),
+):
+    """Get homework submissions under a class (teacher only)"""
+    user_id = UUID(current_user.get("sub"))
+    return await class_service.get_class_homework_submissions(
+        user_id=user_id,
+        class_id=class_id,
+        homework_id=homework_id,
+    )
 
 
 @router.post("/{class_id}/homework", response_model=ClassHomeworkResponse, status_code=status.HTTP_201_CREATED)

@@ -122,11 +122,6 @@ class HomeworkService:
             seen.add(class_record.id)
             class_links.append(class_record)
 
-        # Backward compatibility for rows that only have homework.class_id
-        if not class_links and item.classes:
-            class_links.append(item.classes)
-            seen.add(item.classes.id)
-
         assigned_students = 0
         for class_record in class_links:
             assigned_students += len(class_record.enrollments or [])
@@ -189,14 +184,11 @@ class HomeworkService:
         class_ids = class_ids or []
         validated_class_ids = await self._validate_owned_classes(user_id, class_ids)
 
-        first_class_id = validated_class_ids[0] if validated_class_ids else None
-
         created = await self.db.homework.create(
             data={
                 "title": title.strip(),
                 "subject": subject.strip() if subject else None,
                 "teacher_id": str(user_id),
-                "class_id": first_class_id,
                 "due_date": due_date,
                 "full_score": full_score,
             }
@@ -228,7 +220,7 @@ class HomeworkService:
 
         await self.db.homework.update(
             where={"id": str(homework_id)},
-            data={"class_id": validated_class_ids[0]},
+            data={"class_id": None},
         )
 
         updated_with_relations = await self._get_homework_with_relations(str(homework_id))

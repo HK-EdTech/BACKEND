@@ -364,6 +364,82 @@ class ClassService:
 
         return result
 
+    async def get_class_homework_submissions(
+        self,
+        user_id: UUID,
+        class_id: UUID,
+        homework_id: UUID,
+    ):
+        """Get enrolled students with homework submission status for a class homework"""
+        await self._ensure_teacher_owns_class(user_id, class_id)
+
+        assignment = await self.db.homework_classes.find_first(
+            where={
+                "class_id": str(class_id),
+                "homework_id": str(homework_id),
+            }
+        )
+
+        if not assignment:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Homework not assigned to this class",
+            )
+
+        enrollments = await self.db.enrollments.find_many(
+            where={"class_id": str(class_id)},
+            include={
+                "student_profile": {
+                    "include": {
+                        "profile": True,
+                    }
+                }
+            },
+            order={"enrollment_date": "desc"},
+        )
+
+        if not enrollments:
+            return []
+
+        student_ids = [
+            enrollment.student_id
+            for enrollment in enrollments
+            if enrollment.student_profile and enrollment.student_profile.profile
+        ]
+
+        submissions = await self.db.homework_submission.find_many(
+            where={
+                "homework_id": str(homework_id),
+                "student_id": {"in": student_ids},
+            }
+        )
+
+        submission_map = {
+            submission.student_id: submission
+            for submission in submissions
+        }
+
+        result = []
+        for enrollment in enrollments:
+            student_profile = enrollment.student_profile
+            profile = student_profile.profile if student_profile else None
+            if not profile:
+                continue
+
+            submission = submission_map.get(enrollment.student_id)
+            result.append(
+                {
+                    "student_id": profile.id,
+                    "full_name": self._display_name(profile),
+                    "score": submission.score if submission else None,
+                    "submission_datetime": submission.submission_datetime if submission else None,
+                    "is_marked": getattr(submission, "isMarked", None) if submission else None,
+                    "has_submission": bool(submission),
+                }
+            )
+
+        return result
+
     async def create_class_homework(
         self,
         user_id: UUID,
@@ -380,7 +456,6 @@ class ClassService:
             data={
                 "title": title.strip(),
                 "subject": (subject.strip() if subject else class_record.subject),
-                "class_id": str(class_id),
                 "teacher_id": str(user_id),
                 "due_date": due_date,
                 "full_score": full_score,

@@ -62,6 +62,20 @@ class ClassHomeworkResponse(BaseModel):
         from_attributes = True
 
 
+class ClassHomeworkSubmissionResponse(BaseModel):
+    """Submission row for a homework under a class"""
+
+    student_id: UUID
+    full_name: str
+    score: Optional[float] = None
+    submission_datetime: Optional[datetime] = None
+    is_marked: Optional[bool] = None
+    has_submission: bool
+
+    class Config:
+        from_attributes = True
+
+
 class CreateClassHomeworkRequest(BaseModel):
     """Payload to create homework for a classroom"""
 
