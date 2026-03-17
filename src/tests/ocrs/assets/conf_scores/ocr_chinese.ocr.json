@@ -4,10 +4,10 @@
     {
       "width": 634,
       "height": 753,
-      "confidence": 0.9349597692489624,
+      "confidence": 0.9303650856018066,
       "blocks": [
         {
-          "confidence": 0.8132326006889343,
+          "confidence": 0.8140661716461182,
           "bounding_box": [
             [
               5,
@@ -29,46 +29,46 @@
           "paragraphs": [
             {
               "text": "©Imgur",
-              "confidence": 0.8132326006889343,
+              "confidence": 0.8140661716461182,
               "words": [
                 {
                   "text": "©",
-                  "confidence": 0.2645721733570099,
+                  "confidence": 0.26235947012901306,
                   "symbols": [
                     {
                       "text": "©",
-                      "confidence": 0.2645721733570099,
+                      "confidence": 0.26235947012901306,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "Imgur",
-                  "confidence": 0.9229646921157837,
+                  "confidence": 0.9244074821472168,
                   "symbols": [
                     {
                       "text": "I",
-                      "confidence": 0.6892970204353333,
+                      "confidence": 0.69541996717453,
                       "is_break": true
                     },
                     {
                       "text": "m",
-                      "confidence": 0.9734514951705933,
+                      "confidence": 0.974284827709198,
                       "is_break": true
                     },
                     {
                       "text": "g",
-                      "confidence": 0.9817354679107666,
+                      "confidence": 0.9838321805000305,
                       "is_break": true
                     },
                     {
                       "text": "u",
-                      "confidence": 0.9854435324668884,
+                      "confidence": 0.9845001101493835,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.9848959445953369,
+                      "confidence": 0.9840004444122314,
                       "is_break": true
                     }
                   ]
@@ -78,18 +78,18 @@
           ]
         },
         {
-          "confidence": 0.9010496735572815,
+          "confidence": 0.8898366689682007,
           "bounding_box": [
             [
               83,
               12
             ],
             [
-              557,
+              556,
               14
             ],
             [
-              557,
+              556,
               40
             ],
             [
@@ -100,233 +100,233 @@
           "paragraphs": [
             {
               "text": "usevideo,horizonreadings+extrainfo.",
-              "confidence": 0.9010496735572815,
+              "confidence": 0.8898366689682007,
               "words": [
                 {
                   "text": "use",
-                  "confidence": 0.958808183670044,
+                  "confidence": 0.9569494128227234,
                   "symbols": [
                     {
                       "text": "u",
-                      "confidence": 0.9174391627311707,
+                      "confidence": 0.9217574000358582,
                       "is_break": true
                     },
                     {
                       "text": "s",
-                      "confidence": 0.9758009910583496,
+                      "confidence": 0.97374027967453,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9831844568252563,
+                      "confidence": 0.9753506183624268,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "video",
-                  "confidence": 0.9787871837615967,
+                  "confidence": 0.9807993173599243,
                   "symbols": [
                     {
                       "text": "v",
-                      "confidence": 0.9450979232788086,
+                      "confidence": 0.9545456171035767,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.9838434457778931,
+                      "confidence": 0.9827849864959717,
                       "is_break": true
                     },
                     {
                       "text": "d",
-                      "confidence": 0.9905827045440674,
+                      "confidence": 0.9906936883926392,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9905105233192444,
+                      "confidence": 0.9920596480369568,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9839013814926147,
+                      "confidence": 0.9839126467704773,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": ",",
-                  "confidence": 0.9312323331832886,
+                  "confidence": 0.8950387835502625,
                   "symbols": [
                     {
                       "text": ",",
-                      "confidence": 0.9312323331832886,
+                      "confidence": 0.8950387835502625,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "horizon",
-                  "confidence": 0.8224450349807739,
+                  "confidence": 0.8314067721366882,
                   "symbols": [
                     {
                       "text": "h",
-                      "confidence": 0.9295375943183899,
+                      "confidence": 0.9490225911140442,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.8121338486671448,
+                      "confidence": 0.8764422535896301,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.5191438794136047,
+                      "confidence": 0.5321582555770874,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.5591652989387512,
+                      "confidence": 0.5571883916854858,
                       "is_break": true
                     },
                     {
                       "text": "z",
-                      "confidence": 0.9706383347511292,
+                      "confidence": 0.9635604619979858,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9836516976356506,
+                      "confidence": 0.9661092758178711,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9828445315361023,
+                      "confidence": 0.9753662347793579,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "readings",
-                  "confidence": 0.9457563757896423,
+                  "confidence": 0.9258330464363098,
                   "symbols": [
                     {
                       "text": "r",
-                      "confidence": 0.9931648373603821,
+                      "confidence": 0.9930588006973267,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9949954748153687,
+                      "confidence": 0.9954583644866943,
                       "is_break": true
                     },
                     {
                       "text": "a",
-                      "confidence": 0.9852501749992371,
+                      "confidence": 0.9842243790626526,
                       "is_break": true
                     },
                     {
                       "text": "d",
-                      "confidence": 0.9839457869529724,
+                      "confidence": 0.9836286902427673,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.9189928770065308,
+                      "confidence": 0.9260858297348022,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9518031477928162,
+                      "confidence": 0.9637918472290039,
                       "is_break": true
                     },
                     {
                       "text": "g",
-                      "confidence": 0.9483921527862549,
+                      "confidence": 0.9566566944122314,
                       "is_break": true
                     },
                     {
                       "text": "s",
-                      "confidence": 0.7895065546035767,
+                      "confidence": 0.6037595868110657,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "+",
-                  "confidence": 0.47369933128356934,
+                  "confidence": 0.5139473080635071,
                   "symbols": [
                     {
                       "text": "+",
-                      "confidence": 0.47369933128356934,
+                      "confidence": 0.5139473080635071,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "extra",
-                  "confidence": 0.8393217325210571,
+                  "confidence": 0.7803390026092529,
                   "symbols": [
                     {
                       "text": "e",
-                      "confidence": 0.8794998526573181,
+                      "confidence": 0.8498449921607971,
                       "is_break": true
                     },
                     {
                       "text": "x",
-                      "confidence": 0.5970444679260254,
+                      "confidence": 0.5794336199760437,
                       "is_break": true
                     },
                     {
                       "text": "t",
-                      "confidence": 0.8824104070663452,
+                      "confidence": 0.7514693737030029,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.8713878989219666,
+                      "confidence": 0.758979320526123,
                       "is_break": true
                     },
                     {
                       "text": "a",
-                      "confidence": 0.9662660956382751,
+                      "confidence": 0.9619676470756531,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "info",
-                  "confidence": 0.9833098649978638,
+                  "confidence": 0.9817968606948853,
                   "symbols": [
                     {
                       "text": "i",
-                      "confidence": 0.994825541973114,
+                      "confidence": 0.9932541251182556,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9938178658485413,
+                      "confidence": 0.9874635934829712,
                       "is_break": true
                     },
                     {
                       "text": "f",
-                      "confidence": 0.9796350598335266,
+                      "confidence": 0.9803259372711182,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9649611115455627,
+                      "confidence": 0.966143786907196,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": ".",
-                  "confidence": 0.9084325432777405,
+                  "confidence": 0.905057966709137,
                   "symbols": [
                     {
                       "text": ".",
-                      "confidence": 0.9084325432777405,
+                      "confidence": 0.905057966709137,
                       "is_break": true
                     }
                   ]
@@ -336,72 +336,72 @@
           ]
         },
         {
-          "confidence": 0.9880576133728027,
+          "confidence": 0.9888220429420471,
           "bounding_box": [
             [
               257,
               71
             ],
             [
-              362,
+              363,
               72
             ],
             [
-              362,
-              86
+              363,
+              85
             ],
             [
               257,
-              85
+              84
             ]
           ],
           "paragraphs": [
             {
               "text": "HOMEWORK",
-              "confidence": 0.9880576133728027,
+              "confidence": 0.9888220429420471,
               "words": [
                 {
                   "text": "HOMEWORK",
-                  "confidence": 0.9880576133728027,
+                  "confidence": 0.9888220429420471,
                   "symbols": [
                     {
                       "text": "H",
-                      "confidence": 0.9851195812225342,
+                      "confidence": 0.9833771586418152,
                       "is_break": true
                     },
                     {
                       "text": "O",
-                      "confidence": 0.9857819080352783,
+                      "confidence": 0.9810184240341187,
                       "is_break": true
                     },
                     {
                       "text": "M",
-                      "confidence": 0.9926182627677917,
+                      "confidence": 0.9932504892349243,
                       "is_break": true
                     },
                     {
                       "text": "E",
-                      "confidence": 0.983249843120575,
+                      "confidence": 0.9909501075744629,
                       "is_break": true
                     },
                     {
                       "text": "W",
-                      "confidence": 0.991100013256073,
+                      "confidence": 0.9867185950279236,
                       "is_break": true
                     },
                     {
                       "text": "O",
-                      "confidence": 0.9938976764678955,
+                      "confidence": 0.9918847680091858,
                       "is_break": true
                     },
                     {
                       "text": "R",
-                      "confidence": 0.9922162294387817,
+                      "confidence": 0.9937018156051636,
                       "is_break": true
                     },
                     {
                       "text": "K",
-                      "confidence": 0.9804775714874268,
+                      "confidence": 0.989674985408783,
                       "is_break": true
                     }
                   ]
@@ -411,7 +411,7 @@
           ]
         },
         {
-          "confidence": 0.986278235912323,
+          "confidence": 0.9859204292297363,
           "bounding_box": [
             [
               60,
@@ -433,405 +433,405 @@
           "paragraphs": [
             {
               "text": "YouaretoassumetheroleofaChineseimmigrantin1870andwritealetter",
-              "confidence": 0.986278235912323,
+              "confidence": 0.9859204292297363,
               "words": [
                 {
                   "text": "You",
-                  "confidence": 0.981089174747467,
+                  "confidence": 0.9710346460342407,
                   "symbols": [
                     {
                       "text": "Y",
-                      "confidence": 0.966896116733551,
+                      "confidence": 0.966679573059082,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9890667796134949,
+                      "confidence": 0.9820113778114319,
                       "is_break": true
                     },
                     {
                       "text": "u",
-                      "confidence": 0.9873046278953552,
+                      "confidence": 0.9644129276275635,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "are",
-                  "confidence": 0.9910361766815186,
+                  "confidence": 0.9906678795814514,
                   "symbols": [
                     {
                       "text": "a",
-                      "confidence": 0.9940142631530762,
+                      "confidence": 0.991144597530365,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.9908487200737,
+                      "confidence": 0.9927427172660828,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9882456064224243,
+                      "confidence": 0.9881163239479065,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "to",
-                  "confidence": 0.9911907315254211,
+                  "confidence": 0.991155743598938,
                   "symbols": [
                     {
                       "text": "t",
-                      "confidence": 0.9900030493736267,
+                      "confidence": 0.9903202056884766,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9923784136772156,
+                      "confidence": 0.9919912219047546,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "assume",
-                  "confidence": 0.9695017337799072,
+                  "confidence": 0.9704641699790955,
                   "symbols": [
                     {
                       "text": "a",
-                      "confidence": 0.9848799109458923,
+                      "confidence": 0.9858902096748352,
                       "is_break": true
                     },
                     {
                       "text": "s",
-                      "confidence": 0.9646701812744141,
+                      "confidence": 0.9659329652786255,
                       "is_break": true
                     },
                     {
                       "text": "s",
-                      "confidence": 0.9384488463401794,
+                      "confidence": 0.9410927295684814,
                       "is_break": true
                     },
                     {
                       "text": "u",
-                      "confidence": 0.9621754288673401,
+                      "confidence": 0.9628493189811707,
                       "is_break": true
                     },
                     {
                       "text": "m",
-                      "confidence": 0.9774526357650757,
+                      "confidence": 0.9777346849441528,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.989383339881897,
+                      "confidence": 0.9892852306365967,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "the",
-                  "confidence": 0.9925004243850708,
+                  "confidence": 0.9922153949737549,
                   "symbols": [
                     {
                       "text": "t",
-                      "confidence": 0.994035542011261,
+                      "confidence": 0.993914008140564,
                       "is_break": true
                     },
                     {
                       "text": "h",
-                      "confidence": 0.9911636710166931,
+                      "confidence": 0.9908695220947266,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9923021197319031,
+                      "confidence": 0.9918627142906189,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "role",
-                  "confidence": 0.9833577871322632,
+                  "confidence": 0.9837888479232788,
                   "symbols": [
                     {
                       "text": "r",
-                      "confidence": 0.9879670739173889,
+                      "confidence": 0.9881711602210999,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9841392636299133,
+                      "confidence": 0.9847999811172485,
                       "is_break": true
                     },
                     {
                       "text": "l",
-                      "confidence": 0.9754080772399902,
+                      "confidence": 0.976010799407959,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9859166145324707,
+                      "confidence": 0.9861735701560974,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "of",
-                  "confidence": 0.9887063503265381,
+                  "confidence": 0.9895902872085571,
                   "symbols": [
                     {
                       "text": "o",
-                      "confidence": 0.9888810515403748,
+                      "confidence": 0.9896637201309204,
                       "is_break": true
                     },
                     {
                       "text": "f",
-                      "confidence": 0.9885315895080566,
+                      "confidence": 0.9895169138908386,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "a",
-                  "confidence": 0.9896600842475891,
+                  "confidence": 0.9894497990608215,
                   "symbols": [
                     {
                       "text": "a",
-                      "confidence": 0.9896600842475891,
+                      "confidence": 0.9894497990608215,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "Chinese",
-                  "confidence": 0.9853042364120483,
+                  "confidence": 0.9854596853256226,
                   "symbols": [
                     {
                       "text": "C",
-                      "confidence": 0.9882803559303284,
+                      "confidence": 0.9890570044517517,
                       "is_break": true
                     },
                     {
                       "text": "h",
-                      "confidence": 0.9846280813217163,
+                      "confidence": 0.9848056435585022,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.981879711151123,
+                      "confidence": 0.9831540584564209,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9766981601715088,
+                      "confidence": 0.9756247997283936,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9892200231552124,
+                      "confidence": 0.98929363489151,
                       "is_break": true
                     },
                     {
                       "text": "s",
-                      "confidence": 0.982398271560669,
+                      "confidence": 0.9821016788482666,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9940248727798462,
+                      "confidence": 0.9941810965538025,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "immigrant",
-                  "confidence": 0.98296058177948,
+                  "confidence": 0.9838991761207581,
                   "symbols": [
                     {
                       "text": "i",
-                      "confidence": 0.9924640655517578,
+                      "confidence": 0.992923378944397,
                       "is_break": true
                     },
                     {
                       "text": "m",
-                      "confidence": 0.9882962107658386,
+                      "confidence": 0.9891205430030823,
                       "is_break": true
                     },
                     {
                       "text": "m",
-                      "confidence": 0.9853930473327637,
+                      "confidence": 0.9869476556777954,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.9896568059921265,
+                      "confidence": 0.9901302456855774,
                       "is_break": true
                     },
                     {
                       "text": "g",
-                      "confidence": 0.9903526306152344,
+                      "confidence": 0.9917481541633606,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.9735021591186523,
+                      "confidence": 0.9758653044700623,
                       "is_break": true
                     },
                     {
                       "text": "a",
-                      "confidence": 0.9751803874969482,
+                      "confidence": 0.9778693318367004,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9690260291099548,
+                      "confidence": 0.968350350856781,
                       "is_break": true
                     },
                     {
                       "text": "t",
-                      "confidence": 0.9827738404273987,
+                      "confidence": 0.9821376800537109,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "in",
-                  "confidence": 0.9911853671073914,
+                  "confidence": 0.9909874200820923,
                   "symbols": [
                     {
                       "text": "i",
-                      "confidence": 0.993094801902771,
+                      "confidence": 0.992806077003479,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9892759323120117,
+                      "confidence": 0.9891687035560608,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "1870",
-                  "confidence": 0.9920884370803833,
+                  "confidence": 0.9921036958694458,
                   "symbols": [
                     {
                       "text": "1",
-                      "confidence": 0.9863596558570862,
+                      "confidence": 0.9864017367362976,
                       "is_break": true
                     },
                     {
                       "text": "8",
-                      "confidence": 0.9947779178619385,
+                      "confidence": 0.9948712587356567,
                       "is_break": true
                     },
                     {
                       "text": "7",
-                      "confidence": 0.9942052364349365,
+                      "confidence": 0.9942989945411682,
                       "is_break": true
                     },
                     {
                       "text": "0",
-                      "confidence": 0.9930108785629272,
+                      "confidence": 0.9928426742553711,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "and",
-                  "confidence": 0.9895867109298706,
+                  "confidence": 0.9896175861358643,
                   "symbols": [
                     {
                       "text": "a",
-                      "confidence": 0.9922531843185425,
+                      "confidence": 0.9921736717224121,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9860872030258179,
+                      "confidence": 0.985986590385437,
                       "is_break": true
                     },
                     {
                       "text": "d",
-                      "confidence": 0.9904198050498962,
+                      "confidence": 0.9906924366950989,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "write",
-                  "confidence": 0.9952792525291443,
+                  "confidence": 0.9952765703201294,
                   "symbols": [
                     {
                       "text": "w",
-                      "confidence": 0.994762659072876,
+                      "confidence": 0.9947847127914429,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.9946563839912415,
+                      "confidence": 0.9948316812515259,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.9959179759025574,
+                      "confidence": 0.9958330988883972,
                       "is_break": true
                     },
                     {
                       "text": "t",
-                      "confidence": 0.9951632618904114,
+                      "confidence": 0.9951087832450867,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9958958625793457,
+                      "confidence": 0.9958244562149048,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "a",
-                  "confidence": 0.9896522760391235,
+                  "confidence": 0.989646852016449,
                   "symbols": [
                     {
                       "text": "a",
-                      "confidence": 0.9896522760391235,
+                      "confidence": 0.989646852016449,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "letter",
-                  "confidence": 0.9899821281433105,
+                  "confidence": 0.9886547327041626,
                   "symbols": [
                     {
                       "text": "l",
-                      "confidence": 0.9829798340797424,
+                      "confidence": 0.9816161394119263,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.983263373374939,
+                      "confidence": 0.9809182286262512,
                       "is_break": true
                     },
                     {
                       "text": "t",
-                      "confidence": 0.990759015083313,
+                      "confidence": 0.9885644316673279,
                       "is_break": true
                     },
                     {
                       "text": "t",
-                      "confidence": 0.9933326840400696,
+                      "confidence": 0.9919106364250183,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9958658814430237,
+                      "confidence": 0.9953790307044983,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.9936920404434204,
+                      "confidence": 0.9935398101806641,
                       "is_break": true
                     }
                   ]
@@ -841,7 +841,7 @@
           ]
         },
         {
-          "confidence": 0.968269944190979,
+          "confidence": 0.9662842154502869,
           "bounding_box": [
             [
               61,
@@ -852,7 +852,7 @@
               124
             ],
             [
-              545,
+              544,
               287
             ],
             [
@@ -863,173 +863,173 @@
           "paragraphs": [
             {
               "text": "homedescribingyourexperiences",
-              "confidence": 0.988567054271698,
+              "confidence": 0.9888777136802673,
               "words": [
                 {
                   "text": "home",
-                  "confidence": 0.9824579358100891,
+                  "confidence": 0.9824668765068054,
                   "symbols": [
                     {
                       "text": "h",
-                      "confidence": 0.9704555869102478,
+                      "confidence": 0.9704315662384033,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9784353971481323,
+                      "confidence": 0.9784568548202515,
                       "is_break": true
                     },
                     {
                       "text": "m",
-                      "confidence": 0.9886484742164612,
+                      "confidence": 0.9887760877609253,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9922922253608704,
+                      "confidence": 0.9922029972076416,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "describing",
-                  "confidence": 0.9897416830062866,
+                  "confidence": 0.9901527166366577,
                   "symbols": [
                     {
                       "text": "d",
-                      "confidence": 0.9921345710754395,
+                      "confidence": 0.9922070503234863,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9899654388427734,
+                      "confidence": 0.9888383746147156,
                       "is_break": true
                     },
                     {
                       "text": "s",
-                      "confidence": 0.9862056374549866,
+                      "confidence": 0.9863352179527283,
                       "is_break": true
                     },
                     {
                       "text": "c",
-                      "confidence": 0.9696994423866272,
+                      "confidence": 0.9752802848815918,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.991401195526123,
+                      "confidence": 0.991443395614624,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.9940717220306396,
+                      "confidence": 0.9939514398574829,
                       "is_break": true
                     },
                     {
                       "text": "b",
-                      "confidence": 0.9928750395774841,
+                      "confidence": 0.9929934740066528,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.9951595067977905,
+                      "confidence": 0.995043933391571,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9939451813697815,
+                      "confidence": 0.9937893748283386,
                       "is_break": true
                     },
                     {
                       "text": "g",
-                      "confidence": 0.9919587969779968,
+                      "confidence": 0.9916443824768066,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "your",
-                  "confidence": 0.9811303019523621,
+                  "confidence": 0.9817842245101929,
                   "symbols": [
                     {
                       "text": "y",
-                      "confidence": 0.9884772896766663,
+                      "confidence": 0.9888699054718018,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9879370927810669,
+                      "confidence": 0.9887572526931763,
                       "is_break": true
                     },
                     {
                       "text": "u",
-                      "confidence": 0.9741440415382385,
+                      "confidence": 0.9750720858573914,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.9739627242088318,
+                      "confidence": 0.9744377136230469,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "experiences",
-                  "confidence": 0.9924249649047852,
+                  "confidence": 0.99262934923172,
                   "symbols": [
                     {
                       "text": "e",
-                      "confidence": 0.9892370104789734,
+                      "confidence": 0.9896485805511475,
                       "is_break": true
                     },
                     {
                       "text": "x",
-                      "confidence": 0.9887994527816772,
+                      "confidence": 0.9896708726882935,
                       "is_break": true
                     },
                     {
                       "text": "p",
-                      "confidence": 0.9916720390319824,
+                      "confidence": 0.9920485615730286,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.994981586933136,
+                      "confidence": 0.9951674342155457,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.99495929479599,
+                      "confidence": 0.9949952960014343,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.9941453337669373,
+                      "confidence": 0.9941340088844299,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9947450160980225,
+                      "confidence": 0.994733989238739,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9952012300491333,
+                      "confidence": 0.9951912760734558,
                       "is_break": true
                     },
                     {
                       "text": "c",
-                      "confidence": 0.9927290081977844,
+                      "confidence": 0.9928529858589172,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9937624335289001,
+                      "confidence": 0.9938318133354187,
                       "is_break": true
                     },
                     {
                       "text": "s",
-                      "confidence": 0.9864421486854553,
+                      "confidence": 0.9866477251052856,
                       "is_break": true
                     }
                   ]
@@ -1038,226 +1038,226 @@
             },
             {
               "text": "Yourlettershouldincludethefollowing:",
-              "confidence": 0.9829636812210083,
+              "confidence": 0.982734203338623,
               "words": [
                 {
                   "text": "Your",
-                  "confidence": 0.9824725985527039,
+                  "confidence": 0.9824949502944946,
                   "symbols": [
                     {
                       "text": "Y",
-                      "confidence": 0.9816559553146362,
+                      "confidence": 0.9814376831054688,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9793523550033569,
+                      "confidence": 0.9789727926254272,
                       "is_break": true
                     },
                     {
                       "text": "u",
-                      "confidence": 0.9866014122962952,
+                      "confidence": 0.9869361519813538,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.9822806715965271,
+                      "confidence": 0.9826331734657288,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "letter",
-                  "confidence": 0.9936450123786926,
+                  "confidence": 0.9936279654502869,
                   "symbols": [
                     {
                       "text": "l",
-                      "confidence": 0.9933136701583862,
+                      "confidence": 0.9929848909378052,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9964714646339417,
+                      "confidence": 0.9962403178215027,
                       "is_break": true
                     },
                     {
                       "text": "t",
-                      "confidence": 0.9976019263267517,
+                      "confidence": 0.9972852468490601,
                       "is_break": true
                     },
                     {
                       "text": "t",
-                      "confidence": 0.9967064261436462,
+                      "confidence": 0.9966517090797424,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9939203858375549,
+                      "confidence": 0.9940316081047058,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.9838563203811646,
+                      "confidence": 0.9845740795135498,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "should",
-                  "confidence": 0.9707970023155212,
+                  "confidence": 0.9703327417373657,
                   "symbols": [
                     {
                       "text": "s",
-                      "confidence": 0.9735831618309021,
+                      "confidence": 0.9737265706062317,
                       "is_break": true
                     },
                     {
                       "text": "h",
-                      "confidence": 0.922051191329956,
+                      "confidence": 0.9203619360923767,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9643852114677429,
+                      "confidence": 0.9636460542678833,
                       "is_break": true
                     },
                     {
                       "text": "u",
-                      "confidence": 0.9808598160743713,
+                      "confidence": 0.9807103872299194,
                       "is_break": true
                     },
                     {
                       "text": "l",
-                      "confidence": 0.9936987161636353,
+                      "confidence": 0.9935475587844849,
                       "is_break": true
                     },
                     {
                       "text": "d",
-                      "confidence": 0.9902040362358093,
+                      "confidence": 0.9900040626525879,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "include",
-                  "confidence": 0.9854074716567993,
+                  "confidence": 0.9850637316703796,
                   "symbols": [
                     {
                       "text": "i",
-                      "confidence": 0.9950551986694336,
+                      "confidence": 0.9952788949012756,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.988037645816803,
+                      "confidence": 0.9885688424110413,
                       "is_break": true
                     },
                     {
                       "text": "c",
-                      "confidence": 0.9641062617301941,
+                      "confidence": 0.9610936045646667,
                       "is_break": true
                     },
                     {
                       "text": "l",
-                      "confidence": 0.9763579964637756,
+                      "confidence": 0.9760757088661194,
                       "is_break": true
                     },
                     {
                       "text": "u",
-                      "confidence": 0.9918882846832275,
+                      "confidence": 0.9909539818763733,
                       "is_break": true
                     },
                     {
                       "text": "d",
-                      "confidence": 0.9888596534729004,
+                      "confidence": 0.9894726872444153,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9935471415519714,
+                      "confidence": 0.9940024018287659,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "the",
-                  "confidence": 0.9962167739868164,
+                  "confidence": 0.9962498545646667,
                   "symbols": [
                     {
                       "text": "t",
-                      "confidence": 0.9986226558685303,
+                      "confidence": 0.9985607266426086,
                       "is_break": true
                     },
                     {
                       "text": "h",
-                      "confidence": 0.9959364533424377,
+                      "confidence": 0.9960734844207764,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.994091272354126,
+                      "confidence": 0.9941153526306152,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "following",
-                  "confidence": 0.9901673793792725,
+                  "confidence": 0.9900038242340088,
                   "symbols": [
                     {
                       "text": "f",
-                      "confidence": 0.9952328205108643,
+                      "confidence": 0.9953803420066833,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9956087470054626,
+                      "confidence": 0.9960790872573853,
                       "is_break": true
                     },
                     {
                       "text": "l",
-                      "confidence": 0.9944165945053101,
+                      "confidence": 0.9945635795593262,
                       "is_break": true
                     },
                     {
                       "text": "l",
-                      "confidence": 0.992206335067749,
+                      "confidence": 0.991953432559967,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9933438301086426,
+                      "confidence": 0.9932968616485596,
                       "is_break": true
                     },
                     {
                       "text": "w",
-                      "confidence": 0.9901162385940552,
+                      "confidence": 0.9899237751960754,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.993377149105072,
+                      "confidence": 0.9932931661605835,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9863278865814209,
+                      "confidence": 0.9862133860588074,
                       "is_break": true
                     },
                     {
                       "text": "g",
-                      "confidence": 0.9708766341209412,
+                      "confidence": 0.9693306684494019,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": ":",
-                  "confidence": 0.8721403479576111,
+                  "confidence": 0.8704573512077332,
                   "symbols": [
                     {
                       "text": ":",
-                      "confidence": 0.8721403479576111,
+                      "confidence": 0.8704573512077332,
                       "is_break": true
                     }
                   ]
@@ -1266,257 +1266,257 @@
             },
             {
               "text": "yourcontributionsandexperiencesintheWest.",
-              "confidence": 0.9740056395530701,
+              "confidence": 0.9747112393379211,
               "words": [
                 {
                   "text": "your",
-                  "confidence": 0.988537609577179,
+                  "confidence": 0.9896792769432068,
                   "symbols": [
                     {
                       "text": "y",
-                      "confidence": 0.9735981225967407,
+                      "confidence": 0.9767824411392212,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9917728304862976,
+                      "confidence": 0.9928992390632629,
                       "is_break": true
                     },
                     {
                       "text": "u",
-                      "confidence": 0.9948417544364929,
+                      "confidence": 0.9948938488960266,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.9939377307891846,
+                      "confidence": 0.9941416382789612,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "contributions",
-                  "confidence": 0.9711777567863464,
+                  "confidence": 0.9730355143547058,
                   "symbols": [
                     {
                       "text": "c",
-                      "confidence": 0.9836622476577759,
+                      "confidence": 0.9842559695243835,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9648247957229614,
+                      "confidence": 0.9660919904708862,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9336643218994141,
+                      "confidence": 0.9338494539260864,
                       "is_break": true
                     },
                     {
                       "text": "t",
-                      "confidence": 0.9419211149215698,
+                      "confidence": 0.9449617266654968,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.9689124226570129,
+                      "confidence": 0.9701255559921265,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.9692561030387878,
+                      "confidence": 0.9719211459159851,
                       "is_break": true
                     },
                     {
                       "text": "b",
-                      "confidence": 0.9892902970314026,
+                      "confidence": 0.9899195432662964,
                       "is_break": true
                     },
                     {
                       "text": "u",
-                      "confidence": 0.9926937818527222,
+                      "confidence": 0.992851734161377,
                       "is_break": true
                     },
                     {
                       "text": "t",
-                      "confidence": 0.9944403171539307,
+                      "confidence": 0.9945605397224426,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.9939625859260559,
+                      "confidence": 0.9940857887268066,
                       "is_break": true
                     },
                     {
                       "text": "o",
-                      "confidence": 0.9853546023368835,
+                      "confidence": 0.9863818287849426,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9515763521194458,
+                      "confidence": 0.9596459269523621,
                       "is_break": true
                     },
                     {
                       "text": "s",
-                      "confidence": 0.9557517766952515,
+                      "confidence": 0.960810661315918,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "and",
-                  "confidence": 0.9929024577140808,
+                  "confidence": 0.9929449558258057,
                   "symbols": [
                     {
                       "text": "a",
-                      "confidence": 0.9930776953697205,
+                      "confidence": 0.9931950569152832,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9931464195251465,
+                      "confidence": 0.9931630492210388,
                       "is_break": true
                     },
                     {
                       "text": "d",
-                      "confidence": 0.9924832582473755,
+                      "confidence": 0.9924768209457397,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "experiences",
-                  "confidence": 0.9883460998535156,
+                  "confidence": 0.988213837146759,
                   "symbols": [
                     {
                       "text": "e",
-                      "confidence": 0.9921641945838928,
+                      "confidence": 0.9921459555625916,
                       "is_break": true
                     },
                     {
                       "text": "x",
-                      "confidence": 0.9920992255210876,
+                      "confidence": 0.9918069839477539,
                       "is_break": true
                     },
                     {
                       "text": "p",
-                      "confidence": 0.9939053654670715,
+                      "confidence": 0.993790864944458,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9950843453407288,
+                      "confidence": 0.9947376847267151,
                       "is_break": true
                     },
                     {
                       "text": "r",
-                      "confidence": 0.9913461208343506,
+                      "confidence": 0.9911133050918579,
                       "is_break": true
                     },
                     {
                       "text": "i",
-                      "confidence": 0.9930916428565979,
+                      "confidence": 0.9930719137191772,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9679597616195679,
+                      "confidence": 0.9683231115341187,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9922142624855042,
+                      "confidence": 0.9921407699584961,
                       "is_break": true
                     },
                     {
                       "text": "c",
-                      "confidence": 0.9823116660118103,
+                      "confidence": 0.9820221066474915,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9814921021461487,
+                      "confidence": 0.9812445640563965,
                       "is_break": true
                     },
                     {
                       "text": "s",
-                      "confidence": 0.9901387095451355,
+                      "confidence": 0.9899548292160034,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "in",
-                  "confidence": 0.9925646781921387,
+                  "confidence": 0.9922609925270081,
                   "symbols": [
                     {
                       "text": "i",
-                      "confidence": 0.9913970828056335,
+                      "confidence": 0.991182267665863,
                       "is_break": true
                     },
                     {
                       "text": "n",
-                      "confidence": 0.993732213973999,
+                      "confidence": 0.9933397173881531,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "the",
-                  "confidence": 0.9853572845458984,
+                  "confidence": 0.9861568212509155,
                   "symbols": [
                     {
                       "text": "t",
-                      "confidence": 0.9912058115005493,
+                      "confidence": 0.991345226764679,
                       "is_break": true
                     },
                     {
                       "text": "h",
-                      "confidence": 0.9837436676025391,
+                      "confidence": 0.9849179983139038,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9811223149299622,
+                      "confidence": 0.982207179069519,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "West",
-                  "confidence": 0.9635784029960632,
+                  "confidence": 0.9639202952384949,
                   "symbols": [
                     {
                       "text": "W",
-                      "confidence": 0.9104683995246887,
+                      "confidence": 0.9117040038108826,
                       "is_break": true
                     },
                     {
                       "text": "e",
-                      "confidence": 0.9904333353042603,
+                      "confidence": 0.9904971718788147,
                       "is_break": true
                     },
                     {
                       "text": "s",
-                      "confidence": 0.9802150726318359,
+                      "confidence": 0.9801668524742126,
                       "is_break": true
                     },
                     {
                       "text": "t",
-                      "confidence": 0.973196804523468,
+                      "confidence": 0.9733131527900696,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": ".",
-                  "confidence": 0.7087401151657104,
+                  "confidence": 0.7071221470832825,
                   "symbols": [
                     {
                       "text": ".",
-                      "confidence": 0.7087401151657104,
+                      "confidence": 0.7071221470832825,
                       "is_break": true
                     }
                   ]
@@ -1525,96 +1525,96 @@
             },
             {
               "text": "我在這裏生活得很差。",
-              "confidence": 0.9459721446037292,
+              "confidence": 0.9175061583518982,
               "words": [
                 {
                   "text": "我",
-                  "confidence": 0.9738495349884033,
+                  "confidence": 0.9783830046653748,
                   "symbols": [
                     {
                       "text": "我",
-                      "confidence": 0.9738495349884033,
+                      "confidence": 0.9783830046653748,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "在",
-                  "confidence": 0.9690252542495728,
+                  "confidence": 0.9734523296356201,
                   "symbols": [
                     {
                       "text": "在",
-                      "confidence": 0.9690252542495728,
+                      "confidence": 0.9734523296356201,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "這裏",
-                  "confidence": 0.9167450666427612,
+                  "confidence": 0.9113001823425293,
                   "symbols": [
                     {
                       "text": "這",
-                      "confidence": 0.9347674250602722,
+                      "confidence": 0.9415889382362366,
                       "is_break": true
                     },
                     {
                       "text": "裏",
-                      "confidence": 0.8987227082252502,
+                      "confidence": 0.8810113668441772,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "生活",
-                  "confidence": 0.9670718908309937,
+                  "confidence": 0.9637852907180786,
                   "symbols": [
                     {
                       "text": "生",
-                      "confidence": 0.9748522639274597,
+                      "confidence": 0.9696564078330994,
                       "is_break": true
                     },
                     {
                       "text": "活",
-                      "confidence": 0.9592914581298828,
+                      "confidence": 0.9579142332077026,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "得",
-                  "confidence": 0.9254539012908936,
+                  "confidence": 0.9353387951850891,
                   "symbols": [
                     {
                       "text": "得",
-                      "confidence": 0.9254539012908936,
+                      "confidence": 0.9353387951850891,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "很差",
-                  "confidence": 0.9402955770492554,
+                  "confidence": 0.815039873123169,
                   "symbols": [
                     {
                       "text": "很",
-                      "confidence": 0.9640730619430542,
+                      "confidence": 0.9536126852035522,
                       "is_break": true
                     },
                     {
                       "text": "差",
-                      "confidence": 0.9165180921554565,
+                      "confidence": 0.6764671206474304,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "。",
-                  "confidence": 0.9431675672531128,
+                  "confidence": 0.9076366424560547,
                   "symbols": [
                     {
                       "text": "。",
-                      "confidence": 0.9431675672531128,
+                      "confidence": 0.9076366424560547,
                       "is_break": true
                     }
                   ]
@@ -1623,106 +1623,106 @@
             },
             {
               "text": "工作環境不佳,福利缺少。",
-              "confidence": 0.9343091249465942,
+              "confidence": 0.9317272305488586,
               "words": [
                 {
                   "text": "工作",
-                  "confidence": 0.9872723817825317,
+                  "confidence": 0.9875156879425049,
                   "symbols": [
                     {
                       "text": "工",
-                      "confidence": 0.982323169708252,
+                      "confidence": 0.9829108119010925,
                       "is_break": true
                     },
                     {
                       "text": "作",
-                      "confidence": 0.9922216534614563,
+                      "confidence": 0.9921205043792725,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "環境",
-                  "confidence": 0.988616406917572,
+                  "confidence": 0.9881830215454102,
                   "symbols": [
                     {
                       "text": "環",
-                      "confidence": 0.9907671809196472,
+                      "confidence": 0.9905653595924377,
                       "is_break": true
                     },
                     {
                       "text": "境",
-                      "confidence": 0.9864656329154968,
+                      "confidence": 0.9858006238937378,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "不佳",
-                  "confidence": 0.8544148206710815,
+                  "confidence": 0.8426002860069275,
                   "symbols": [
                     {
                       "text": "不",
-                      "confidence": 0.9313847422599792,
+                      "confidence": 0.9289913177490234,
                       "is_break": true
                     },
                     {
                       "text": "佳",
-                      "confidence": 0.7774448990821838,
+                      "confidence": 0.7562092542648315,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": ",",
-                  "confidence": 0.9409244656562805,
+                  "confidence": 0.9379034638404846,
                   "symbols": [
                     {
                       "text": ",",
-                      "confidence": 0.9409244656562805,
+                      "confidence": 0.9379034638404846,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "福利",
-                  "confidence": 0.9614009857177734,
+                  "confidence": 0.9599241018295288,
                   "symbols": [
                     {
                       "text": "福",
-                      "confidence": 0.9617382884025574,
+                      "confidence": 0.9590153694152832,
                       "is_break": true
                     },
                     {
                       "text": "利",
-                      "confidence": 0.9610636234283447,
+                      "confidence": 0.9608328342437744,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "缺少",
-                  "confidence": 0.9062671661376953,
+                  "confidence": 0.9062871336936951,
                   "symbols": [
                     {
                       "text": "缺",
-                      "confidence": 0.9630676507949829,
+                      "confidence": 0.9631293416023254,
                       "is_break": true
                     },
                     {
                       "text": "少",
-                      "confidence": 0.8494667410850525,
+                      "confidence": 0.8494449257850647,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "。",
-                  "confidence": 0.8748413324356079,
+                  "confidence": 0.8738029599189758,
                   "symbols": [
                     {
                       "text": "。",
-                      "confidence": 0.8748413324356079,
+                      "confidence": 0.8738029599189758,
                       "is_break": true
                     }
                   ]
@@ -1731,176 +1731,176 @@
             },
             {
               "text": "不過不用擔心,每天只有大概十個人受重傷,",
-              "confidence": 0.9321576952934265,
+              "confidence": 0.9317613840103149,
               "words": [
                 {
                   "text": "不過",
-                  "confidence": 0.9911580085754395,
+                  "confidence": 0.9909233450889587,
                   "symbols": [
                     {
                       "text": "不",
-                      "confidence": 0.9922430515289307,
+                      "confidence": 0.9920182824134827,
                       "is_break": true
                     },
                     {
                       "text": "過",
-                      "confidence": 0.9900729656219482,
+                      "confidence": 0.9898284077644348,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "不用",
-                  "confidence": 0.9795444011688232,
+                  "confidence": 0.9794384241104126,
                   "symbols": [
                     {
                       "text": "不",
-                      "confidence": 0.9756338000297546,
+                      "confidence": 0.9752708077430725,
                       "is_break": true
                     },
                     {
                       "text": "用",
-                      "confidence": 0.9834549427032471,
+                      "confidence": 0.9836061000823975,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "擔心",
-                  "confidence": 0.9673783183097839,
+                  "confidence": 0.9674618244171143,
                   "symbols": [
                     {
                       "text": "擔",
-                      "confidence": 0.9706065654754639,
+                      "confidence": 0.9706602096557617,
                       "is_break": true
                     },
                     {
                       "text": "心",
-                      "confidence": 0.964150071144104,
+                      "confidence": 0.9642634987831116,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": ",",
-                  "confidence": 0.9831474423408508,
+                  "confidence": 0.9830126762390137,
                   "symbols": [
                     {
                       "text": ",",
-                      "confidence": 0.9831474423408508,
+                      "confidence": 0.9830126762390137,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "每天",
-                  "confidence": 0.968298077583313,
+                  "confidence": 0.9677953124046326,
                   "symbols": [
                     {
                       "text": "每",
-                      "confidence": 0.9730432629585266,
+                      "confidence": 0.9727310538291931,
                       "is_break": true
                     },
                     {
                       "text": "天",
-                      "confidence": 0.9635528922080994,
+                      "confidence": 0.962859570980072,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "只有",
-                  "confidence": 0.9359710216522217,
+                  "confidence": 0.9393429756164551,
                   "symbols": [
                     {
                       "text": "只",
-                      "confidence": 0.921939492225647,
+                      "confidence": 0.9275265336036682,
                       "is_break": true
                     },
                     {
                       "text": "有",
-                      "confidence": 0.9500026106834412,
+                      "confidence": 0.9511593580245972,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "大概",
-                  "confidence": 0.9342445135116577,
+                  "confidence": 0.9345042705535889,
                   "symbols": [
                     {
                       "text": "大",
-                      "confidence": 0.9694289565086365,
+                      "confidence": 0.9715502262115479,
                       "is_break": true
                     },
                     {
                       "text": "概",
-                      "confidence": 0.8990601301193237,
+                      "confidence": 0.8974583745002747,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "十",
-                  "confidence": 0.4990003705024719,
+                  "confidence": 0.5002858638763428,
                   "symbols": [
                     {
                       "text": "十",
-                      "confidence": 0.4990003705024719,
+                      "confidence": 0.5002858638763428,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "個人",
-                  "confidence": 0.8826314210891724,
+                  "confidence": 0.8766068816184998,
                   "symbols": [
                     {
                       "text": "個",
-                      "confidence": 0.8106481432914734,
+                      "confidence": 0.800650417804718,
                       "is_break": true
                     },
                     {
                       "text": "人",
-                      "confidence": 0.9546146988868713,
+                      "confidence": 0.9525633454322815,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "受",
-                  "confidence": 0.9785041809082031,
+                  "confidence": 0.976991593837738,
                   "symbols": [
                     {
                       "text": "受",
-                      "confidence": 0.9785041809082031,
+                      "confidence": 0.976991593837738,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "重傷",
-                  "confidence": 0.9865469932556152,
+                  "confidence": 0.9865044355392456,
                   "symbols": [
                     {
                       "text": "重",
-                      "confidence": 0.9884332418441772,
+                      "confidence": 0.988477349281311,
                       "is_break": true
                     },
                     {
                       "text": "傷",
-                      "confidence": 0.9846606850624084,
+                      "confidence": 0.984531581401825,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": ",",
-                  "confidence": 0.8909562230110168,
+                  "confidence": 0.8897826671600342,
                   "symbols": [
                     {
                       "text": ",",
-                      "confidence": 0.8909562230110168,
+                      "confidence": 0.8897826671600342,
                       "is_break": true
                     }
                   ]
@@ -1910,7 +1910,7 @@
           ]
         },
         {
-          "confidence": 0.9676423072814941,
+          "confidence": 0.9672869443893433,
           "bounding_box": [
             [
               74,
@@ -1932,69 +1932,69 @@
           "paragraphs": [
             {
               "text": "而我亦很小心。",
-              "confidence": 0.9676423072814941,
+              "confidence": 0.9672869443893433,
               "words": [
                 {
                   "text": "而",
-                  "confidence": 0.9880369901657104,
+                  "confidence": 0.9881576299667358,
                   "symbols": [
                     {
                       "text": "而",
-                      "confidence": 0.9880369901657104,
+                      "confidence": 0.9881576299667358,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "我",
-                  "confidence": 0.989525318145752,
+                  "confidence": 0.9896538257598877,
                   "symbols": [
                     {
                       "text": "我",
-                      "confidence": 0.989525318145752,
+                      "confidence": 0.9896538257598877,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "亦很",
-                  "confidence": 0.9733657836914062,
+                  "confidence": 0.9729183316230774,
                   "symbols": [
                     {
                       "text": "亦",
-                      "confidence": 0.9821210503578186,
+                      "confidence": 0.982581377029419,
                       "is_break": true
                     },
                     {
                       "text": "很",
-                      "confidence": 0.9646105766296387,
+                      "confidence": 0.9632552862167358,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "小心",
-                  "confidence": 0.9631029367446899,
+                  "confidence": 0.9621958136558533,
                   "symbols": [
                     {
                       "text": "小",
-                      "confidence": 0.9611166715621948,
+                      "confidence": 0.960319459438324,
                       "is_break": true
                     },
                     {
                       "text": "心",
-                      "confidence": 0.9650891423225403,
+                      "confidence": 0.9640721678733826,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "。",
-                  "confidence": 0.9229962825775146,
+                  "confidence": 0.9229689240455627,
                   "symbols": [
                     {
                       "text": "。",
-                      "confidence": 0.9229962825775146,
+                      "confidence": 0.9229689240455627,
                       "is_break": true
                     }
                   ]
@@ -2004,7 +2004,7 @@
           ]
         },
         {
-          "confidence": 0.9102295637130737,
+          "confidence": 0.9093254804611206,
           "bounding_box": [
             [
               74,
@@ -2026,134 +2026,134 @@
           "paragraphs": [
             {
               "text": "我們開了一間小鋪,生意不俗。",
-              "confidence": 0.854003369808197,
+              "confidence": 0.8519244194030762,
               "words": [
                 {
                   "text": "我們",
-                  "confidence": 0.9750670194625854,
+                  "confidence": 0.9759339690208435,
                   "symbols": [
                     {
                       "text": "我",
-                      "confidence": 0.9853595495223999,
+                      "confidence": 0.9857820272445679,
                       "is_break": true
                     },
                     {
                       "text": "們",
-                      "confidence": 0.964774489402771,
+                      "confidence": 0.9660859107971191,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "開",
-                  "confidence": 0.4678193926811218,
+                  "confidence": 0.46501192450523376,
                   "symbols": [
                     {
                       "text": "開",
-                      "confidence": 0.4678193926811218,
+                      "confidence": 0.46501192450523376,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "了",
-                  "confidence": 0.5545741319656372,
+                  "confidence": 0.5507005453109741,
                   "symbols": [
                     {
                       "text": "了",
-                      "confidence": 0.5545741319656372,
+                      "confidence": 0.5507005453109741,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "一",
-                  "confidence": 0.5425911545753479,
+                  "confidence": 0.5379429459571838,
                   "symbols": [
                     {
                       "text": "一",
-                      "confidence": 0.5425911545753479,
+                      "confidence": 0.5379429459571838,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "間",
-                  "confidence": 0.7745365500450134,
+                  "confidence": 0.7653603553771973,
                   "symbols": [
                     {
                       "text": "間",
-                      "confidence": 0.7745365500450134,
+                      "confidence": 0.7653603553771973,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "小鋪",
-                  "confidence": 0.9368693232536316,
+                  "confidence": 0.9341099262237549,
                   "symbols": [
                     {
                       "text": "小",
-                      "confidence": 0.9258897304534912,
+                      "confidence": 0.9221996068954468,
                       "is_break": true
                     },
                     {
                       "text": "鋪",
-                      "confidence": 0.947848916053772,
+                      "confidence": 0.9460201859474182,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": ",",
-                  "confidence": 0.9459676146507263,
+                  "confidence": 0.9433924555778503,
                   "symbols": [
                     {
                       "text": ",",
-                      "confidence": 0.9459676146507263,
+                      "confidence": 0.9433924555778503,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "生意",
-                  "confidence": 0.9693557024002075,
+                  "confidence": 0.9683753252029419,
                   "symbols": [
                     {
                       "text": "生",
-                      "confidence": 0.9742411971092224,
+                      "confidence": 0.9732770323753357,
                       "is_break": true
                     },
                     {
                       "text": "意",
-                      "confidence": 0.9644702672958374,
+                      "confidence": 0.9634735584259033,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "不俗",
-                  "confidence": 0.9770357608795166,
+                  "confidence": 0.9770667552947998,
                   "symbols": [
                     {
                       "text": "不",
-                      "confidence": 0.9733290076255798,
+                      "confidence": 0.9733543992042542,
                       "is_break": true
                     },
                     {
                       "text": "俗",
-                      "confidence": 0.9807425141334534,
+                      "confidence": 0.9807791709899902,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "。",
-                  "confidence": 0.9539029598236084,
+                  "confidence": 0.9535620212554932,
                   "symbols": [
                     {
                       "text": "。",
-                      "confidence": 0.9539029598236084,
+                      "confidence": 0.9535620212554932,
                       "is_break": true
                     }
                   ]
@@ -2162,155 +2162,155 @@
             },
             {
               "text": "雖然我英文不是很認識,但是也能略略",
-              "confidence": 0.9565334916114807,
+              "confidence": 0.9565969109535217,
               "words": [
                 {
                   "text": "雖然",
-                  "confidence": 0.9906378984451294,
+                  "confidence": 0.990506649017334,
                   "symbols": [
                     {
                       "text": "雖",
-                      "confidence": 0.989247739315033,
+                      "confidence": 0.9891508221626282,
                       "is_break": true
                     },
                     {
                       "text": "然",
-                      "confidence": 0.9920281171798706,
+                      "confidence": 0.9918625354766846,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "我",
-                  "confidence": 0.9515723586082458,
+                  "confidence": 0.9525558948516846,
                   "symbols": [
                     {
                       "text": "我",
-                      "confidence": 0.9515723586082458,
+                      "confidence": 0.9525558948516846,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "英文",
-                  "confidence": 0.9807391166687012,
+                  "confidence": 0.9808146357536316,
                   "symbols": [
                     {
                       "text": "英",
-                      "confidence": 0.9702840447425842,
+                      "confidence": 0.970486581325531,
                       "is_break": true
                     },
                     {
                       "text": "文",
-                      "confidence": 0.9911942481994629,
+                      "confidence": 0.9911426901817322,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "不是",
-                  "confidence": 0.9801376461982727,
+                  "confidence": 0.9791726469993591,
                   "symbols": [
                     {
                       "text": "不",
-                      "confidence": 0.9787926077842712,
+                      "confidence": 0.9779409766197205,
                       "is_break": true
                     },
                     {
                       "text": "是",
-                      "confidence": 0.9814826846122742,
+                      "confidence": 0.9804043173789978,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "很",
-                  "confidence": 0.9594637751579285,
+                  "confidence": 0.9583438634872437,
                   "symbols": [
                     {
                       "text": "很",
-                      "confidence": 0.9594637751579285,
+                      "confidence": 0.9583438634872437,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "認識",
-                  "confidence": 0.965143084526062,
+                  "confidence": 0.9646944999694824,
                   "symbols": [
                     {
                       "text": "認",
-                      "confidence": 0.9716251492500305,
+                      "confidence": 0.971701979637146,
                       "is_break": true
                     },
                     {
                       "text": "識",
-                      "confidence": 0.9586609601974487,
+                      "confidence": 0.9576870203018188,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": ",",
-                  "confidence": 0.9734713435173035,
+                  "confidence": 0.9745195508003235,
                   "symbols": [
                     {
                       "text": ",",
-                      "confidence": 0.9734713435173035,
+                      "confidence": 0.9745195508003235,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "但是",
-                  "confidence": 0.9714347124099731,
+                  "confidence": 0.9720890522003174,
                   "symbols": [
                     {
                       "text": "但",
-                      "confidence": 0.9745648503303528,
+                      "confidence": 0.9750757217407227,
                       "is_break": true
                     },
                     {
                       "text": "是",
-                      "confidence": 0.9683045744895935,
+                      "confidence": 0.9691023826599121,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "也",
-                  "confidence": 0.7224110960960388,
+                  "confidence": 0.7254918813705444,
                   "symbols": [
                     {
                       "text": "也",
-                      "confidence": 0.7224110960960388,
+                      "confidence": 0.7254918813705444,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "能",
-                  "confidence": 0.9484496116638184,
+                  "confidence": 0.9483652114868164,
                   "symbols": [
                     {
                       "text": "能",
-                      "confidence": 0.9484496116638184,
+                      "confidence": 0.9483652114868164,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "略略",
-                  "confidence": 0.9647581577301025,
+                  "confidence": 0.9641580581665039,
                   "symbols": [
                     {
                       "text": "略",
-                      "confidence": 0.9569622278213501,
+                      "confidence": 0.9563635587692261,
                       "is_break": true
                     },
                     {
                       "text": "略",
-                      "confidence": 0.972554087638855,
+                      "confidence": 0.9719526171684265,
                       "is_break": true
                     }
                   ]
@@ -2320,123 +2320,123 @@
           ]
         },
         {
-          "confidence": 0.9510912895202637,
+          "confidence": 0.9512917399406433,
           "bounding_box": [
             [
               75,
-              449
+              448
             ],
             [
-              612,
-              409
+              611,
+              408
             ],
             [
-              618,
-              493
+              617,
+              494
             ],
             [
               81,
-              533
+              534
             ]
           ],
           "paragraphs": [
             {
               "text": "明白那些白人所說的話。",
-              "confidence": 0.9469419717788696,
+              "confidence": 0.9456490278244019,
               "words": [
                 {
                   "text": "明白",
-                  "confidence": 0.9822540879249573,
+                  "confidence": 0.9821194410324097,
                   "symbols": [
                     {
                       "text": "明",
-                      "confidence": 0.9798523187637329,
+                      "confidence": 0.9796426892280579,
                       "is_break": true
                     },
                     {
                       "text": "白",
-                      "confidence": 0.9846558570861816,
+                      "confidence": 0.9845962524414062,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "那些",
-                  "confidence": 0.9754753708839417,
+                  "confidence": 0.9761791229248047,
                   "symbols": [
                     {
                       "text": "那",
-                      "confidence": 0.9680801033973694,
+                      "confidence": 0.9697448015213013,
                       "is_break": true
                     },
                     {
                       "text": "些",
-                      "confidence": 0.9828706383705139,
+                      "confidence": 0.9826134443283081,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "白人",
-                  "confidence": 0.9135651588439941,
+                  "confidence": 0.9103896617889404,
                   "symbols": [
                     {
                       "text": "白",
-                      "confidence": 0.8610635995864868,
+                      "confidence": 0.8555466532707214,
                       "is_break": true
                     },
                     {
                       "text": "人",
-                      "confidence": 0.9660667181015015,
+                      "confidence": 0.9652326703071594,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "所說",
-                  "confidence": 0.9525530338287354,
+                  "confidence": 0.9538626670837402,
                   "symbols": [
                     {
                       "text": "所",
-                      "confidence": 0.9540624022483826,
+                      "confidence": 0.9550034999847412,
                       "is_break": true
                     },
                     {
                       "text": "說",
-                      "confidence": 0.9510436654090881,
+                      "confidence": 0.9527218341827393,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "的",
-                  "confidence": 0.9760172963142395,
+                  "confidence": 0.9725335240364075,
                   "symbols": [
                     {
                       "text": "的",
-                      "confidence": 0.9760172963142395,
+                      "confidence": 0.9725335240364075,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "話",
-                  "confidence": 0.9493021965026855,
+                  "confidence": 0.9442712664604187,
                   "symbols": [
                     {
                       "text": "話",
-                      "confidence": 0.9493021965026855,
+                      "confidence": 0.9442712664604187,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "。",
-                  "confidence": 0.8433470726013184,
+                  "confidence": 0.8402326107025146,
                   "symbols": [
                     {
                       "text": "。",
-                      "confidence": 0.8433470726013184,
+                      "confidence": 0.8402326107025146,
                       "is_break": true
                     }
                   ]
@@ -2445,199 +2445,199 @@
             },
             {
               "text": "希望能夠出人頭地吧!我在這裏會努力工作,也",
-              "confidence": 0.9532647728919983,
+              "confidence": 0.9542474746704102,
               "words": [
                 {
                   "text": "希望",
-                  "confidence": 0.9906185865402222,
+                  "confidence": 0.9912440776824951,
                   "symbols": [
                     {
                       "text": "希",
-                      "confidence": 0.9862653613090515,
+                      "confidence": 0.9871701002120972,
                       "is_break": true
                     },
                     {
                       "text": "望",
-                      "confidence": 0.994971752166748,
+                      "confidence": 0.9953181147575378,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "能夠",
-                  "confidence": 0.9656338095664978,
+                  "confidence": 0.9687362909317017,
                   "symbols": [
                     {
                       "text": "能",
-                      "confidence": 0.955727756023407,
+                      "confidence": 0.9601703882217407,
                       "is_break": true
                     },
                     {
                       "text": "夠",
-                      "confidence": 0.9755398631095886,
+                      "confidence": 0.9773021340370178,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "出",
-                  "confidence": 0.9336890578269958,
+                  "confidence": 0.9354243278503418,
                   "symbols": [
                     {
                       "text": "出",
-                      "confidence": 0.9336890578269958,
+                      "confidence": 0.9354243278503418,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "人頭",
-                  "confidence": 0.9246748685836792,
+                  "confidence": 0.9264754056930542,
                   "symbols": [
                     {
                       "text": "人",
-                      "confidence": 0.9280684590339661,
+                      "confidence": 0.9307875633239746,
                       "is_break": true
                     },
                     {
                       "text": "頭",
-                      "confidence": 0.9212812185287476,
+                      "confidence": 0.922163188457489,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "地",
-                  "confidence": 0.9637951254844666,
+                  "confidence": 0.9647064805030823,
                   "symbols": [
                     {
                       "text": "地",
-                      "confidence": 0.9637951254844666,
+                      "confidence": 0.9647064805030823,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "吧",
-                  "confidence": 0.9724516868591309,
+                  "confidence": 0.9727475643157959,
                   "symbols": [
                     {
                       "text": "吧",
-                      "confidence": 0.9724516868591309,
+                      "confidence": 0.9727475643157959,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "!",
-                  "confidence": 0.9884483218193054,
+                  "confidence": 0.9887845516204834,
                   "symbols": [
                     {
                       "text": "!",
-                      "confidence": 0.9884483218193054,
+                      "confidence": 0.9887845516204834,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "我",
-                  "confidence": 0.9802600741386414,
+                  "confidence": 0.9799778461456299,
                   "symbols": [
                     {
                       "text": "我",
-                      "confidence": 0.9802600741386414,
+                      "confidence": 0.9799778461456299,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "在",
-                  "confidence": 0.9458146691322327,
+                  "confidence": 0.9449559450149536,
                   "symbols": [
                     {
                       "text": "在",
-                      "confidence": 0.9458146691322327,
+                      "confidence": 0.9449559450149536,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "這裏",
-                  "confidence": 0.8360504508018494,
+                  "confidence": 0.8423554301261902,
                   "symbols": [
                     {
                       "text": "這",
-                      "confidence": 0.9589810967445374,
+                      "confidence": 0.9580630660057068,
                       "is_break": true
                     },
                     {
                       "text": "裏",
-                      "confidence": 0.7131198048591614,
+                      "confidence": 0.7266477942466736,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "會",
-                  "confidence": 0.9668036103248596,
+                  "confidence": 0.9659814834594727,
                   "symbols": [
                     {
                       "text": "會",
-                      "confidence": 0.9668036103248596,
+                      "confidence": 0.9659814834594727,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "努力",
-                  "confidence": 0.9416007995605469,
+                  "confidence": 0.9404473304748535,
                   "symbols": [
                     {
                       "text": "努",
-                      "confidence": 0.8932904601097107,
+                      "confidence": 0.8913084268569946,
                       "is_break": true
                     },
                     {
                       "text": "力",
-                      "confidence": 0.9899111986160278,
+                      "confidence": 0.9895862340927124,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "工作",
-                  "confidence": 0.9880616664886475,
+                  "confidence": 0.987853467464447,
                   "symbols": [
                     {
                       "text": "工",
-                      "confidence": 0.9815556406974792,
+                      "confidence": 0.9812373518943787,
                       "is_break": true
                     },
                     {
                       "text": "作",
-                      "confidence": 0.9945677518844604,
+                      "confidence": 0.9944695830345154,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": ",",
-                  "confidence": 0.988124430179596,
+                  "confidence": 0.9872194528579712,
                   "symbols": [
                     {
                       "text": ",",
-                      "confidence": 0.988124430179596,
+                      "confidence": 0.9872194528579712,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "也",
-                  "confidence": 0.985892653465271,
+                  "confidence": 0.9851755499839783,
                   "symbols": [
                     {
                       "text": "也",
-                      "confidence": 0.985892653465271,
+                      "confidence": 0.9851755499839783,
                       "is_break": true
                     }
                   ]
@@ -2647,91 +2647,91 @@
           ]
         },
         {
-          "confidence": 0.9569424986839294,
+          "confidence": 0.9278469681739807,
           "bounding_box": [
             [
               84,
-              544
+              541
             ],
             [
-              294,
-              532
+              295,
+              529
             ],
             [
-              299,
-              629
+              300,
+              628
             ],
             [
               90,
-              641
+              640
             ]
           ],
           "paragraphs": [
             {
               "text": "會小心身體的。",
-              "confidence": 0.9431861042976379,
+              "confidence": 0.8920291066169739,
               "words": [
                 {
                   "text": "會",
-                  "confidence": 0.9318361282348633,
+                  "confidence": 0.9408602714538574,
                   "symbols": [
                     {
                       "text": "會",
-                      "confidence": 0.9318361282348633,
+                      "confidence": 0.9408602714538574,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "小心",
-                  "confidence": 0.9687014818191528,
+                  "confidence": 0.9643165469169617,
                   "symbols": [
                     {
                       "text": "小",
-                      "confidence": 0.9613311886787415,
+                      "confidence": 0.9612818956375122,
                       "is_break": true
                     },
                     {
                       "text": "心",
-                      "confidence": 0.9760717153549194,
+                      "confidence": 0.9673511981964111,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "身體",
-                  "confidence": 0.9813121557235718,
+                  "confidence": 0.9654077887535095,
                   "symbols": [
                     {
                       "text": "身",
-                      "confidence": 0.9826797246932983,
+                      "confidence": 0.9726982712745667,
                       "is_break": true
                     },
                     {
                       "text": "體",
-                      "confidence": 0.9799445271492004,
+                      "confidence": 0.9581173062324524,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "的",
-                  "confidence": 0.9326955676078796,
+                  "confidence": 0.8604668378829956,
                   "symbols": [
                     {
                       "text": "的",
-                      "confidence": 0.9326955676078796,
+                      "confidence": 0.8604668378829956,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "。",
-                  "confidence": 0.8377436995506287,
+                  "confidence": 0.5834278464317322,
                   "symbols": [
                     {
                       "text": "。",
-                      "confidence": 0.8377436995506287,
+                      "confidence": 0.5834278464317322,
                       "is_break": true
                     }
                   ]
@@ -2740,58 +2740,58 @@
             },
             {
               "text": "你們還好吧?",
-              "confidence": 0.9729917049407959,
+              "confidence": 0.9696344137191772,
               "words": [
                 {
                   "text": "你們",
-                  "confidence": 0.9827814102172852,
+                  "confidence": 0.9776383638381958,
                   "symbols": [
                     {
                       "text": "你",
-                      "confidence": 0.9798365235328674,
+                      "confidence": 0.9754570126533508,
                       "is_break": true
                     },
                     {
                       "text": "們",
-                      "confidence": 0.9857262969017029,
+                      "confidence": 0.9798197150230408,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "還",
-                  "confidence": 0.9513300657272339,
+                  "confidence": 0.9414099454879761,
                   "symbols": [
                     {
                       "text": "還",
-                      "confidence": 0.9513300657272339,
+                      "confidence": 0.9414099454879761,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "好吧",
-                  "confidence": 0.9860043525695801,
+                  "confidence": 0.9826377034187317,
                   "symbols": [
                     {
                       "text": "好",
-                      "confidence": 0.9879397749900818,
+                      "confidence": 0.9858040809631348,
                       "is_break": true
                     },
                     {
                       "text": "吧",
-                      "confidence": 0.9840688705444336,
+                      "confidence": 0.9794713258743286,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "?",
-                  "confidence": 0.9490485191345215,
+                  "confidence": 0.9558445811271667,
                   "symbols": [
                     {
                       "text": "?",
-                      "confidence": 0.9490485191345215,
+                      "confidence": 0.9558445811271667,
                       "is_break": true
                     }
                   ]
@@ -2801,166 +2801,166 @@
           ]
         },
         {
-          "confidence": 0.906804084777832,
+          "confidence": 0.9029704332351685,
           "bounding_box": [
             [
-              93,
+              94,
               647
             ],
             [
               551,
-              620
+              621
             ],
             [
               553,
               658
             ],
             [
-              95,
+              96,
               685
             ]
           ],
           "paragraphs": [
             {
               "text": "很掛念你們,希望我們能夠再見面。",
-              "confidence": 0.906804084777832,
+              "confidence": 0.9029704332351685,
               "words": [
                 {
                   "text": "很",
-                  "confidence": 0.9232276082038879,
+                  "confidence": 0.9167342185974121,
                   "symbols": [
                     {
                       "text": "很",
-                      "confidence": 0.9232276082038879,
+                      "confidence": 0.9167342185974121,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "掛念",
-                  "confidence": 0.9295438528060913,
+                  "confidence": 0.9259248971939087,
                   "symbols": [
                     {
                       "text": "掛",
-                      "confidence": 0.9712355136871338,
+                      "confidence": 0.9707244038581848,
                       "is_break": true
                     },
                     {
                       "text": "念",
-                      "confidence": 0.8878521919250488,
+                      "confidence": 0.8811254501342773,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "你們",
-                  "confidence": 0.9727990627288818,
+                  "confidence": 0.9729024171829224,
                   "symbols": [
                     {
                       "text": "你",
-                      "confidence": 0.9694989323616028,
+                      "confidence": 0.9693517088890076,
                       "is_break": true
                     },
                     {
                       "text": "們",
-                      "confidence": 0.9760991930961609,
+                      "confidence": 0.9764530658721924,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": ",",
-                  "confidence": 0.9955834746360779,
+                  "confidence": 0.9957946538925171,
                   "symbols": [
                     {
                       "text": ",",
-                      "confidence": 0.9955834746360779,
+                      "confidence": 0.9957946538925171,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "希望",
-                  "confidence": 0.9968740940093994,
+                  "confidence": 0.9968918561935425,
                   "symbols": [
                     {
                       "text": "希",
-                      "confidence": 0.9962883591651917,
+                      "confidence": 0.996335506439209,
                       "is_break": true
                     },
                     {
                       "text": "望",
-                      "confidence": 0.9974598288536072,
+                      "confidence": 0.9974482655525208,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "我們",
-                  "confidence": 0.9837405681610107,
+                  "confidence": 0.983659029006958,
                   "symbols": [
                     {
                       "text": "我",
-                      "confidence": 0.9798591732978821,
+                      "confidence": 0.9797048568725586,
                       "is_break": true
                     },
                     {
                       "text": "們",
-                      "confidence": 0.9876219034194946,
+                      "confidence": 0.9876131415367126,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "能夠",
-                  "confidence": 0.9206754565238953,
+                  "confidence": 0.9191545248031616,
                   "symbols": [
                     {
                       "text": "能",
-                      "confidence": 0.9725521206855774,
+                      "confidence": 0.9726933240890503,
                       "is_break": true
                     },
                     {
                       "text": "夠",
-                      "confidence": 0.8687987923622131,
+                      "confidence": 0.8656157851219177,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "再",
-                  "confidence": 0.8654834032058716,
+                  "confidence": 0.8575289249420166,
                   "symbols": [
                     {
                       "text": "再",
-                      "confidence": 0.8654834032058716,
+                      "confidence": 0.8575289249420166,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "見面",
-                  "confidence": 0.6530746221542358,
+                  "confidence": 0.6372720003128052,
                   "symbols": [
                     {
                       "text": "見",
-                      "confidence": 0.44610127806663513,
+                      "confidence": 0.4235273599624634,
                       "is_break": true
                     },
                     {
                       "text": "面",
-                      "confidence": 0.8600479960441589,
+                      "confidence": 0.8510167002677917,
                       "is_break": true
                     }
                   ]
                 },
                 {
                   "text": "。",
-                  "confidence": 0.811155378818512,
+                  "confidence": 0.8058591485023499,
                   "symbols": [
                     {
                       "text": "。",
-                      "confidence": 0.811155378818512,
+                      "confidence": 0.8058591485023499,
                       "is_break": true
                     }
                   ]

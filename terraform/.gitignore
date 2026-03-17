@@ -1,0 +1,11 @@
+# Terraform working directory and downloaded providers
+.terraform/
+.terraform.lock.hcl
+
+# State files — stored in S3, never committed
+*.tfstate
+*.tfstate.backup
+
+# Variable files containing real values
+*.tfvars
+!terraform.tfvars.example
