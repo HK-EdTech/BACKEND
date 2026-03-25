@@ -86,7 +86,7 @@ jobs:
         HOST: ${{ steps.tf_output.outputs.host }}
         DEBUG_TOKEN: ${{ secrets.JWT_DEV_TOKEN }}
         SUPABASE_URL: ${{ vars.DEV_SUPABASE_URL }}
-        SUPABASE_ANON_KEY: ${{ vars.DEV_SUPABASE_ANON_KEY }}
+        SUPABASE_ANON_KEY: ${{ secrets.DEV_SUPABASE_ANON_KEY }}
         DB_PROJECT_REF: ${{ vars.DB_PROJECT_REF }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         GCV_API_KEY_B64: ${{ secrets.GCV_API_KEY_B64 }}
