@@ -118,3 +118,4 @@ jobs:
         echo ""
         echo "LIVE → http://${HOST}"
         echo "Docs → http://${HOST}/docs"
+        echo "Public IP → ${HOST}"

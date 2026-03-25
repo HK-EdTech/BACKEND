@@ -116,10 +116,24 @@ resource "aws_instance" "app" {
   }
 }
 
+resource "aws_eip" "app" {
+  domain = "vpc"
+
+  tags = {
+    Name        = "${var.environment}-app-eip"
+    Environment = var.environment
+  }
+}
+
+resource "aws_eip_association" "app" {
+  instance_id   = aws_instance.app.id
+  allocation_id = aws_eip.app.id
+}
+
 # Regenerate the Ansible inventory every time the EC2 public IP changes.
 resource "local_file" "ansible_inventory" {
   content = templatefile("${path.module}/templates/hosts.ini.tpl", {
-    ec2_ip       = aws_instance.app.public_ip
+    ec2_ip       = aws_eip.app.public_ip
     ssh_key_path = var.ssh_private_key_path
   })
   filename        = "${path.module}/../ansible/inventory/hosts.ini"

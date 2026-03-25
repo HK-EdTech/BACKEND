@@ -1,5 +1,7 @@
 {
+  "average_confidence": 0.9303650856018066,
   "full_text": "© Imgur\nuse video, horizon readings + extra info.\nHOMEWORK\nYou are to assume the role of a Chinese immigrant in 1870 and write a letter\nhome describing your experiences\nYour letter should include the following:\nyour contributions and experiences in the West.\n我在這裏生活得很差。\n工作環境不佳,福利缺少。\n不過不用擔心,每天只有大概十個人受重傷,\n而我亦很小心。\n我們開了一間小鋪,生意不俗。\n雖然我英文不是很認識,但是也能略略\n明白那些白人所說的話。\n希望能夠出人頭地吧!我在這裏會努力工作,也\n會小心身體的。\n你們還好吧?\n很掛念你們,希望我們能夠再見面。",
+  "total_pages": 1,
   "pages": [
     {
       "width": 634,
@@ -247,7 +249,7 @@
                     },
                     {
                       "text": "s",
-                      "confidence": 0.6037595868110657,
+                      "confidence": 0.6037596464157104,
                       "is_break": true
                     }
                   ]
@@ -269,7 +271,7 @@
                   "symbols": [
                     {
                       "text": "e",
-                      "confidence": 0.8498449921607971,
+                      "confidence": 0.8498449325561523,
                       "is_break": true
                     },
                     {
@@ -279,7 +281,7 @@
                     },
                     {
                       "text": "t",
-                      "confidence": 0.7514693737030029,
+                      "confidence": 0.7514694333076477,
                       "is_break": true
                     },
                     {
@@ -624,7 +626,7 @@
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9756247997283936,
+                      "confidence": 0.9756248593330383,
                       "is_break": true
                     },
                     {
@@ -871,7 +873,7 @@
                   "symbols": [
                     {
                       "text": "h",
-                      "confidence": 0.9704315662384033,
+                      "confidence": 0.9704315066337585,
                       "is_break": true
                     },
                     {
@@ -1355,7 +1357,7 @@
                     },
                     {
                       "text": "n",
-                      "confidence": 0.9596459269523621,
+                      "confidence": 0.9596459865570068,
                       "is_break": true
                     },
                     {
@@ -1958,11 +1960,11 @@
                 },
                 {
                   "text": "亦很",
-                  "confidence": 0.9729183316230774,
+                  "confidence": 0.9729182720184326,
                   "symbols": [
                     {
                       "text": "亦",
-                      "confidence": 0.982581377029419,
+                      "confidence": 0.9825813174247742,
                       "is_break": true
                     },
                     {
@@ -2046,11 +2048,11 @@
                 },
                 {
                   "text": "開",
-                  "confidence": 0.46501192450523376,
+                  "confidence": 0.46501198410987854,
                   "symbols": [
                     {
                       "text": "開",
-                      "confidence": 0.46501192450523376,
+                      "confidence": 0.46501198410987854,
                       "is_break": true
                     }
                   ]
@@ -2068,11 +2070,11 @@
                 },
                 {
                   "text": "一",
-                  "confidence": 0.5379429459571838,
+                  "confidence": 0.5379430055618286,
                   "symbols": [
                     {
                       "text": "一",
-                      "confidence": 0.5379429459571838,
+                      "confidence": 0.5379430055618286,
                       "is_break": true
                     }
                   ]
@@ -2366,7 +2368,7 @@
                   "symbols": [
                     {
                       "text": "那",
-                      "confidence": 0.9697448015213013,
+                      "confidence": 0.969744861125946,
                       "is_break": true
                     },
                     {
@@ -2432,11 +2434,11 @@
                 },
                 {
                   "text": "。",
-                  "confidence": 0.8402326107025146,
+                  "confidence": 0.8402325510978699,
                   "symbols": [
                     {
                       "text": "。",
-                      "confidence": 0.8402326107025146,
+                      "confidence": 0.8402325510978699,
                       "is_break": true
                     }
                   ]
@@ -2838,7 +2840,7 @@
                 },
                 {
                   "text": "掛念",
-                  "confidence": 0.9259248971939087,
+                  "confidence": 0.9259249567985535,
                   "symbols": [
                     {
                       "text": "掛",
@@ -2847,7 +2849,7 @@
                     },
                     {
                       "text": "念",
-                      "confidence": 0.8811254501342773,
+                      "confidence": 0.8811255097389221,
                       "is_break": true
                     }
                   ]
@@ -2971,6 +2973,5 @@
         }
       ]
     }
-  ],
-  "average_confidence": null
+  ]
 }
