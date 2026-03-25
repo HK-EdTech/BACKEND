@@ -41,10 +41,14 @@ async def test_ocr_from_supabase(request: Request, body: OcrTestRequest):
 
     download_url = f"{supabase_url}/storage/v1/object/{body.bucket}/{body.file_path}"
 
+    supabase_anon_key = os.getenv("SUPABASE_ANON_KEY", "")
     async with httpx.AsyncClient() as client:
         resp = await client.get(
             download_url,
-            headers={"Authorization": f"Bearer {raw_token}"},
+            headers={
+                "Authorization": f"Bearer {raw_token}",
+                "apikey": supabase_anon_key,
+            },
         )
         if resp.status_code != 200:
             raise HTTPException(
