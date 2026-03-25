@@ -28,8 +28,8 @@ COPY . .
 # Generate Prisma client (required before using the client in the app)
 RUN prisma generate
 
-# Make the project root importable
-ENV PYTHONPATH=/app
+# Make the project root and src/ importable (src/ mirrors the tox PYTHONPATH)
+ENV PYTHONPATH=/app:/app/src
 
 # Expose and launch
 EXPOSE 8000
