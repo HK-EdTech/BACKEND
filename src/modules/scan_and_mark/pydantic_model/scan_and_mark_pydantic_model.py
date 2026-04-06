@@ -18,7 +18,7 @@ class MarkingSchemeMetadata(BaseModel):
 
 
 class OnetimeCriteria(BaseModel):
-    homeworkName: str
+    homeworkTitle: str
     selectedLevel: str
     selectedOneTimeSubject: str
     markingScheme: MarkingSchemeMetadata

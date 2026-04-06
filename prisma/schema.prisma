@@ -1,8 +1,8 @@
 generator client {
   provider             = "prisma-client-py"
   previewFeatures      = ["multiSchema"]
-  interface            = "asyncio"
   recursive_type_depth = "5"
+  interface            = "asyncio"
 }
 
 datasource db {
@@ -22,7 +22,40 @@ model audit_log_entries {
   ip_address  String    @default("") @db.VarChar(64)
 
   @@index([instance_id], map: "audit_logs_instance_id_idx")
-  @@ignore
+  @@schema("auth")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model custom_oauth_providers {
+  id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  provider_type         String
+  identifier            String    @unique
+  name                  String
+  client_id             String
+  client_secret         String
+  acceptable_client_ids String[]  @default([])
+  scopes                String[]  @default([])
+  pkce_enabled          Boolean   @default(true)
+  attribute_mapping     Json      @default("{}")
+  authorization_params  Json      @default("{}")
+  enabled               Boolean   @default(true)
+  email_optional        Boolean   @default(false)
+  issuer                String?
+  discovery_url         String?
+  skip_nonce_check      Boolean   @default(false)
+  cached_discovery      Json?
+  discovery_cached_at   DateTime? @db.Timestamptz(6)
+  authorization_url     String?
+  token_url             String?
+  userinfo_url          String?
+  jwks_uri              String?
+  created_at            DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime  @default(now()) @db.Timestamptz(6)
+
+  @@index([created_at])
+  @@index([enabled])
+  @@index([identifier])
+  @@index([provider_type])
   @@schema("auth")
 }
 
@@ -51,7 +84,6 @@ model flow_state {
   @@index([created_at(sort: Desc)])
   @@index([auth_code], map: "idx_auth_code")
   @@index([user_id, authentication_method], map: "idx_user_id_auth_method")
-  @@ignore
   @@schema("auth")
 }
 
@@ -72,7 +104,6 @@ model identities {
   @@unique([provider_id, provider], map: "identities_provider_id_provider_unique")
   @@index([email])
   @@index([user_id])
-  @@ignore
   @@schema("auth")
 }
 
@@ -85,7 +116,6 @@ model instances {
   created_at      DateTime? @db.Timestamptz(6)
   updated_at      DateTime? @db.Timestamptz(6)
 
-  @@ignore
   @@schema("auth")
 }
 
@@ -100,7 +130,6 @@ model mfa_amr_claims {
   sessions              sessions @relation(fields: [session_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@unique([session_id, authentication_method], map: "mfa_amr_claims_session_id_authentication_method_pkey")
-  @@ignore
   @@schema("auth")
 }
 
@@ -117,7 +146,6 @@ model mfa_challenges {
   mfa_factors            mfa_factors @relation(fields: [factor_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "mfa_challenges_auth_factor_id_fkey")
 
   @@index([created_at(sort: Desc)], map: "mfa_challenge_created_at_idx")
-  @@ignore
   @@schema("auth")
 }
 
@@ -143,7 +171,6 @@ model mfa_factors {
   @@unique([user_id, phone], map: "unique_phone_factor_per_user")
   @@index([user_id, created_at], map: "factor_id_created_at_idx")
   @@index([user_id])
-  @@ignore
   @@schema("auth")
 }
 
@@ -169,7 +196,6 @@ model oauth_authorizations {
   oauth_clients         oauth_clients              @relation(fields: [client_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   users                 users?                     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  @@ignore
   @@schema("auth")
 }
 
@@ -181,7 +207,6 @@ model oauth_client_states {
   created_at    DateTime @db.Timestamptz(6)
 
   @@index([created_at], map: "idx_oauth_client_states_created_at")
-  @@ignore
   @@schema("auth")
 }
 
@@ -205,7 +230,6 @@ model oauth_clients {
   sessions                   sessions[]
 
   @@index([deleted_at])
-  @@ignore
   @@schema("auth")
 }
 
@@ -222,7 +246,6 @@ model oauth_consents {
 
   @@unique([user_id, client_id], map: "oauth_consents_user_client_unique")
   @@index([user_id, granted_at(sort: Desc)], map: "oauth_consents_user_order_idx")
-  @@ignore
   @@schema("auth")
 }
 
@@ -241,7 +264,6 @@ model one_time_tokens {
   @@unique([user_id, token_type])
   @@index([relates_to], map: "one_time_tokens_relates_to_hash_idx", type: Hash)
   @@index([token_hash], map: "one_time_tokens_token_hash_hash_idx", type: Hash)
-  @@ignore
   @@schema("auth")
 }
 
@@ -264,7 +286,6 @@ model refresh_tokens {
   @@index([parent])
   @@index([session_id, revoked])
   @@index([updated_at(sort: Desc)])
-  @@ignore
   @@schema("auth")
 }
 
@@ -284,7 +305,6 @@ model saml_providers {
   sso_providers     sso_providers @relation(fields: [sso_provider_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([sso_provider_id])
-  @@ignore
   @@schema("auth")
 }
 
@@ -306,7 +326,6 @@ model saml_relay_states {
   @@index([created_at(sort: Desc)])
   @@index([for_email])
   @@index([sso_provider_id])
-  @@ignore
   @@schema("auth")
 }
 
@@ -315,7 +334,6 @@ model saml_relay_states {
 model schema_migrations {
   version String @id @db.VarChar(255)
 
-  @@ignore
   @@schema("auth")
 }
 
@@ -347,7 +365,6 @@ model sessions {
   @@index([oauth_client_id])
   @@index([user_id])
   @@index([user_id, created_at], map: "user_id_created_at_idx")
-  @@ignore
   @@schema("auth")
 }
 
@@ -364,7 +381,6 @@ model sso_domains {
   sso_providers   sso_providers @relation(fields: [sso_provider_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@index([sso_provider_id])
-  @@ignore
   @@schema("auth")
 }
 
@@ -383,7 +399,6 @@ model sso_providers {
   sso_domains       sso_domains[]
 
   @@index([resource_id], map: "sso_providers_resource_id_pattern_idx")
-  @@ignore
   @@schema("auth")
 }
 
@@ -439,7 +454,42 @@ model users {
 
   @@index([instance_id])
   @@index([is_anonymous])
-  @@ignore
+  @@schema("auth")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model webauthn_challenges {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id        String?  @db.Uuid
+  challenge_type String
+  session_data   Json
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  expires_at     DateTime @db.Timestamptz(6)
+  users          users?   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([expires_at])
+  @@index([user_id])
+  @@schema("auth")
+}
+
+model webauthn_credentials {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id          String    @db.Uuid
+  credential_id    Bytes     @unique
+  public_key       Bytes
+  attestation_type String    @default("")
+  aaguid           String?   @db.Uuid
+  sign_count       BigInt    @default(0)
+  transports       Json      @default("[]")
+  backup_eligible  Boolean   @default(false)
+  backed_up        Boolean   @default(false)
+  friendly_name    String    @default("")
+  created_at       DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime  @default(now()) @db.Timestamptz(6)
+  last_used_at     DateTime? @db.Timestamptz(6)
+  users            users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id])
   @@schema("auth")
 }
 
@@ -453,7 +503,7 @@ model classes {
   organization_id           String?                    @db.Uuid
   created_at                DateTime                   @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
   educational_organizations educational_organizations? @relation(fields: [organization_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  teacher_profile           teacher_profiles           @relation(fields: [teacher_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  teacher_profiles          teacher_profiles           @relation(fields: [teacher_id], references: [profile_id], onDelete: Cascade, onUpdate: NoAction)
   enrollments               enrollments[]
   homework                  homework[]
   homework_classes          homework_classes[]
@@ -481,12 +531,12 @@ model educational_organizations {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model enrollments {
-  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  student_id      String           @db.Uuid
-  class_id        String           @db.Uuid
-  enrollment_date DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  classes         classes          @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  student_profile student_profiles @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  student_id       String           @db.Uuid
+  class_id         String           @db.Uuid
+  enrollment_date  DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  classes          classes          @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  student_profiles student_profiles @relation(fields: [student_id], references: [profile_id], onDelete: Cascade, onUpdate: NoAction)
 
   @@unique([student_id, class_id])
   @@index([class_id], map: "idx_enrollments_class")
@@ -494,138 +544,43 @@ model enrollments {
   @@schema("public")
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model profiles {
-  id                        String                     @id @db.Uuid
-  first_name                String
-  surname                   String
-  full_name                 String?                    @default(dbgenerated("((first_name || ' '::text) || surname)"))
-  username                  String
-  organization_id           String?                    @db.Uuid
-  avatar_url                String?
-  created_at                DateTime                   @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  updated_at                DateTime                   @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  profile_roles             profile_roles[]
-  users                     users                      @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction) @ignore
-  educational_organizations educational_organizations? @relation(fields: [organization_id], references: [id], onUpdate: NoAction)
-  student_profile           student_profiles?
-  teacher_profile           teacher_profiles?
-
-  @@index([organization_id], map: "idx_profiles_org")
-  @@schema("public")
-}
-
-/// Student-specific profile information
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model student_profiles {
-  id                        String                      @id @map("profile_id") @db.Uuid
-  level                     String?
-  created_at                DateTime                    @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  updated_at                DateTime                    @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  enrollments               enrollments[]
-  homework_submission_class homework_submission_class[]
-  profile                   profiles                    @relation(fields: [id], references: [id], onDelete: Cascade)
-
-  @@index([level], map: "idx_student_profiles_level")
-  @@schema("public")
-}
-
-/// Teacher-specific profile information
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model teacher_profiles {
-  id               String             @id @map("profile_id") @db.Uuid
-  bio              String?
-  created_at       DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  updated_at       DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  classes          classes[]
-  homework         homework[]
-  homework_classes homework_classes[]
-  profile          profiles           @relation(fields: [id], references: [id], onDelete: Cascade)
-
-  @@schema("public")
-}
-
-model roles {
-  id                String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name              String             @unique
-  default_route     String?            @db.VarChar
-  profile_roles     profile_roles[]
-  role_module_perms role_module_perm[]
-
-  @@schema("public")
-}
-
-model profile_roles {
-  profile_id String   @db.Uuid
-  role_id    String   @db.Uuid
-  profiles   profiles @relation(fields: [profile_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  roles      roles    @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@id([profile_id, role_id])
-  @@schema("public")
-}
-
-/// Module permission system models
-model modules {
-  module_code         String             @id @db.VarChar(50)
-  module_eng_name     String             @db.VarChar(100)
-  module_chi_name     String             @db.VarChar(100)
-  seq_no              Int
-  description         String?
-  descriptive_message String?
-  route               String             @db.VarChar(100)
-  parent_module_code  String?            @db.VarChar(50)
-  created_at          DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  updated_at          DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  parent_module       modules?           @relation("ModuleHierarchy", fields: [parent_module_code], references: [module_code], onDelete: Cascade)
-  child_modules       modules[]          @relation("ModuleHierarchy")
-  role_module_perms   role_module_perm[]
-
-  @@schema("public")
-}
-
-model permissions {
-  permission_code   String             @id @db.VarChar(20)
-  created_at        DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  role_module_perms role_module_perm[]
-
-  @@schema("public")
-}
-
-model role_module_perm {
-  id              Int         @id @default(autoincrement())
-  role_id         String      @db.Uuid
-  module_code     String      @db.VarChar(50)
-  permission_code String      @db.VarChar(20)
-  created_at      DateTime    @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  modules         modules     @relation(fields: [module_code], references: [module_code], onDelete: Cascade)
-  permissions     permissions @relation(fields: [permission_code], references: [permission_code], onDelete: Cascade)
-  roles           roles       @relation(fields: [role_id], references: [id], onDelete: Cascade)
-
-  @@unique([role_id, module_code, permission_code])
-  @@schema("public")
-}
-
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model homework {
-  id                          String                        @id(map: "homeworks_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title                       String?
-  subject                     String?
-  class_id                    String?                       @db.Uuid
-  due_date                    DateTime?                     @db.Timestamptz(6)
-  created_at                  DateTime                      @default(now()) @db.Timestamptz(6)
-  full_score                  Float?                        @db.Real
-  marking_scheme_id           String?                       @db.Uuid
-  teacher_id                  String?                       @db.Uuid
-  homework_type               Int?
-  marking_scheme              marking_scheme?               @relation(fields: [marking_scheme_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  teacher_profiles            teacher_profiles?             @relation(fields: [teacher_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  classes                     classes?                      @relation(fields: [class_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "homeworks_class_id_fkey")
-  homework_classes            homework_classes[]
-  homework_sheets             homework_sheets[]
-  homework_submission_class   homework_submission_class[]
-  homework_submission_onetime homework_submission_onetime[]
+  id                            String                         @id(map: "homeworks_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title                         String?
+  subject                       String?
+  class_id                      String?                        @db.Uuid
+  due_date                      DateTime?                      @db.Timestamptz(6)
+  created_at                    DateTime                       @default(now()) @db.Timestamptz(6)
+  full_score                    Float?                         @db.Real
+  marking_scheme_id             String?                        @db.Uuid
+  teacher_id                    String?                        @db.Uuid
+  homework_type                 String?
+  status                        String?
+  level                         String?
+  master_homework_homework_type master_homework_homework_type? @relation(fields: [homework_type], references: [type], onDelete: NoAction, onUpdate: NoAction)
+  marking_scheme                marking_scheme?                @relation(fields: [marking_scheme_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  master_homework_status        master_homework_status?        @relation(fields: [status], references: [status], onDelete: NoAction, onUpdate: NoAction)
+  teacher_profiles              teacher_profiles?              @relation(fields: [teacher_id], references: [profile_id], onDelete: NoAction, onUpdate: NoAction)
+  classes                       classes?                       @relation(fields: [class_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "homeworks_class_id_fkey")
+  homework_classes              homework_classes[]
+  homework_sheets               homework_sheets[]
+  homework_submission_class     homework_submission_class[]
+  homework_submission_onetime   homework_submission_onetime[]
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model homework_classes {
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at       DateTime          @default(now()) @db.Timestamptz(6)
+  homework_id      String?           @db.Uuid
+  class_id         String?           @db.Uuid
+  assign_by        String?           @db.Uuid
+  teacher_profiles teacher_profiles? @relation(fields: [assign_by], references: [profile_id], onDelete: NoAction, onUpdate: NoAction)
+  classes          classes?          @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  homework         homework?         @relation(fields: [homework_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@schema("public")
 }
@@ -650,139 +605,68 @@ model homework_sheets {
   @@schema("public")
 }
 
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model marking_scheme {
-  id               String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at       DateTime   @default(now()) @db.Timestamptz(6)
-  page_number      Int?
-  file_path        String?
-  file_size_bytes  BigInt?
-  has_handwriting  Boolean?   @default(false)
-  extracted_text   String?
-  latex_content    String?
-  ocr_confidence   Float?
-  formatted_result Json?
-  homework         homework[]
-
-  @@schema("public")
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model homework_classes {
-  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at       DateTime          @default(now()) @db.Timestamptz(6)
-  homework_id      String?           @db.Uuid
-  class_id         String?           @db.Uuid
-  assign_by        String?           @db.Uuid
-  teacher_profiles teacher_profiles? @relation(fields: [assign_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  classes          classes?          @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  homework         homework?         @relation(fields: [homework_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@schema("public")
-}
-
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model custom_oauth_providers {
-  id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  provider_type         String
-  identifier            String    @unique
-  name                  String
-  client_id             String
-  client_secret         String
-  acceptable_client_ids String[]  @default([])
-  scopes                String[]  @default([])
-  pkce_enabled          Boolean   @default(true)
-  attribute_mapping     Json      @default("{}")
-  authorization_params  Json      @default("{}")
-  enabled               Boolean   @default(true)
-  email_optional        Boolean   @default(false)
-  issuer                String?
-  discovery_url         String?
-  skip_nonce_check      Boolean   @default(false)
-  cached_discovery      Json?
-  discovery_cached_at   DateTime? @db.Timestamptz(6)
-  authorization_url     String?
-  token_url             String?
-  userinfo_url          String?
-  jwks_uri              String?
-  created_at            DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at            DateTime  @default(now()) @db.Timestamptz(6)
-
-  @@index([created_at])
-  @@index([enabled])
-  @@index([identifier])
-  @@index([provider_type])
-  @@schema("auth")
-}
-
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model webauthn_challenges {
-  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id        String?  @db.Uuid
-  challenge_type String
-  session_data   Json
-  created_at     DateTime @default(now()) @db.Timestamptz(6)
-  expires_at     DateTime @db.Timestamptz(6)
-  users          users?   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction) @ignore
-
-  @@index([expires_at])
-  @@index([user_id])
-  @@schema("auth")
-}
-
-model webauthn_credentials {
-  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id          String    @db.Uuid
-  credential_id    Bytes     @unique
-  public_key       Bytes
-  attestation_type String    @default("")
-  aaguid           String?   @db.Uuid
-  sign_count       BigInt    @default(0)
-  transports       Json      @default("[]")
-  backup_eligible  Boolean   @default(false)
-  backed_up        Boolean   @default(false)
-  friendly_name    String    @default("")
-  created_at       DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at       DateTime  @default(now()) @db.Timestamptz(6)
-  last_used_at     DateTime? @db.Timestamptz(6)
-  users            users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction) @ignore
-
-  @@index([user_id])
-  @@schema("auth")
-}
-
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model homework_submission_class {
-  id                  String            @id(map: "homework_submission_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at          DateTime          @default(now()) @db.Timestamptz(6)
-  student_id          String            @db.Uuid
-  homework_id         String            @db.Uuid
-  score               Float?            @db.Real
-  submission_datetime DateTime?         @default(now()) @db.Timestamptz(6)
-  status              Int?
-  file_path           String?
-  file_size_bytes     BigInt?
-  homework_sheets     homework_sheets[]
-  homework            homework          @relation(fields: [homework_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "homework_submission_homework_id_fkey")
-  student_profiles    student_profiles  @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "homework_submission_student_id_fkey")
+  id                               String                            @id(map: "homework_submission_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at                       DateTime                          @default(now()) @db.Timestamptz(6)
+  student_id                       String                            @db.Uuid
+  homework_id                      String                            @db.Uuid
+  score                            Float?                            @db.Real
+  submission_datetime              DateTime?                         @default(now()) @db.Timestamptz(6)
+  status                           String?
+  file_path                        String?
+  file_size_bytes                  BigInt?
+  checksum                         String?
+  content_type                     String?
+  file_name                        String?
+  homework_sheets                  homework_sheets[]
+  master_homework_submssion_status master_homework_submssion_status? @relation(fields: [status], references: [status], onDelete: NoAction, onUpdate: NoAction)
+  homework                         homework                          @relation(fields: [homework_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "homework_submission_homework_id_fkey")
+  student_profiles                 student_profiles                  @relation(fields: [student_id], references: [profile_id], onDelete: Cascade, onUpdate: NoAction, map: "homework_submission_student_id_fkey")
 
   @@schema("public")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model homework_submission_onetime {
-  created_at                                                                               DateTime          @default(now()) @db.Timestamptz(6)
+  created_at                                                                               DateTime                          @default(now()) @db.Timestamptz(6)
   student_name                                                                             String?
-  homework_id                                                                              String            @db.Uuid
-  score                                                                                    Float?            @db.Real
-  status                                                                                   Int?
-  submission_datetime                                                                      DateTime?         @db.Timestamptz(6)
-  id                                                                                       String            @id @db.Uuid
+  homework_id                                                                              String                            @db.Uuid
+  score                                                                                    Float?                            @db.Real
+  status                                                                                   String?
+  submission_datetime                                                                      DateTime?                         @db.Timestamptz(6)
+  id                                                                                       String                            @id @db.Uuid
   file_path                                                                                String?
   file_size_bytes                                                                          BigInt?
-  homework_sheets_homework_sheets_homework_submission_onetimeTohomework_submission_onetime homework_sheets[] @relation("homework_sheets_homework_submission_onetimeTohomework_submission_onetime")
-  homework                                                                                 homework          @relation(fields: [homework_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  checksum                                                                                 String?
+  content_type                                                                             String?
+  file_name                                                                                String?
+  homework_sheets_homework_sheets_homework_submission_onetimeTohomework_submission_onetime homework_sheets[]                 @relation("homework_sheets_homework_submission_onetimeTohomework_submission_onetime")
+  homework                                                                                 homework                          @relation(fields: [homework_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  master_homework_submssion_status                                                         master_homework_submssion_status? @relation(fields: [status], references: [status], onDelete: NoAction, onUpdate: NoAction)
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model marking_scheme {
+  id                    String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at            DateTime               @default(now()) @db.Timestamptz(6)
+  page_number           Int?
+  file_path             String?
+  file_size_bytes       BigInt?
+  has_handwriting       Boolean?               @default(false)
+  extracted_text        String?
+  latex_content         String?
+  ocr_confidence        Float?
+  formatted_result      Json?
+  status                String?
+  checksum              String?
+  content_type          String?
+  file_name             String?
+  homework              homework[]
+  master_marking_scheme master_marking_scheme? @relation(fields: [status], references: [status], onDelete: NoAction, onUpdate: NoAction)
 
   @@schema("public")
 }
@@ -794,6 +678,155 @@ model master_data {
   data_code  Int?     @default(1)
   data_value String?
   data_type  String?
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model master_homework_homework_type {
+  id         BigInt     @id @default(autoincrement())
+  created_at DateTime   @default(now()) @db.Timestamptz(6)
+  type       String?    @unique
+  homework   homework[]
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model master_homework_status {
+  status_id  BigInt     @id @default(autoincrement())
+  created_at DateTime   @default(now()) @db.Timestamptz(6)
+  status     String?    @unique
+  homework   homework[]
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model master_homework_submssion_status {
+  status_id                   Int                           @id @default(autoincrement())
+  created_at                  DateTime                      @default(now()) @db.Timestamptz(6)
+  status                      String?                       @unique
+  homework_submission_class   homework_submission_class[]
+  homework_submission_onetime homework_submission_onetime[]
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model master_marking_scheme {
+  status_id      BigInt           @id @default(autoincrement())
+  created_at     DateTime         @default(now()) @db.Timestamptz(6)
+  status         String?          @unique
+  marking_scheme marking_scheme[]
+
+  @@schema("public")
+}
+
+model modules {
+  module_code         String             @id @db.VarChar(50)
+  module_eng_name     String             @db.VarChar(100)
+  module_chi_name     String             @db.VarChar(100)
+  seq_no              Int
+  description         String?
+  descriptive_message String?
+  route               String             @db.VarChar(100)
+  parent_module_code  String?            @db.VarChar(50)
+  created_at          DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at          DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  modules             modules?           @relation("modulesTomodules", fields: [parent_module_code], references: [module_code], onDelete: Cascade)
+  other_modules       modules[]          @relation("modulesTomodules")
+  role_module_perm    role_module_perm[]
+
+  @@schema("public")
+}
+
+model permissions {
+  permission_code  String             @id @db.VarChar(20)
+  created_at       DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  role_module_perm role_module_perm[]
+
+  @@schema("public")
+}
+
+model profile_roles {
+  profile_id String   @db.Uuid
+  role_id    String   @db.Uuid
+  profiles   profiles @relation(fields: [profile_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  roles      roles    @relation(fields: [role_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([profile_id, role_id])
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model profiles {
+  id                        String                     @id @db.Uuid
+  first_name                String
+  surname                   String
+  full_name                 String?                    @default(dbgenerated("((first_name || ' '::text) || surname)"))
+  username                  String
+  organization_id           String?                    @db.Uuid
+  avatar_url                String?
+  created_at                DateTime                   @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at                DateTime                   @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  profile_roles             profile_roles[]
+  users                     users                      @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  educational_organizations educational_organizations? @relation(fields: [organization_id], references: [id], onUpdate: NoAction)
+  student_profiles          student_profiles?
+  teacher_profiles          teacher_profiles?
+
+  @@index([organization_id], map: "idx_profiles_org")
+  @@schema("public")
+}
+
+model role_module_perm {
+  id              Int         @id @default(autoincrement())
+  role_id         String      @db.Uuid
+  module_code     String      @db.VarChar(50)
+  permission_code String      @db.VarChar(20)
+  created_at      DateTime    @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  modules         modules     @relation(fields: [module_code], references: [module_code], onDelete: Cascade)
+  permissions     permissions @relation(fields: [permission_code], references: [permission_code], onDelete: Cascade)
+  roles           roles       @relation(fields: [role_id], references: [id], onDelete: Cascade)
+
+  @@unique([role_id, module_code, permission_code])
+  @@schema("public")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model roles {
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String             @unique
+  default_route    String?            @db.VarChar
+  profile_roles    profile_roles[]
+  role_module_perm role_module_perm[]
+
+  @@schema("public")
+}
+
+model student_profiles {
+  profile_id                String                      @id @db.Uuid
+  level                     String?
+  created_at                DateTime                    @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at                DateTime                    @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  enrollments               enrollments[]
+  homework_submission_class homework_submission_class[]
+  profiles                  profiles                    @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+
+  @@index([level], map: "idx_student_profiles_level")
+  @@schema("public")
+}
+
+model teacher_profiles {
+  profile_id       String             @id @db.Uuid
+  bio              String?
+  created_at       DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at       DateTime           @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  classes          classes[]
+  homework         homework[]
+  homework_classes homework_classes[]
+  profiles         profiles           @relation(fields: [profile_id], references: [id], onDelete: Cascade)
 
   @@schema("public")
 }
