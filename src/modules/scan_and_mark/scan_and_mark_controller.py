@@ -29,12 +29,14 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
 
         criteria = OnetimeCriteria(**raw_criteria) if homework_type == "onetime" else None
         marking_scheme_id = None
+        marking_scheme_info = None
+        submission_infos = []
 
         async with prisma_client.tx() as tx:
             tx_service = ScanAndMarkService(tx)
 
             if homework_type == "onetime":
-                marking_scheme_id = await tx_service.create_marking_scheme_record(
+                marking_scheme_id, marking_scheme_info = await tx_service.create_marking_scheme_record(
                     org_id, teacher_id, homework_id, criteria.markingScheme
                 )
                 print(f"  marking_scheme_id: {marking_scheme_id}")
@@ -54,11 +56,28 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
 
             # After match block — create submissions (onetime only)
             if homework_type == "onetime":
-                await tx_service.create_onetime_submissions(org_id, teacher_id, homework_id, body.homework_pdf_entries)
+                submission_infos = await tx_service.create_onetime_submissions(org_id, teacher_id, homework_id, body.homework_pdf_entries)
+
+        # Generate signed upload URLs after transaction (external HTTP calls)
+        marking_scheme_signed_url = None
+        submission_signed_urls = []
+        if homework_type == "onetime":
+            marking_scheme_signed_url = await service.generate_signed_upload_url(marking_scheme_info["file_path"])
+            for submission in submission_infos:
+                signed_url = await service.generate_signed_upload_url(submission["file_path"])
+                submission_signed_urls.append({
+                    "student_name": submission["student_name"],
+                    "file_name": submission["file_name"],
+                    "signed_url": signed_url,
+                })
 
         return {
             "homework_id": homework_id,
-            "submissions_created": len(body.homework_pdf_entries),
+            "marking_scheme_upload": {
+                "file_name": marking_scheme_info["file_name"] if marking_scheme_info else None,
+                "signed_url": marking_scheme_signed_url,
+            },
+            "submission_uploads": submission_signed_urls,
         }
 
     except HTTPException:

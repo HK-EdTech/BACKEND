@@ -2,6 +2,7 @@ import os
 from typing import List
 from uuid import uuid4
 
+import httpx
 from fastapi import HTTPException, status
 from prisma import Prisma
 
@@ -52,8 +53,9 @@ class ScanAndMarkService:
         teacher_id: str,
         homework_id: str,
         pdf_entries: List[HomeworkPdfMetadata],
-    ) -> None:
+    ) -> List[dict]:
         path_template = os.getenv("STORAGE_PATH_ONETIME", "")
+        results = []
         for pdf in pdf_entries:
             sub_id = str(uuid4())
             file_path = path_template.format(
@@ -75,6 +77,12 @@ class ScanAndMarkService:
                     "status": "uploading",
                 }
             )
+            results.append({
+                "student_name": pdf.student_name,
+                "file_name": pdf.file_name,
+                "file_path": file_path,
+            })
+        return results
 
     async def create_marking_scheme_record(
         self,
@@ -82,7 +90,7 @@ class ScanAndMarkService:
         teacher_id: str,
         homework_id: str,
         ms: MarkingSchemeMetadata,
-    ) -> str:
+    ) -> tuple[str, dict]:
         ms_id = str(uuid4())
         path_template = os.getenv("STORAGE_PATH_MARKING_SCHEME", "")
         file_path = path_template.format(
@@ -103,4 +111,21 @@ class ScanAndMarkService:
                 "status": "uploading",
             }
         )
-        return ms_id
+        return ms_id, {"file_name": ms.file_name, "file_path": file_path}
+
+    async def generate_signed_upload_url(self, file_path: str) -> str:
+        supabase_url = os.getenv("SUPABASE_URL")
+        service_role_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+        bucket = os.getenv("SUPABASE_STORAGE_BUCKET_NAME")
+
+        url = f"{supabase_url}/storage/v1/object/upload/sign/{bucket}/{file_path}"
+        headers = {
+            "Authorization": f"Bearer {service_role_key}",
+            "apikey": service_role_key,
+        }
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url, headers=headers)
+            response.raise_for_status()
+            data = response.json()
+
+        return f"{supabase_url}{data['url']}"
