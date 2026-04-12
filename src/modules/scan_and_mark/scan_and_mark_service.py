@@ -116,16 +116,17 @@ class ScanAndMarkService:
     async def generate_signed_upload_url(self, file_path: str) -> str:
         supabase_url = os.getenv("SUPABASE_URL")
         service_role_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
-        bucket = os.getenv("SUPABASE_STORAGE_BUCKET_NAME")
+        bucket_path = os.getenv("SUPABASE_STORAGE_BUCKET_PATH")
 
-        url = f"{supabase_url}/storage/v1/object/upload/sign/{bucket}/{file_path}"
+        url = f"{supabase_url}/{bucket_path}/{file_path}"
         headers = {
             "Authorization": f"Bearer {service_role_key}",
             "apikey": service_role_key,
         }
         async with httpx.AsyncClient() as client:
-            response = await client.post(url, headers=headers)
+            response = await client.post(url, headers=headers, json={"expiresIn": 120})
             response.raise_for_status()
             data = response.json()
 
-        return f"{supabase_url}{data['url']}"
+        token = data['token']
+        return f"{supabase_url}/{bucket_path}/{file_path}?token={token}"
