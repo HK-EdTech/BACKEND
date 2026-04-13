@@ -433,6 +433,8 @@ model users {
   oauth_consents              oauth_consents[]
   one_time_tokens             one_time_tokens[]
   sessions                    sessions[]
+  webauthn_challenges         webauthn_challenges[]
+  webauthn_credentials        webauthn_credentials[]
   profiles                    profiles?
 
   @@index([instance_id])
@@ -517,13 +519,13 @@ model profiles {
 /// Student-specific profile information
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model student_profiles {
-  id                  String                @id @map("profile_id") @db.Uuid
-  level               String?
-  created_at          DateTime              @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  updated_at          DateTime              @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  enrollments         enrollments[]
-  homework_submission homework_submission[]
-  profile             profiles              @relation(fields: [id], references: [id], onDelete: Cascade)
+  id                        String                      @id @map("profile_id") @db.Uuid
+  level                     String?
+  created_at                DateTime                    @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at                DateTime                    @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  enrollments               enrollments[]
+  homework_submission_class homework_submission_class[]
+  profile                   profiles                    @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@index([level], map: "idx_student_profiles_level")
   @@schema("public")
@@ -607,75 +609,69 @@ model role_module_perm {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model homework {
-  id                  String                @id(map: "homeworks_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title               String?
-  subject             String?
-  class_id            String?               @db.Uuid
-  due_date            DateTime?             @db.Timestamptz(6)
-  created_at          DateTime              @default(now()) @db.Timestamptz(6)
-  full_score          Float?                @db.Real
-  marking_scheme_id   String?               @db.Uuid
-  teacher_id          String?               @db.Uuid
-  marking_scheme      marking_scheme?       @relation(fields: [marking_scheme_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  teacher_profiles    teacher_profiles?     @relation(fields: [teacher_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  classes             classes?              @relation(fields: [class_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "homeworks_class_id_fkey")
-  homework_classes    homework_classes[]
-  homework_sheets     homework_sheets[]
-  homework_submission homework_submission[]
+  id                            String                         @id(map: "homeworks_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title                         String?
+  subject                       String?
+  class_id                      String?                        @db.Uuid
+  due_date                      DateTime?                      @db.Timestamptz(6)
+  created_at                    DateTime                       @default(now()) @db.Timestamptz(6)
+  full_score                    Float?                         @db.Real
+  marking_scheme_id             String?                        @db.Uuid
+  teacher_id                    String?                        @db.Uuid
+  homework_type                 String?
+  status                        String?
+  level                         String?
+  master_homework_homework_type master_homework_homework_type? @relation(fields: [homework_type], references: [type], onDelete: NoAction, onUpdate: NoAction)
+  marking_scheme                marking_scheme?                @relation(fields: [marking_scheme_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  master_homework_status        master_homework_status?        @relation(fields: [status], references: [status], onDelete: NoAction, onUpdate: NoAction)
+  teacher_profiles              teacher_profiles?              @relation(fields: [teacher_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  classes                       classes?                       @relation(fields: [class_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "homeworks_class_id_fkey")
+  homework_classes              homework_classes[]
+  homework_sheets               homework_sheets[]
+  homework_submission_class     homework_submission_class[]
+  homework_submission_onetime   homework_submission_onetime[]
 
   @@schema("public")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model homework_sheets {
-  id                     String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  homework_id            String?              @db.Uuid
-  page_number            Int?
-  doc_path               String?
-  file_type              String?
-  file_size_bytes        BigInt?
-  has_handwriting        Boolean?             @default(false)
-  extracted_text         String?
-  latex_content          String?
-  ocr_confidence_score   Float?
-  formatted_result       Json?
-  created_at             DateTime             @default(now()) @db.Timestamptz(6)
-  homework_submission_id String?              @db.Uuid
-  homework               homework?            @relation(fields: [homework_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  homework_submission    homework_submission? @relation(fields: [homework_submission_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@schema("public")
-}
-
-/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
-model homework_submission {
-  id                  String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at          DateTime          @default(now()) @db.Timestamptz(6)
-  student_id          String            @db.Uuid
-  homework_id         String            @db.Uuid
-  score               Float?            @db.Real
-  submission_datetime DateTime?         @default(now()) @db.Timestamptz(6)
-  isMarked            Boolean?          @default(false)
-  homework_sheets     homework_sheets[]
-  homework            homework          @relation(fields: [homework_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  student_profiles    student_profiles  @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  id                                                                                                   String                       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  homework_id                                                                                          String?                      @db.Uuid
+  page_number                                                                                          Int?
+  has_handwriting                                                                                      Boolean?                     @default(false)
+  extracted_text                                                                                       String?
+  latex_content                                                                                        String?
+  ocr_confidence_score                                                                                 Float?
+  formatted_result                                                                                     Json?
+  created_at                                                                                           DateTime                     @default(now()) @db.Timestamptz(6)
+  homework_submission_class_id                                                                         String?                      @db.Uuid
+  homework_submission_onetime                                                                          String?                      @db.Uuid
+  homework                                                                                             homework?                    @relation(fields: [homework_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  homework_submission_class                                                                            homework_submission_class?   @relation(fields: [homework_submission_class_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  homework_submission_onetime_homework_sheets_homework_submission_onetimeTohomework_submission_onetime homework_submission_onetime? @relation("homework_sheets_homework_submission_onetimeTohomework_submission_onetime", fields: [homework_submission_onetime], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@schema("public")
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model marking_scheme {
-  id               String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  created_at       DateTime   @default(now()) @db.Timestamptz(6)
-  page_number      Int?
-  doc_path         String?
-  file_size_bytes  BigInt?
-  has_handwriting  Boolean?   @default(false)
-  extracted_text   String?
-  latex_content    String?
-  ocr_confidence   Float?
-  formatted_result Json?
-  homework         homework[]
+  id                    String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at            DateTime               @default(now()) @db.Timestamptz(6)
+  page_number           Int?
+  file_path             String?
+  file_size_bytes       BigInt?
+  has_handwriting       Boolean?
+  extracted_text        String?
+  latex_content         String?
+  ocr_confidence        Float?
+  formatted_result      Json?
+  status                String?
+  checksum              String?
+  content_type          String?
+  file_name             String?
+  homework              homework[]
+  master_marking_scheme master_marking_scheme? @relation(fields: [status], references: [status], onDelete: NoAction, onUpdate: NoAction)
 
   @@schema("public")
 }
@@ -690,6 +686,172 @@ model homework_classes {
   teacher_profiles teacher_profiles? @relation(fields: [assign_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
   classes          classes?          @relation(fields: [class_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   homework         homework?         @relation(fields: [homework_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@schema("public")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model custom_oauth_providers {
+  id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  provider_type         String
+  identifier            String    @unique
+  name                  String
+  client_id             String
+  client_secret         String
+  acceptable_client_ids String[]  @default([])
+  scopes                String[]  @default([])
+  pkce_enabled          Boolean   @default(true)
+  attribute_mapping     Json      @default("{}")
+  authorization_params  Json      @default("{}")
+  enabled               Boolean   @default(true)
+  email_optional        Boolean   @default(false)
+  issuer                String?
+  discovery_url         String?
+  skip_nonce_check      Boolean   @default(false)
+  cached_discovery      Json?
+  discovery_cached_at   DateTime? @db.Timestamptz(6)
+  authorization_url     String?
+  token_url             String?
+  userinfo_url          String?
+  jwks_uri              String?
+  created_at            DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime  @default(now()) @db.Timestamptz(6)
+
+  @@index([created_at])
+  @@index([enabled])
+  @@index([identifier])
+  @@index([provider_type])
+  @@schema("auth")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model webauthn_challenges {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id        String?  @db.Uuid
+  challenge_type String
+  session_data   Json
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  expires_at     DateTime @db.Timestamptz(6)
+  users          users?   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction) @ignore
+
+  @@index([expires_at])
+  @@index([user_id])
+  @@schema("auth")
+}
+
+model webauthn_credentials {
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id          String    @db.Uuid
+  credential_id    Bytes     @unique
+  public_key       Bytes
+  attestation_type String    @default("")
+  aaguid           String?   @db.Uuid
+  sign_count       BigInt    @default(0)
+  transports       Json      @default("[]")
+  backup_eligible  Boolean   @default(false)
+  backed_up        Boolean   @default(false)
+  friendly_name    String    @default("")
+  created_at       DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime  @default(now()) @db.Timestamptz(6)
+  last_used_at     DateTime? @db.Timestamptz(6)
+  users            users     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction) @ignore
+
+  @@index([user_id])
+  @@schema("auth")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model homework_submission_class {
+  id                               String                            @id(map: "homework_submission_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at                       DateTime                          @default(now()) @db.Timestamptz(6)
+  student_id                       String                            @db.Uuid
+  homework_id                      String                            @db.Uuid
+  score                            Float?                            @db.Real
+  submission_datetime              DateTime?                         @default(now()) @db.Timestamptz(6)
+  status                           String?
+  file_path                        String?
+  file_size_bytes                  BigInt?
+  checksum                         String?
+  content_type                     String?
+  file_name                        String?
+  homework_sheets                  homework_sheets[]
+  master_homework_submssion_status master_homework_submssion_status? @relation(fields: [status], references: [status], onDelete: NoAction, onUpdate: NoAction)
+  homework                         homework                          @relation(fields: [homework_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "homework_submission_homework_id_fkey")
+  student_profiles                 student_profiles                  @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "homework_submission_student_id_fkey")
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model homework_submission_onetime {
+  created_at                                                                               DateTime                          @default(now()) @db.Timestamptz(6)
+  student_name                                                                             String?
+  homework_id                                                                              String                            @db.Uuid
+  score                                                                                    Float?                            @db.Real
+  status                                                                                   String?
+  submission_datetime                                                                      DateTime?                         @db.Timestamptz(6)
+  id                                                                                       String                            @id @db.Uuid
+  file_path                                                                                String?
+  file_size_bytes                                                                          BigInt?
+  checksum                                                                                 String?
+  content_type                                                                             String?
+  file_name                                                                                String?
+  homework_sheets_homework_sheets_homework_submission_onetimeTohomework_submission_onetime homework_sheets[]                 @relation("homework_sheets_homework_submission_onetimeTohomework_submission_onetime")
+  homework                                                                                 homework                          @relation(fields: [homework_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  master_homework_submssion_status                                                         master_homework_submssion_status? @relation(fields: [status], references: [status], onDelete: NoAction, onUpdate: NoAction)
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model master_data {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  data_code  Int?     @default(1)
+  data_value String?
+  data_type  String?
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model master_homework_status {
+  status_id  BigInt     @id @default(autoincrement())
+  created_at DateTime   @default(now()) @db.Timestamptz(6)
+  status     String?    @unique
+  homework   homework[]
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model master_homework_submssion_status {
+  status_id                   Int                           @id @default(autoincrement())
+  created_at                  DateTime                      @default(now()) @db.Timestamptz(6)
+  status                      String?                       @unique
+  homework_submission_class   homework_submission_class[]
+  homework_submission_onetime homework_submission_onetime[]
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model master_marking_scheme {
+  status_id      BigInt           @id @default(autoincrement())
+  created_at     DateTime         @default(now()) @db.Timestamptz(6)
+  status         String?          @unique
+  marking_scheme marking_scheme[]
+
+  @@schema("public")
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model master_homework_homework_type {
+  id         BigInt     @id @default(autoincrement())
+  created_at DateTime   @default(now()) @db.Timestamptz(6)
+  type       String?    @unique
+  homework   homework[]
 
   @@schema("public")
 }
