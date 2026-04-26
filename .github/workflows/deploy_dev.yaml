@@ -87,6 +87,7 @@ jobs:
         DEBUG_TOKEN: ${{ secrets.JWT_DEV_TOKEN }}
         SUPABASE_URL: ${{ vars.DEV_SUPABASE_URL }}
         SUPABASE_ANON_KEY: ${{ secrets.DEV_SUPABASE_ANON_KEY }}
+        SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.DEV_SUPABASE_SERVICE_ROLE_KEY }}
         DB_PROJECT_REF: ${{ vars.DB_PROJECT_REF }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         GCV_API_KEY_B64: ${{ secrets.GCV_API_KEY_B64 }}
@@ -113,6 +114,7 @@ jobs:
              -e DEBUG_TOKEN='${DEBUG_TOKEN}' \
              -e SUPABASE_URL='${SUPABASE_URL}' \
              -e SUPABASE_ANON_KEY='${SUPABASE_ANON_KEY}' \
+             -e SUPABASE_SERVICE_ROLE_KEY='${SUPABASE_SERVICE_ROLE_KEY}' \
              -e DATABASE_URL='postgresql://postgres.${DB_PROJECT_REF}:${DB_PASSWORD}@aws-1-ap-northeast-1.pooler.supabase.com:5432/postgres' \
              -e GOOGLE_APPLICATION_CREDENTIALS='/gcv_api_key.json' \
              -v /home/ubuntu/gcv_api_key.json:/gcv_api_key.json:ro \

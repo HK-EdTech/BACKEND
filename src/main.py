@@ -2,14 +2,21 @@
 from dotenv import load_dotenv
 load_dotenv()  # Load environment variables first
 
-from fastapi import FastAPI, Request, Depends, status
+import os
+
+import httpx
+from fastapi import FastAPI, Request, Depends, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
 from enum import Enum
 from contextlib import asynccontextmanager
+from pydantic import BaseModel
+from google.cloud import vision
+
 from .deps import get_current_user
 from .database import connect_db, disconnect_db
+from .ocrs.models.GoogleCloudVisionAPI import GoogleCloudVisionAPI
 
 # Import routers from modules
 from .modules.profile.profile_controller import router as profile_router
@@ -59,7 +66,6 @@ app = FastAPI(
 )
 
 # Configure CORS
-import os
 frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3010")
 app.add_middleware(
     CORSMiddleware,
@@ -139,4 +145,50 @@ async def get_user(user_id: int):
 @app.put("/users/{user_id}", tags=[Tags.users])
 async def update_user(user_id: int, name: str | None = None):
     return {"id": user_id, "updated": True, "name": name or "unchanged"}
+
+
+# OCR test endpoint — Option B flow:
+# Backend uses SUPABASE_SERVICE_ROLE_KEY (server-side only) to download the file
+# directly from Storage, bypassing RLS. Caller only supplies the bucket + path.
+class OcrStoragePathRequest(BaseModel):
+    bucket: str
+    path: str
+
+
+@app.post("/ocr/test-from-storage", tags=[Tags.health])
+async def test_ocr_from_storage(body: OcrStoragePathRequest):
+    supabase_url = os.getenv("SUPABASE_URL")
+    service_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+    if not supabase_url or not service_key:
+        raise HTTPException(
+            status_code=500,
+            detail="SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not configured",
+        )
+
+    download_url = f"{supabase_url}/storage/v1/object/{body.bucket}/{body.path}"
+    async with httpx.AsyncClient(timeout=60.0) as client:
+        resp = await client.get(
+            download_url,
+            headers={
+                "Authorization": f"Bearer {service_key}",
+                "apikey": service_key,
+            },
+        )
+        if resp.status_code != 200:
+            raise HTTPException(
+                status_code=resp.status_code,
+                detail=f"Failed to download from Supabase Storage: {resp.text}",
+            )
+        content = resp.content
+        content_type = resp.headers.get("content-type", "").lower()
+
+    # Mirror GoogleCloudVisionAPI.detect_document dispatch: PDF vs image by extension,
+    # falling back to Content-Type when the path has no extension.
+    ext = os.path.splitext(body.path)[1].lower()
+    is_pdf = ext == ".pdf" or "pdf" in content_type
+
+    gcv_client = vision.ImageAnnotatorClient()
+    if is_pdf:
+        return GoogleCloudVisionAPI._detect_pdf(gcv_client, content)
+    return GoogleCloudVisionAPI._detect_image(gcv_client, content)
 
