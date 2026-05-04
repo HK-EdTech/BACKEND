@@ -1,5 +1,7 @@
 {
+  "average_confidence": 0.8932748436927795,
   "full_text": "Answers written in the margins will not be marked.\n7.\nIn a polar coordinate system, ○ is the pole. The polar coordinates of the points P, Q and R\nare (11,59°), (60, 149°) and (144,239°) respectively.\n(a)\nFind ZPOQ.\n(b)\nAre P, O and R collinear? Explain your answer.\n(c) Find the perimeter of APQR.\n(a)\nLPOQ = 149°-59°\n(b)\n(c)\n=\n90°\nLPOR = 239°-59°\n:.\nP\n- 180°\nO and R are\n=\nPQ √11²+60² = 61\nQR\n=\n602 +1442156\n:. Perimeter\nAnswers written in the margins will not be marked.\n2024-DSE-MATH-CP 1-5\ncollinear\nAPQR = 61+156 + (11 +144)\n• 372\n5\nGo on to the next page\n(4 marks)\nAnswers written in the margins will not be marked.",
+  "total_pages": 1,
   "pages": [
     {
       "width": 1053,
@@ -4558,6 +4560,5 @@
         }
       ]
     }
-  ],
-  "average_confidence": null
+  ]
 }

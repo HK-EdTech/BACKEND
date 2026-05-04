@@ -33,8 +33,9 @@ https://console.cloud.google.com/marketplace/product/google/vision.googleapis.co
 11. Track cost here: https://console.cloud.google.com/billing/0189E8-7E15D9-F3C37A?authuser=1
 '''
 from google.cloud import vision
-from typing import Dict, Any
+from typing import Dict, Any, List
 import json
+import os
 import sys
 from utils.logger import get_logger
 
@@ -43,55 +44,22 @@ logger = get_logger(name=__name__)
 class GoogleCloudVisionAPI:
 
     @staticmethod
-    def detect_document(path:str) -> Dict[str, Any]:
-        '''
-        result["full_text"]: Extracted text
-        result["average_confidence"]: average_confidence text score
-        result["pages"][0]["blocks"][0]["paragraphs"][0]["words"][0]["confidence"]:First word confidence score
-        '''
-
-        client=vision.ImageAnnotatorClient()
-
-
-        with open(path, "rb") as image_file:
-            content = image_file.read()
-
-        image = vision.Image(content=content)
-        print(f"What is this image content type? {type(image.content)}")  # Should be bytes
-
-        # Use document_text_detection for dense text (forms, books, PDFs)
-        response = client.document_text_detection(
-            image=image,
-            image_context={"language_hints": []}  # Empty = auto-detect all languages
-        )
-
-        if response.error.message:
-            raise Exception(f"Google Vision API Error: {response.error.message}")
-
-        # Extract full text
-        full_text = response.full_text_annotation.text if response.full_text_annotation else ""
-
-        # Build detailed structured output
-        result = {
-            "full_text": full_text,
-            "pages": []
-        }
-
-        for page in response.full_text_annotation.pages:
+    def _parse_annotation(annotation) -> List[Dict[str, Any]]:
+        """Parse a full_text_annotation into the pages/blocks/paragraphs/words structure."""
+        pages = []
+        for page in annotation.pages:
             page_data = {
                 "width": page.width,
                 "height": page.height,
-                "confidence": page.confidence,  # Page-level confidence
+                "confidence": page.confidence,
                 "blocks": []
             }
-
             for block in page.blocks:
                 block_data = {
                     "confidence": block.confidence,
                     "bounding_box": [[v.x, v.y] for v in block.bounding_box.vertices],
                     "paragraphs": []
                 }
-
                 for paragraph in block.paragraphs:
                     para_text = "".join([symbol.text for word in paragraph.words for symbol in word.symbols])
                     paragraph_data = {
@@ -99,7 +67,6 @@ class GoogleCloudVisionAPI:
                         "confidence": paragraph.confidence,
                         "words": []
                     }
-
                     for word in paragraph.words:
                         word_text = "".join([symbol.text for symbol in word.symbols])
                         word_data = {
@@ -115,35 +82,117 @@ class GoogleCloudVisionAPI:
                             ]
                         }
                         paragraph_data["words"].append(word_data)
-
                     block_data["paragraphs"].append(paragraph_data)
                 page_data["blocks"].append(block_data)
-            result["pages"].append(page_data)
+            pages.append(page_data)
+        return pages
 
-        # Optional: Add overall average confidence
-        all_confidences = []
-        def collect_confidences(obj):
-            if hasattr(obj, 'confidence') and obj.confidence is not None:
-                all_confidences.append(obj.confidence)
-            for child in obj.__dict__.values():
-                if isinstance(child, list):
-                    for item in child:
-                        if hasattr(item, '__dict__'):
-                            collect_confidences(item)
-                elif hasattr(child, '__dict__'):
-                    collect_confidences(child)
+    @staticmethod
+    def detect_document(path: str) -> Dict[str, Any]:
+        '''
+        Supports images (.jpg, .jpeg, .png) and PDFs (.pdf).
 
-        collect_confidences(response.full_text_annotation)
-        result["average_confidence"] = sum(all_confidences) / len(all_confidences) if all_confidences else None
+        result["full_text"]: Extracted text (all pages joined for PDFs)
+        result["average_confidence"]: Average confidence score
+        result["pages"][i]["blocks"][j]["paragraphs"][k]["words"][l]["confidence"]: Word confidence
+        PDF pages additionally include result["pages"][i]["page_number"] (1-indexed)
 
-        return result
+        Note: Synchronous PDF processing supports up to 5 pages. Use GCS +
+        async_batch_annotate_files for larger documents.
+        '''
+        client = vision.ImageAnnotatorClient()
+
+        with open(path, "rb") as f:
+            content = f.read()
+
+        ext = os.path.splitext(path)[1].lower()
+        print(f"[GoogleCloudVisionAPI] File extension: {ext}")
+
+        if ext == ".pdf":
+            print("[GoogleCloudVisionAPI] Routing to: _detect_pdf (annotate_file, mime_type=application/pdf)")
+            return GoogleCloudVisionAPI._detect_pdf(client, content)
+        else:
+            print("[GoogleCloudVisionAPI] Routing to: _detect_image (document_text_detection)")
+            return GoogleCloudVisionAPI._detect_image(client, content)
+
+    @staticmethod
+    def _detect_image(client, content) -> Dict[str, Any]:
+        image = vision.Image(content=content)
+        print(f"What is this image content type? {type(image.content)}")  # Should be bytes
+
+        response = client.document_text_detection(
+            image=image,
+            image_context={"language_hints": []}  # Empty = auto-detect all languages
+        )
+
+        if response.error.message:
+            raise Exception(f"Google Vision API Error: {response.error.message}")
+
+        full_text = response.full_text_annotation.text if response.full_text_annotation else ""
+
+        pages = GoogleCloudVisionAPI._parse_annotation(response.full_text_annotation)
+        page_confidences = [p["confidence"] for p in pages if p.get("confidence") is not None]
+        average_confidence = sum(page_confidences) / len(page_confidences) if page_confidences else None
+
+        return {
+            "average_confidence": average_confidence,
+            "full_text": full_text,
+            "total_pages": len(pages),
+            "pages": pages
+        }
+
+    @staticmethod
+    def _detect_pdf(client, content) -> Dict[str, Any]:
+        '''
+        PDF processing via annotate_file (synchronous, up to 5 pages).
+        Each page entry in result["pages"] includes a "page_number" key (1-indexed).
+        '''
+        request = vision.AnnotateFileRequest(
+            features=[vision.Feature(type_=vision.Feature.Type.DOCUMENT_TEXT_DETECTION)],
+            input_config=vision.InputConfig(
+                content=content,
+                mime_type="application/pdf"
+            )
+        )
+
+        batch_response = client.batch_annotate_files(requests=[request])
+        # batch_response.responses[0] is AnnotateFileResponse
+        # .responses on that is a list of AnnotateImageResponse, one per PDF page
+        file_response = batch_response.responses[0]
+
+        full_text_parts = []
+        all_pages = []
+
+        for page_response in file_response.responses:
+            if page_response.error.message:
+                raise Exception(f"Google Vision API Error (PDF page): {page_response.error.message}")
+
+            if not page_response.full_text_annotation:
+                continue
+
+            # context.page_number is 1-indexed
+            page_number = page_response.context.page_number
+            full_text_parts.append(page_response.full_text_annotation.text)
+
+            pages = GoogleCloudVisionAPI._parse_annotation(page_response.full_text_annotation)
+            all_pages.extend({"page_number": page_number, **page} for page in pages)
+
+        page_confidences = [p["confidence"] for p in all_pages if p.get("confidence") is not None]
+        average_confidence = sum(page_confidences) / len(page_confidences) if page_confidences else None
+
+        return {
+            "average_confidence": average_confidence,
+            "full_text": "\n".join(full_text_parts),
+            "total_pages": len(all_pages),
+            "pages": all_pages
+        }
         
 
     # Simple version if you just want text + average confidence
     @staticmethod
     def detect_document_simple(path: str) -> tuple[str, float]:
         """Returns (extracted_text, average_confidence)"""
-        data = GoogleCloudVisionAPI.detect_document_full(path)
+        data = GoogleCloudVisionAPI.detect_document(path)
         return data["full_text"], data.get("average_confidence", 0.0)
 
 if __name__ == "__main__":
