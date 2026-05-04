@@ -43,6 +43,7 @@ async def create_my_teacher_homework(
         subject=payload.subject,
         due_date=payload.due_date,
         full_score=payload.full_score,
+        homework_type=payload.homework_type,
         class_ids=payload.class_ids,
     )
 

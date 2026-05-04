@@ -407,7 +407,7 @@ class ClassService:
             if enrollment.student_profile and enrollment.student_profile.profile
         ]
 
-        submissions = await self.db.homework_submission.find_many(
+        submissions = await self.db.homework_submission_class.find_many(
             where={
                 "homework_id": str(homework_id),
                 "student_id": {"in": student_ids},
@@ -427,13 +427,19 @@ class ClassService:
                 continue
 
             submission = submission_map.get(enrollment.student_id)
+            submission_status_value = (
+                (submission.status or "").strip().lower()
+                if submission and submission.status is not None else ""
+            )
             result.append(
                 {
                     "student_id": profile.id,
                     "full_name": self._display_name(profile),
                     "score": submission.score if submission else None,
                     "submission_datetime": submission.submission_datetime if submission else None,
-                    "is_marked": getattr(submission, "isMarked", None) if submission else None,
+                    "is_marked": (
+                        submission_status_value == "marked"
+                    ) if submission else None,
                     "has_submission": bool(submission),
                 }
             )
@@ -459,6 +465,7 @@ class ClassService:
                 "teacher_id": str(user_id),
                 "due_date": due_date,
                 "full_score": full_score,
+                "homework_type": "class",
             }
         )
 
