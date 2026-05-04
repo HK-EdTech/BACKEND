@@ -1,0 +1,121 @@
+name: Deploy FastAPI
+
+on:
+  push:
+    # branches: [ main, dev, milton ]
+    branches: [ main, milton ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Step 1 - Checkout source code from repo
+      uses: actions/checkout@v4
+
+    - name: Step 2 - Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Sanity Check - Debug disk space
+      run: df -h
+
+    # Write the deploy key early so Terraform can reference its path when
+    # generating the Ansible inventory (TF_VAR_ssh_private_key_path).
+    - name: Write SSH deploy key to Github runner's filesystem
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DEV_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_wrapper: false
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-southeast-2
+
+    - name: Terraform Init
+      working-directory: terraform
+      run: terraform init
+
+    - name: Terraform Apply
+      working-directory: terraform
+      env:
+        TF_VAR_ssh_public_key: ${{ secrets.DEV_PUBLIC_KEY }}
+        TF_VAR_ssh_private_key_path: ~/.ssh/deploy_key
+        TF_VAR_environment: dev
+      run: terraform apply -auto-approve -replace=aws_instance.app
+
+    - name: Export EC2 public IP
+      id: tf_output
+      working-directory: terraform
+      run: echo "host=$(terraform output -raw public_ip)" >> $GITHUB_OUTPUT
+
+    - name: Configure SSH for dynamic host
+      run: |
+        HOST=${{ steps.tf_output.outputs.host }}
+        echo -e "Host ${HOST}\n  HostName ${HOST}\n  User ubuntu\n  IdentityFile ~/.ssh/deploy_key\n  StrictHostKeyChecking no" >> ~/.ssh/config
+
+    - name: Wait for Docker to be ready on EC2
+      run: |
+        HOST=${{ steps.tf_output.outputs.host }}
+        for i in $(seq 1 20); do
+          if ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o ConnectTimeout=5 ubuntu@${HOST} "sudo docker info" 2>/dev/null; then
+            echo "Docker is ready"
+            exit 0
+          fi
+          echo "Attempt $i/20 - $i min(s) has passed - waiting for Docker..."
+          sleep 60
+        done
+        echo "Docker did not become ready in time"
+        exit 1
+
+    - name: Currently NOT IN USE - Login to Docker Hub (optional)
+      if: env.DOCKERHUB_USERNAME
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build → Stream → Deploy to EC2 (zero registry, zero downtime)
+      env:
+        HOST: ${{ steps.tf_output.outputs.host }}
+        DEBUG_TOKEN: ${{ secrets.JWT_DEV_TOKEN }}
+        SUPABASE_URL: ${{ vars.DEV_SUPABASE_URL }}
+        DB_PROJECT_REF: ${{ vars.DB_PROJECT_REF }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: |
+        set -euo pipefail
+
+        echo "Building Docker image..."
+        docker buildx create --use --name mybuilder || true
+        docker buildx build --load --platform linux/amd64 -t myfastapi:latest .
+
+        echo "Deploying to ${HOST}..."
+        docker save myfastapi:latest | gzip | ssh -i ~/.ssh/deploy_key \
+          -o StrictHostKeyChecking=no \
+          -o ServerAliveInterval=60 \
+          -o LogLevel=ERROR \
+          ubuntu@${HOST} \
+          "gunzip | docker load && \
+           docker rm -f fastapi || true && \
+           docker run -d \
+             --name fastapi \
+             --restart unless-stopped \
+             -p 80:8000 \
+             -e DEBUG_TOKEN='${DEBUG_TOKEN}' \
+             -e SUPABASE_URL='${SUPABASE_URL}' \
+             -e DATABASE_URL='postgresql://postgres.${DB_PROJECT_REF}:${DB_PASSWORD}@aws-1-ap-northeast-1.pooler.supabase.com:5432/postgres' \
+             myfastapi:latest \
+             uvicorn src.main:app --host 0.0.0.0 --port 8000 && \
+           echo 'DEPLOYED SUCCESSFULLY! Open http://${HOST} now' && \
+           echo 'Swagger: http://${HOST}/docs'"
+
+        echo ""
+        echo "LIVE → http://${HOST}"
+        echo "Docs → http://${HOST}/docs"
+        echo "Public IP → ${HOST}"
