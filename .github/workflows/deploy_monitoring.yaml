@@ -1,0 +1,127 @@
+name: Setup Monitoring
+
+on:
+  workflow_run:
+    workflows: ["Deploy FastAPI"]
+    types:
+      - completed # Only runs if EC2 box can deploy!
+
+jobs:
+  setup-monitoring:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }} # Only runs if EC2 box can deploy!
+
+    steps:
+    - name: Step 1 - Checkout source code
+      uses: actions/checkout@v4
+
+    - name: Step 2 - Inject SSH deploy key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DEV_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+
+    - name: Step 3 - Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-southeast-2
+
+    - name: Step 4 - Set up Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_wrapper: false
+
+    - name: Step 5 - Get EC2 IP from existing Terraform state (no apply)
+      id: tf_output
+      working-directory: terraform
+      run: |
+        terraform init -input=false
+        echo "host=$(terraform output -raw public_ip)" >> $GITHUB_OUTPUT
+
+    - name: Step 6 - Write Prometheus config to EC2
+      env:
+        HOST: ${{ steps.tf_output.outputs.host }}
+      run: |
+        ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
+          'mkdir -p /home/ubuntu/monitoring/prometheus /home/ubuntu/monitoring/grafana/provisioning/datasources'
+        cat << 'PROMEOF' | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
+          'cat > /home/ubuntu/monitoring/prometheus/prometheus.yml'
+        global:
+          scrape_interval: 15s
+          evaluation_interval: 15s
+        scrape_configs:
+          - job_name: fastapi
+            static_configs:
+              - targets: ['localhost:8000']
+          - job_name: node_exporter
+            static_configs:
+              - targets: ['localhost:9100']
+        PROMEOF
+
+    - name: Step 7 - Write Grafana datasource provisioning to EC2
+      env:
+        HOST: ${{ steps.tf_output.outputs.host }}
+      run: |
+        cat << 'GRAFEOF' | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
+          'cat > /home/ubuntu/monitoring/grafana/provisioning/datasources/prometheus.yml'
+        apiVersion: 1
+        datasources:
+          - name: Prometheus
+            type: prometheus
+            url: http://localhost:9090
+            isDefault: true
+            editable: false
+        GRAFEOF
+
+    - name: Step 8 - Start monitoring stack on EC2
+      env:
+        HOST: ${{ steps.tf_output.outputs.host }}
+        GF_ADMIN_USERNAME: ${{ vars.GF_ADMIN_USERNAME }}
+        GF_ADMIN_PASSWORD: ${{ secrets.GF_ADMIN_PASSWORD }}
+      run: |
+        ssh -i ~/.ssh/deploy_key \
+          -o StrictHostKeyChecking=no \
+          -o ServerAliveInterval=60 \
+          ubuntu@${HOST} bash -s << ENDSSH
+          set -euo pipefail
+
+          # node_exporter — host network + pid for accurate system metrics
+          docker rm -f node-exporter 2>/dev/null || true
+          docker run -d --name node-exporter \
+            --restart unless-stopped \
+            --network host \
+            --pid host \
+            -v /:/host:ro,rslave \
+            prom/node-exporter:latest \
+            --path.rootfs=/host
+
+          # Prometheus — bound to localhost only, never internet-facing
+          docker rm -f prometheus 2>/dev/null || true
+          docker run -d --name prometheus \
+            --restart unless-stopped \
+            --network host \
+            -v /home/ubuntu/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro \
+            prom/prometheus:latest \
+            --config.file=/etc/prometheus/prometheus.yml \
+            --web.listen-address=127.0.0.1:9090
+
+          # Grafana — internet-facing on port 3000, login required
+          ##  GF_USERS_ALLOW_SIGN_UP=false --> no outside users can self-register
+
+          docker rm -f grafana 2>/dev/null || true
+          docker run -d --name grafana \
+            --restart unless-stopped \
+            --network host \
+            -e GF_SECURITY_ADMIN_USER=${GF_ADMIN_USERNAME} \
+            -e GF_SECURITY_ADMIN_PASSWORD=${GF_ADMIN_PASSWORD} \
+            -e GF_AUTH_ANONYMOUS_ENABLED=false \
+            -e GF_USERS_ALLOW_SIGN_UP=false \
+            -v /home/ubuntu/monitoring/grafana/provisioning:/etc/grafana/provisioning:ro \
+            grafana/grafana:latest
+
+          echo "Monitoring stack started!"
+          echo "Grafana → http://${HOST}:3000  (${GF_ADMIN_USERNAME} / your GF_ADMIN_PASSWORD)"
+          echo "Prometheus is localhost-only — only Grafana can reach it"
+        ENDSSH

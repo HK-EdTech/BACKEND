@@ -14,6 +14,8 @@ from contextlib import asynccontextmanager
 from pydantic import BaseModel
 from google.cloud import vision
 
+from prometheus_fastapi_instrumentator import Instrumentator
+
 from .deps import get_current_user
 from .database import connect_db, disconnect_db
 from .ocrs.models.GoogleCloudVisionAPI import GoogleCloudVisionAPI
@@ -64,6 +66,8 @@ app = FastAPI(
     # This makes the lock appear
     dependencies=[Depends(security)],   # ← important
 )
+
+Instrumentator().instrument(app).expose(app, include_in_schema=False)
 
 # Configure CORS
 frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3010")
