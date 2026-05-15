@@ -1,6 +1,7 @@
 name: Setup Monitoring
 
 on:
+  workflow_dispatch: # Manual trigger for testing on non-default branches
   workflow_run:
     workflows: ["Deploy FastAPI"]
     types:
