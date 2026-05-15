@@ -46,7 +46,11 @@ jobs:
         HOST: ${{ steps.tf_output.outputs.host }}
       run: |
         ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
-          'mkdir -p /home/ubuntu/monitoring/prometheus /home/ubuntu/monitoring/grafana/provisioning/datasources'
+          'mkdir -p /home/ubuntu/monitoring/prometheus \
+                    /home/ubuntu/monitoring/grafana/provisioning/datasources \
+                    /home/ubuntu/monitoring/grafana/provisioning/dashboards \
+                    /home/ubuntu/monitoring/grafana/provisioning/alerting \
+                    /home/ubuntu/monitoring/grafana/dashboards'
         cat << 'PROMEOF' | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
           'cat > /home/ubuntu/monitoring/prometheus/prometheus.yml'
         global:
@@ -70,17 +74,189 @@ jobs:
         apiVersion: 1
         datasources:
           - name: Prometheus
+            uid: markflow-prometheus
             type: prometheus
             url: http://localhost:9090
             isDefault: true
             editable: false
         GRAFEOF
 
+    - name: Step 7.5 - Write Grafana dashboard provider config to EC2
+      env:
+        HOST: ${{ steps.tf_output.outputs.host }}
+      run: |
+        cat << 'DASHEOF' | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
+          'cat > /home/ubuntu/monitoring/grafana/provisioning/dashboards/provider.yml'
+        apiVersion: 1
+        providers:
+          - name: default
+            orgId: 1
+            type: file
+            disableDeletion: false
+            updateIntervalSeconds: 30
+            options:
+              path: /var/lib/grafana/dashboards
+        DASHEOF
+
+    - name: Step 7.6 - Write Grafana alerting provisioning to EC2
+      env:
+        HOST: ${{ steps.tf_output.outputs.host }}
+      run: |
+        cat << 'CPEOF' | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
+          'cat > /home/ubuntu/monitoring/grafana/provisioning/alerting/contact_points.yml'
+        apiVersion: 1
+        contactPoints:
+          - orgId: 1
+            name: all-alerts
+            receivers:
+              - uid: email-receiver
+                type: email
+                settings:
+                  addresses: miltonincsw@gmail.com
+                  singleEmail: false
+                disableResolveMessage: false
+              - uid: discord-receiver
+                type: discord
+                settings:
+                  url: ${DISCORD_WEBHOOK_URL}
+                disableResolveMessage: false
+        CPEOF
+
+        cat << 'NPEOF' | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
+          'cat > /home/ubuntu/monitoring/grafana/provisioning/alerting/notification_policy.yml'
+        apiVersion: 1
+        policies:
+          - orgId: 1
+            receiver: all-alerts
+            group_by: ['grafana_folder', 'alertname']
+            group_wait: 30s
+            group_interval: 5m
+            repeat_interval: 4h
+        NPEOF
+
+    - name: Step 7.65 - Write alert rules provisioning to EC2
+      env:
+        HOST: ${{ steps.tf_output.outputs.host }}
+      run: |
+        cat << 'ALERTEOF' | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
+          'cat > /home/ubuntu/monitoring/grafana/provisioning/alerting/alert_rules.yml'
+        apiVersion: 1
+        groups:
+          - orgId: 1
+            name: system-alerts
+            folder: Monitoring
+            interval: 1m
+            rules:
+              - uid: high-cpu-rule
+                title: High CPU Usage
+                condition: threshold
+                for: 5m
+                annotations:
+                  summary: CPU usage above 85% for 5 minutes
+                labels:
+                  severity: warning
+                data:
+                  - refId: A
+                    datasourceUid: markflow-prometheus
+                    model:
+                      expr: 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+                      instant: true
+                      refId: A
+                  - refId: threshold
+                    datasourceUid: "-100"
+                    model:
+                      type: threshold
+                      expression: A
+                      refId: threshold
+                      conditions:
+                        - evaluator:
+                            type: gt
+                            params: [85]
+                          reducer:
+                            type: last
+                          query:
+                            params: [A]
+
+              - uid: high-memory-rule
+                title: High Memory Usage
+                condition: threshold
+                for: 5m
+                annotations:
+                  summary: Memory usage above 90% for 5 minutes
+                labels:
+                  severity: warning
+                data:
+                  - refId: A
+                    datasourceUid: markflow-prometheus
+                    model:
+                      expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
+                      instant: true
+                      refId: A
+                  - refId: threshold
+                    datasourceUid: "-100"
+                    model:
+                      type: threshold
+                      expression: A
+                      refId: threshold
+                      conditions:
+                        - evaluator:
+                            type: gt
+                            params: [90]
+                          reducer:
+                            type: last
+                          query:
+                            params: [A]
+
+              - uid: fastapi-down-rule
+                title: FastAPI Down
+                condition: threshold
+                for: 2m
+                annotations:
+                  summary: FastAPI is not responding — no metrics received for 2 minutes
+                labels:
+                  severity: critical
+                data:
+                  - refId: A
+                    datasourceUid: markflow-prometheus
+                    model:
+                      expr: up{job="fastapi"}
+                      instant: true
+                      refId: A
+                  - refId: threshold
+                    datasourceUid: "-100"
+                    model:
+                      type: threshold
+                      expression: A
+                      refId: threshold
+                      conditions:
+                        - evaluator:
+                            type: lt
+                            params: [1]
+                          reducer:
+                            type: last
+                          query:
+                            params: [A]
+        ALERTEOF
+
+    - name: Step 7.7 - Download dashboards onto EC2
+      env:
+        HOST: ${{ steps.tf_output.outputs.host }}
+      run: |
+        ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
+          'curl -sL "https://grafana.com/api/dashboards/1860/revisions/latest/download" \
+             -o /home/ubuntu/monitoring/grafana/dashboards/node-exporter.json && \
+           curl -sL "https://grafana.com/api/dashboards/19896/revisions/latest/download" \
+             -o /home/ubuntu/monitoring/grafana/dashboards/fastapi.json && \
+           sed -i "s/\${DS_PROMETHEUS}/markflow-prometheus/g" /home/ubuntu/monitoring/grafana/dashboards/node-exporter.json && \
+           sed -i "s/\${DS_PROMETHEUS}/markflow-prometheus/g" /home/ubuntu/monitoring/grafana/dashboards/fastapi.json'
+
     - name: Step 8 - Start monitoring stack on EC2
       env:
         HOST: ${{ steps.tf_output.outputs.host }}
         GF_ADMIN_USERNAME: ${{ vars.GF_ADMIN_USERNAME }}
         GF_ADMIN_PASSWORD: ${{ secrets.GF_ADMIN_PASSWORD }}
+        GMAIL_SMTP_PASSWORD: ${{ secrets.GMAIL_SMTP_PASSWORD }}
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
       run: |
         ssh -i ~/.ssh/deploy_key \
           -o StrictHostKeyChecking=no \
@@ -119,7 +295,16 @@ jobs:
             -e GF_SECURITY_ADMIN_PASSWORD=${GF_ADMIN_PASSWORD} \
             -e GF_AUTH_ANONYMOUS_ENABLED=false \
             -e GF_USERS_ALLOW_SIGN_UP=false \
+            -e GF_SMTP_ENABLED=true \
+            -e GF_SMTP_HOST=smtp.gmail.com:587 \
+            -e GF_SMTP_USER=miltonincsw@gmail.com \
+            -e GF_SMTP_PASSWORD=${GMAIL_SMTP_PASSWORD} \
+            -e GF_SMTP_FROM_ADDRESS=miltonincsw@gmail.com \
+            -e GF_SMTP_FROM_NAME=Grafana \
+            -e GF_SMTP_STARTTLS_POLICY=MandatoryStartTLS \
+            -e DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL} \
             -v /home/ubuntu/monitoring/grafana/provisioning:/etc/grafana/provisioning:ro \
+            -v /home/ubuntu/monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro \
             grafana/grafana:latest
 
           echo "Monitoring stack started!"
