@@ -74,6 +74,7 @@ jobs:
         apiVersion: 1
         datasources:
           - name: Prometheus
+            uid: markflow-prometheus
             type: prometheus
             url: http://localhost:9090
             isDefault: true
@@ -133,6 +134,110 @@ jobs:
             repeat_interval: 4h
         NPEOF
 
+    - name: Step 7.65 - Write alert rules provisioning to EC2
+      env:
+        HOST: ${{ steps.tf_output.outputs.host }}
+      run: |
+        cat << 'ALERTEOF' | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
+          'cat > /home/ubuntu/monitoring/grafana/provisioning/alerting/alert_rules.yml'
+        apiVersion: 1
+        groups:
+          - orgId: 1
+            name: system-alerts
+            folder: Monitoring
+            interval: 1m
+            rules:
+              - uid: high-cpu-rule
+                title: High CPU Usage
+                condition: threshold
+                for: 5m
+                annotations:
+                  summary: CPU usage above 85% for 5 minutes
+                labels:
+                  severity: warning
+                data:
+                  - refId: A
+                    datasourceUid: markflow-prometheus
+                    model:
+                      expr: 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+                      instant: true
+                      refId: A
+                  - refId: threshold
+                    datasourceUid: "-100"
+                    model:
+                      type: threshold
+                      expression: A
+                      refId: threshold
+                      conditions:
+                        - evaluator:
+                            type: gt
+                            params: [85]
+                          reducer:
+                            type: last
+                          query:
+                            params: [A]
+
+              - uid: high-memory-rule
+                title: High Memory Usage
+                condition: threshold
+                for: 5m
+                annotations:
+                  summary: Memory usage above 90% for 5 minutes
+                labels:
+                  severity: warning
+                data:
+                  - refId: A
+                    datasourceUid: markflow-prometheus
+                    model:
+                      expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
+                      instant: true
+                      refId: A
+                  - refId: threshold
+                    datasourceUid: "-100"
+                    model:
+                      type: threshold
+                      expression: A
+                      refId: threshold
+                      conditions:
+                        - evaluator:
+                            type: gt
+                            params: [90]
+                          reducer:
+                            type: last
+                          query:
+                            params: [A]
+
+              - uid: fastapi-down-rule
+                title: FastAPI Down
+                condition: threshold
+                for: 2m
+                annotations:
+                  summary: FastAPI is not responding — no metrics received for 2 minutes
+                labels:
+                  severity: critical
+                data:
+                  - refId: A
+                    datasourceUid: markflow-prometheus
+                    model:
+                      expr: up{job="fastapi"}
+                      instant: true
+                      refId: A
+                  - refId: threshold
+                    datasourceUid: "-100"
+                    model:
+                      type: threshold
+                      expression: A
+                      refId: threshold
+                      conditions:
+                        - evaluator:
+                            type: lt
+                            params: [1]
+                          reducer:
+                            type: last
+                          query:
+                            params: [A]
+        ALERTEOF
+
     - name: Step 7.7 - Download dashboards onto EC2
       env:
         HOST: ${{ steps.tf_output.outputs.host }}
@@ -141,7 +246,9 @@ jobs:
           'curl -sL "https://grafana.com/api/dashboards/1860/revisions/latest/download" \
              -o /home/ubuntu/monitoring/grafana/dashboards/node-exporter.json && \
            curl -sL "https://grafana.com/api/dashboards/19896/revisions/latest/download" \
-             -o /home/ubuntu/monitoring/grafana/dashboards/fastapi.json'
+             -o /home/ubuntu/monitoring/grafana/dashboards/fastapi.json && \
+           sed -i "s/\${DS_PROMETHEUS}/markflow-prometheus/g" /home/ubuntu/monitoring/grafana/dashboards/node-exporter.json && \
+           sed -i "s/\${DS_PROMETHEUS}/markflow-prometheus/g" /home/ubuntu/monitoring/grafana/dashboards/fastapi.json'
 
     - name: Step 8 - Start monitoring stack on EC2
       env:
