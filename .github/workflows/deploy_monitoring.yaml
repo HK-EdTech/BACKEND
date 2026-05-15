@@ -314,6 +314,6 @@ jobs:
             grafana/grafana:latest
 
           echo "Monitoring stack started!"
-          echo "Grafana → http://${HOST}:3000  (${GF_ADMIN_USERNAME} / your GF_ADMIN_PASSWORD)"
+          echo "Grafana → http://$(curl -sf ifconfig.me):3000"
           echo "Prometheus is localhost-only — only Grafana can reach it"
         ENDSSH
