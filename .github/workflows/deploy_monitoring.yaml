@@ -58,8 +58,9 @@ jobs:
           evaluation_interval: 15s
         scrape_configs:
           - job_name: fastapi
+            metrics_path: /metrics
             static_configs:
-              - targets: ['localhost:8000']
+              - targets: ['localhost:80']
           - job_name: node_exporter
             static_configs:
               - targets: ['localhost:9100']
@@ -157,12 +158,18 @@ jobs:
                   severity: warning
                 data:
                   - refId: A
+                    relativeTimeRange:
+                      from: 300
+                      to: 0
                     datasourceUid: markflow-prometheus
                     model:
                       expr: 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
                       instant: true
                       refId: A
                   - refId: threshold
+                    relativeTimeRange:
+                      from: 300
+                      to: 0
                     datasourceUid: "-100"
                     model:
                       type: threshold
@@ -187,12 +194,18 @@ jobs:
                   severity: warning
                 data:
                   - refId: A
+                    relativeTimeRange:
+                      from: 300
+                      to: 0
                     datasourceUid: markflow-prometheus
                     model:
                       expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
                       instant: true
                       refId: A
                   - refId: threshold
+                    relativeTimeRange:
+                      from: 300
+                      to: 0
                     datasourceUid: "-100"
                     model:
                       type: threshold
@@ -217,12 +230,18 @@ jobs:
                   severity: critical
                 data:
                   - refId: A
+                    relativeTimeRange:
+                      from: 120
+                      to: 0
                     datasourceUid: markflow-prometheus
                     model:
                       expr: up{job="fastapi"}
                       instant: true
                       refId: A
                   - refId: threshold
+                    relativeTimeRange:
+                      from: 120
+                      to: 0
                     datasourceUid: "-100"
                     model:
                       type: threshold
@@ -238,6 +257,13 @@ jobs:
                             params: [A]
         ALERTEOF
 
+    - name: Step 7.68 - Copy monitoring.cfg to EC2
+      env:
+        HOST: ${{ steps.tf_output.outputs.host }}
+      run: |
+        cat monitoring.cfg | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
+          'cat > /home/ubuntu/monitoring/monitoring.cfg'
+
     - name: Step 7.7 - Download dashboards onto EC2
       env:
         HOST: ${{ steps.tf_output.outputs.host }}
@@ -245,7 +271,7 @@ jobs:
         ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
           'curl -sL "https://grafana.com/api/dashboards/1860/revisions/latest/download" \
              -o /home/ubuntu/monitoring/grafana/dashboards/node-exporter.json && \
-           curl -sL "https://grafana.com/api/dashboards/19896/revisions/latest/download" \
+           curl -sL "https://grafana.com/api/dashboards/22676/revisions/latest/download" \
              -o /home/ubuntu/monitoring/grafana/dashboards/fastapi.json && \
            sed -i "s/\${DS_PROMETHEUS}/markflow-prometheus/g" /home/ubuntu/monitoring/grafana/dashboards/node-exporter.json && \
            sed -i "s/\${DS_PROMETHEUS}/markflow-prometheus/g" /home/ubuntu/monitoring/grafana/dashboards/fastapi.json'
@@ -258,11 +284,32 @@ jobs:
         GMAIL_SMTP_PASSWORD: ${{ secrets.GMAIL_SMTP_PASSWORD }}
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
       run: |
+        # Write secrets to an env file on EC2 via safe printf (no shell injection risk)
+        # even if secrets contain special chars like $, !, \, quotes
+        {
+          printf 'GF_SECURITY_ADMIN_USER=%s\n' "${GF_ADMIN_USERNAME}"
+          printf 'GF_SECURITY_ADMIN_PASSWORD=%s\n' "${GF_ADMIN_PASSWORD}"
+          printf 'GF_SMTP_PASSWORD=%s\n' "${GMAIL_SMTP_PASSWORD}"
+          printf 'DISCORD_WEBHOOK_URL=%s\n' "${DISCORD_WEBHOOK_URL}"
+        } | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
+          'cat > /home/ubuntu/monitoring/grafana.env && chmod 600 /home/ubuntu/monitoring/grafana.env'
+
+        # Start containers — quoted heredoc so no secrets touch the shell
         ssh -i ~/.ssh/deploy_key \
           -o StrictHostKeyChecking=no \
           -o ServerAliveInterval=60 \
-          ubuntu@${HOST} bash -s << ENDSSH
+          ubuntu@${HOST} << 'ENDSSH'
           set -euo pipefail
+
+          # Load memory limits from monitoring.cfg
+          source /home/ubuntu/monitoring/monitoring.cfg
+          if [ "${MEMORY_LIMITS_ENABLED}" = "true" ]; then
+            MEM_GRAFANA="--memory=${GRAFANA_MEMORY}"
+            MEM_PROMETHEUS="--memory=${PROMETHEUS_MEMORY}"
+            MEM_NODE="--memory=${NODE_EXPORTER_MEMORY}"
+          else
+            MEM_GRAFANA="" MEM_PROMETHEUS="" MEM_NODE=""
+          fi
 
           # node_exporter — host network + pid for accurate system metrics
           docker rm -f node-exporter 2>/dev/null || true
@@ -270,6 +317,7 @@ jobs:
             --restart unless-stopped \
             --network host \
             --pid host \
+            ${MEM_NODE} \
             -v /:/host:ro,rslave \
             prom/node-exporter:latest \
             --path.rootfs=/host
@@ -279,35 +327,32 @@ jobs:
           docker run -d --name prometheus \
             --restart unless-stopped \
             --network host \
+            ${MEM_PROMETHEUS} \
             -v /home/ubuntu/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro \
             prom/prometheus:latest \
             --config.file=/etc/prometheus/prometheus.yml \
             --web.listen-address=127.0.0.1:9090
 
-          # Grafana — internet-facing on port 3000, login required
-          ##  GF_USERS_ALLOW_SIGN_UP=false --> no outside users can self-register
-
+          # Grafana — secrets loaded from env file, not shell-expanded
           docker rm -f grafana 2>/dev/null || true
           docker run -d --name grafana \
             --restart unless-stopped \
             --network host \
-            -e GF_SECURITY_ADMIN_USER=${GF_ADMIN_USERNAME} \
-            -e GF_SECURITY_ADMIN_PASSWORD=${GF_ADMIN_PASSWORD} \
+            ${MEM_GRAFANA} \
+            --env-file /home/ubuntu/monitoring/grafana.env \
             -e GF_AUTH_ANONYMOUS_ENABLED=false \
             -e GF_USERS_ALLOW_SIGN_UP=false \
             -e GF_SMTP_ENABLED=true \
             -e GF_SMTP_HOST=smtp.gmail.com:587 \
             -e GF_SMTP_USER=miltonincsw@gmail.com \
-            -e GF_SMTP_PASSWORD=${GMAIL_SMTP_PASSWORD} \
             -e GF_SMTP_FROM_ADDRESS=miltonincsw@gmail.com \
             -e GF_SMTP_FROM_NAME=Grafana \
             -e GF_SMTP_STARTTLS_POLICY=MandatoryStartTLS \
-            -e DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL} \
             -v /home/ubuntu/monitoring/grafana/provisioning:/etc/grafana/provisioning:ro \
             -v /home/ubuntu/monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro \
             grafana/grafana:latest
 
           echo "Monitoring stack started!"
-          echo "Grafana → http://${HOST}:3000  (${GF_ADMIN_USERNAME} / your GF_ADMIN_PASSWORD)"
+          echo "Grafana → http://$(curl -sf ifconfig.me):3000/dashboards"
           echo "Prometheus is localhost-only — only Grafana can reach it"
         ENDSSH
