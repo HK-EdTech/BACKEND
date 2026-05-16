@@ -207,11 +207,12 @@ marimo/_lsp/
 __marimo__/
 
 # ignoring .pem for dev01 private key
-dev01.pem
 id_ed25519
+deploy_key
 
 # ignoring API keys directory
 src/*/api_keys/*.json
 
-# teraform state files
-*/terraform.tfstate
+# AWS specifics
+*.tfvars
+*.tfstate 
