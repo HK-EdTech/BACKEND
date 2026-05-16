@@ -155,11 +155,10 @@ async def update_user(user_id: int, name: str | None = None):
 # Backend uses SUPABASE_SERVICE_ROLE_KEY (server-side only) to download the file
 # directly from Storage, bypassing RLS. Caller only supplies the bucket + path.
 class OcrStoragePathRequest(BaseModel):
-    bucket: str
-    path: str
+    path: str  # Full object key including bucket: "AI_marking_app/folder/.../file.pdf"
 
 
-@app.post("/ocr/test-from-storage", tags=[Tags.health])
+@app.post("/ocr/getConfScore", tags=[Tags.health])
 async def test_ocr_from_storage(body: OcrStoragePathRequest):
     supabase_url = os.getenv("SUPABASE_URL")
     service_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
@@ -169,7 +168,7 @@ async def test_ocr_from_storage(body: OcrStoragePathRequest):
             detail="SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not configured",
         )
 
-    download_url = f"{supabase_url}/storage/v1/object/{body.bucket}/{body.path}"
+    download_url = f"{supabase_url}/storage/v1/object/{body.path.lstrip('/')}"
     async with httpx.AsyncClient(timeout=60.0) as client:
         resp = await client.get(
             download_url,

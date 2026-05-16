@@ -353,6 +353,6 @@ jobs:
             grafana/grafana:latest
 
           echo "Monitoring stack started!"
-          echo "Grafana → http://$(curl -sf ifconfig.me):3000"
+          echo "Grafana → http://$(curl -sf ifconfig.me):3000/dashboards"
           echo "Prometheus is localhost-only — only Grafana can reach it"
         ENDSSH
