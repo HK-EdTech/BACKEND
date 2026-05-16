@@ -264,7 +264,7 @@ jobs:
         ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
           'curl -sL "https://grafana.com/api/dashboards/1860/revisions/latest/download" \
              -o /home/ubuntu/monitoring/grafana/dashboards/node-exporter.json && \
-           curl -sL "https://grafana.com/api/dashboards/19896/revisions/latest/download" \
+           curl -sL "https://grafana.com/api/dashboards/22676/revisions/latest/download" \
              -o /home/ubuntu/monitoring/grafana/dashboards/fastapi.json && \
            sed -i "s/\${DS_PROMETHEUS}/markflow-prometheus/g" /home/ubuntu/monitoring/grafana/dashboards/node-exporter.json && \
            sed -i "s/\${DS_PROMETHEUS}/markflow-prometheus/g" /home/ubuntu/monitoring/grafana/dashboards/fastapi.json'
