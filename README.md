@@ -50,12 +50,17 @@
 
 5. If you want to do it manually... you can do `terraform apply -var="ttl_hours=2"` if you wish to deviate from the default 6 hours, if you want to test the GitHub Action, just do a push to main and it will trigger the workflow to apply the terraform config
 
-## Setting up EC2 dev server
+## Debugging EC2 
+
+### Setting up EC2 dev server
 dev local box run: `python3 -m pip install --user ansible`
 run: `ansible-playbook -i inventory/hosts.ini bootstrap_setup_ec2.yaml`
 
-## Seeing docker logs on dev EC2 instance:
-`ssh -i ../dev01.pem ubuntu@x.xx.xx.xx "docker logs -f fastapi"`
+### Seeing docker logs on dev EC2 instance:
+~~`ssh -i ../dev01.pem ubuntu@x.xx.xx.xx "docker logs -f fastapi"`~~
+
+### Debugging grafana
+`ssh -i ~/.ssh/markflow_deploy ubuntu@13.55.xx.xx "docker ps -a"`
 
 ## TODO List:
 Add a real domain + free HTTPS (one command):Bashsudo certbot --nginx -d yourdomain.com
