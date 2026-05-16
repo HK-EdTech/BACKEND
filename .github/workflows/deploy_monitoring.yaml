@@ -157,12 +157,18 @@ jobs:
                   severity: warning
                 data:
                   - refId: A
+                    relativeTimeRange:
+                      from: 300
+                      to: 0
                     datasourceUid: markflow-prometheus
                     model:
                       expr: 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
                       instant: true
                       refId: A
                   - refId: threshold
+                    relativeTimeRange:
+                      from: 300
+                      to: 0
                     datasourceUid: "-100"
                     model:
                       type: threshold
@@ -187,12 +193,18 @@ jobs:
                   severity: warning
                 data:
                   - refId: A
+                    relativeTimeRange:
+                      from: 300
+                      to: 0
                     datasourceUid: markflow-prometheus
                     model:
                       expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
                       instant: true
                       refId: A
                   - refId: threshold
+                    relativeTimeRange:
+                      from: 300
+                      to: 0
                     datasourceUid: "-100"
                     model:
                       type: threshold
@@ -217,12 +229,18 @@ jobs:
                   severity: critical
                 data:
                   - refId: A
+                    relativeTimeRange:
+                      from: 120
+                      to: 0
                     datasourceUid: markflow-prometheus
                     model:
                       expr: up{job="fastapi"}
                       instant: true
                       refId: A
                   - refId: threshold
+                    relativeTimeRange:
+                      from: 120
+                      to: 0
                     datasourceUid: "-100"
                     model:
                       type: threshold
