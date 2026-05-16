@@ -104,7 +104,7 @@ async def supabase_auth_middleware(request: Request, call_next):
         print("[AUTH] ✅ Allowing OPTIONS (CORS preflight)")
         return await call_next(request)
     # These paths are always public
-    if request.url.path in {"/health", "/openapi.json", "/favicon.ico"} or \
+    if request.url.path in {"/health", "/openapi.json", "/favicon.ico", "/metrics"} or \
        request.url.path.startswith(("/docs", "/redoc")):
         print(f"[AUTH] ✅ Public path")
         return await call_next(request)
