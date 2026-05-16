@@ -257,6 +257,13 @@ jobs:
                             params: [A]
         ALERTEOF
 
+    - name: Step 7.68 - Copy monitoring.cfg to EC2
+      env:
+        HOST: ${{ steps.tf_output.outputs.host }}
+      run: |
+        cat monitoring.cfg | ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no ubuntu@${HOST} \
+          'cat > /home/ubuntu/monitoring/monitoring.cfg'
+
     - name: Step 7.7 - Download dashboards onto EC2
       env:
         HOST: ${{ steps.tf_output.outputs.host }}
@@ -294,12 +301,23 @@ jobs:
           ubuntu@${HOST} << 'ENDSSH'
           set -euo pipefail
 
+          # Load memory limits from monitoring.cfg
+          source /home/ubuntu/monitoring/monitoring.cfg
+          if [ "${MEMORY_LIMITS_ENABLED}" = "true" ]; then
+            MEM_GRAFANA="--memory=${GRAFANA_MEMORY}"
+            MEM_PROMETHEUS="--memory=${PROMETHEUS_MEMORY}"
+            MEM_NODE="--memory=${NODE_EXPORTER_MEMORY}"
+          else
+            MEM_GRAFANA="" MEM_PROMETHEUS="" MEM_NODE=""
+          fi
+
           # node_exporter — host network + pid for accurate system metrics
           docker rm -f node-exporter 2>/dev/null || true
           docker run -d --name node-exporter \
             --restart unless-stopped \
             --network host \
             --pid host \
+            ${MEM_NODE} \
             -v /:/host:ro,rslave \
             prom/node-exporter:latest \
             --path.rootfs=/host
@@ -309,6 +327,7 @@ jobs:
           docker run -d --name prometheus \
             --restart unless-stopped \
             --network host \
+            ${MEM_PROMETHEUS} \
             -v /home/ubuntu/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro \
             prom/prometheus:latest \
             --config.file=/etc/prometheus/prometheus.yml \
@@ -319,6 +338,7 @@ jobs:
           docker run -d --name grafana \
             --restart unless-stopped \
             --network host \
+            ${MEM_GRAFANA} \
             --env-file /home/ubuntu/monitoring/grafana.env \
             -e GF_AUTH_ANONYMOUS_ENABLED=false \
             -e GF_USERS_ALLOW_SIGN_UP=false \
