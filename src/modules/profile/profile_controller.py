@@ -17,7 +17,7 @@ def get_profile_service():
 def get_module_service():
     return ModuleService(prisma_client)
 
-@router.get("/me", response_model=Union[ProfileResponse, ProfileWithModulesResponse])
+@router.get("/my_profile", response_model=Union[ProfileResponse, ProfileWithModulesResponse])
 async def get_my_profile(
     request: Request,
     include: Optional[str] = Query(None, description="Include related data: 'modules'"),
@@ -31,8 +31,8 @@ async def get_my_profile(
     - include=modules: Returns profile + accessible modules in single response
 
     Examples:
-    - GET /profile/me -> Returns ProfileResponse
-    - GET /profile/me?include=modules -> Returns ProfileWithModulesResponse
+    - GET /profile/my_profile -> Returns ProfileResponse
+    - GET /profile/my_profile?include=modules -> Returns ProfileWithModulesResponse
     """
     user_id = UUID(request.state.user.get("sub"))
 
@@ -68,7 +68,7 @@ async def get_my_profile(
 
     return ProfileResponse(**profile_dict)
 
-@router.put("/me", response_model=ProfileResponse)
+@router.put("/my_profile", response_model=ProfileResponse)
 async def update_my_profile(
     request: Request,
     update_data: ProfileUpdateRequest,
@@ -85,7 +85,7 @@ async def update_my_profile(
     )
     return profile
 
-@router.get("/me/student", response_model=StudentProfileResponse)
+@router.get("/my_profile/student", response_model=StudentProfileResponse)
 async def get_my_student_profile(
     request: Request,
     profile_service = Depends(get_profile_service)
@@ -94,7 +94,7 @@ async def get_my_student_profile(
     user_id = UUID(request.state.user.get("sub"))
     return await profile_service.get_student_profile(user_id)
 
-@router.put("/me/student", response_model=StudentProfileResponse)
+@router.put("/my_profile/student", response_model=StudentProfileResponse)
 async def update_my_student_profile(
     request: Request,
     update_data: StudentProfileUpdateRequest,
@@ -106,7 +106,7 @@ async def update_my_student_profile(
         await profile_service.update_student_level(user_id, update_data.level)
     return await profile_service.get_student_profile(user_id)
 
-@router.get("/me/teacher", response_model=TeacherProfileResponse)
+@router.get("/my_profile/teacher", response_model=TeacherProfileResponse)
 async def get_my_teacher_profile(
     request: Request,
     profile_service = Depends(get_profile_service)
@@ -115,7 +115,7 @@ async def get_my_teacher_profile(
     user_id = UUID(request.state.user.get("sub"))
     return await profile_service.get_teacher_profile(user_id)
 
-@router.put("/me/teacher", response_model=TeacherProfileResponse)
+@router.put("/my_profile/teacher", response_model=TeacherProfileResponse)
 async def update_my_teacher_profile(
     request: Request,
     update_data: TeacherProfileUpdateRequest,
