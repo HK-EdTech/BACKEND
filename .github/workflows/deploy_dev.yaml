@@ -4,6 +4,7 @@ on:
   push:
     # branches: [ main, dev, milton ]
     branches: [ main, milton ]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
