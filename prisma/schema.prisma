@@ -621,6 +621,7 @@ model homework {
   homework_type                 String?
   status                        String?
   level                         String?
+  has_marking_scheme            Boolean?
   master_homework_homework_type master_homework_homework_type? @relation(fields: [homework_type], references: [type], onDelete: NoAction, onUpdate: NoAction)
   marking_scheme                marking_scheme?                @relation(fields: [marking_scheme_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   master_homework_status        master_homework_status?        @relation(fields: [status], references: [status], onDelete: NoAction, onUpdate: NoAction)

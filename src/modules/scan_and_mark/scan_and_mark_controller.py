@@ -27,25 +27,36 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
         org_id = await service.get_teacher_org_id(teacher_id)
         homework_id = str(uuid4())
 
+
+        #process the homework criteria from different type of homework first then create the marking scheme db record
         criteria = OnetimeCriteria(**raw_criteria) if homework_type == "onetime" else None
         marking_scheme_id = None
         marking_scheme_info = None
         submission_infos = []
 
+        # Marking scheme is optional. Only create the record when the teacher actually
+        # picked a file (non-empty file_name). criteria is None for class -> skips safely.
+        has_marking_scheme = (
+            criteria is not None
+            and bool((criteria.markingScheme.file_name or "").strip())
+        )
+
         async with prisma_client.tx() as tx:
             tx_service = ScanAndMarkService(tx)
 
-            if homework_type == "onetime":
+            #create the marking_scheme record first then pass it to create the homework record
+            if has_marking_scheme:
                 marking_scheme_id, marking_scheme_info = await tx_service.create_marking_scheme_record(
                     org_id, teacher_id, homework_id, criteria.markingScheme
                 )
-                print(f"  marking_scheme_id: {marking_scheme_id}")
+                print(f"  marking_scheme_id: {marking_scheme_id} | {criteria.markingScheme.file_name} | {criteria.markingScheme.file_size} bytes | checksum: {criteria.markingScheme.checksum}")
+            else:
+                print("  no marking scheme provided — skipping marking_scheme record and signed URL")
 
             match homework_type:
                 case "onetime":
                     print(f"  homeworkTitle: {criteria.homeworkTitle} | level: {criteria.selectedLevel} | subject: {criteria.selectedOneTimeSubject}")
-                    print(f"  markingScheme: {criteria.markingScheme.file_name} | {criteria.markingScheme.file_size} bytes | checksum: {criteria.markingScheme.checksum}")
-                    await tx_service.create_onetime_homework(teacher_id, homework_type, criteria, homework_id, marking_scheme_id)
+                    await tx_service.create_onetime_homework(teacher_id, homework_type, criteria, homework_id, marking_scheme_id, has_marking_scheme)
                 case "class":
                     criteria = ClassCriteria(**raw_criteria)
                 case _:
@@ -61,8 +72,9 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
         # Generate signed upload URLs after transaction (external HTTP calls)
         marking_scheme_signed_url = None
         submission_signed_urls = []
-        if homework_type == "onetime":
+        if marking_scheme_info:
             marking_scheme_signed_url = await service.generate_signed_upload_url(marking_scheme_info["file_path"])
+        if homework_type == "onetime":
             for submission in submission_infos:
                 signed_url = await service.generate_signed_upload_url(submission["file_path"])
                 submission_signed_urls.append({
@@ -73,10 +85,13 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
 
         return {
             "homework_id": homework_id,
-            "marking_scheme_upload": {
-                "file_name": marking_scheme_info["file_name"] if marking_scheme_info else None,
-                "signed_url": marking_scheme_signed_url,
-            },
+            "marking_scheme_upload": (
+                {
+                    "file_name": marking_scheme_info["file_name"],
+                    "signed_url": marking_scheme_signed_url,
+                }
+                if marking_scheme_info else None
+            ),
             "submission_uploads": submission_signed_urls,
         }
 

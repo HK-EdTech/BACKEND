@@ -33,6 +33,7 @@ class ScanAndMarkService:
         criteria: OnetimeCriteria,
         homework_id: str,
         marking_scheme_id: str,
+        has_marking_scheme: bool,
     ) -> None:
         await self.db.homework.create(
             data={
@@ -43,6 +44,7 @@ class ScanAndMarkService:
                 "teacher_id": teacher_id,
                 "homework_type": homework_type,
                 "marking_scheme_id": marking_scheme_id,
+                "has_marking_scheme": has_marking_scheme,
                 "status": "uploading",
             }
         )
