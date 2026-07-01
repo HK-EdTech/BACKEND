@@ -88,6 +88,7 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
             "homework_id": homework_id,
             "marking_scheme_upload": (
                 {
+                    "id": marking_scheme_id,
                     "file_name": marking_scheme_info["file_name"],
                     "signed_url": marking_scheme_signed_url,
                 }
@@ -112,3 +113,11 @@ async def confirm_submission(submission_id: str, request: Request):
     teacher_id = request.state.user.get("sub")
     service = ScanAndMarkService(prisma_client)
     return await service.confirm_submission_upload(submission_id, teacher_id)
+
+
+@router.patch("/marking-scheme/{marking_scheme_id}/confirm")
+async def confirm_marking_scheme(marking_scheme_id: str, request: Request):
+    """Confirm the marking scheme's upload — moves it to the 'ocr' phase."""
+    teacher_id = request.state.user.get("sub")
+    service = ScanAndMarkService(prisma_client)
+    return await service.confirm_marking_scheme_upload(marking_scheme_id, teacher_id)

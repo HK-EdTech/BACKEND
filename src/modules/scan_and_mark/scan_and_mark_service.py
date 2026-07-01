@@ -148,6 +148,22 @@ class ScanAndMarkService:
             "homework_status": "ocr",
         }
 
+    async def confirm_marking_scheme_upload(self, marking_scheme_id: str, teacher_id: str) -> dict:
+        """On upload confirmation, move the marking scheme to the 'ocr' phase.
+        Ownership is verified via the homework that references this marking scheme."""
+        homework = await self.db.homework.find_first(
+            where={"marking_scheme_id": marking_scheme_id, "teacher_id": teacher_id}
+        )
+        if not homework:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Marking scheme not found",
+            )
+        await self.db.marking_scheme.update(
+            where={"id": marking_scheme_id}, data={"status": "ocr"}
+        )
+        return {"marking_scheme_id": marking_scheme_id, "status": "ocr"}
+
     async def generate_signed_upload_url(self, file_path: str) -> str:
         supabase_url = os.getenv("SUPABASE_URL")
         service_role_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
