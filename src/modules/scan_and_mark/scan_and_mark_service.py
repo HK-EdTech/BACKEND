@@ -80,6 +80,7 @@ class ScanAndMarkService:
                 }
             )
             results.append({
+                "id": sub_id,
                 "student_name": pdf.student_name,
                 "file_name": pdf.file_name,
                 "file_path": file_path,
@@ -114,6 +115,38 @@ class ScanAndMarkService:
             }
         )
         return ms_id, {"file_name": ms.file_name, "file_path": file_path}
+
+    async def confirm_submission_upload(self, submission_id: str, teacher_id: str) -> dict:
+        """On upload confirmation, move the submission and its homework to the 'ocr' phase.
+        Homework status is a coarse phase marker: any confirmed submission puts the homework
+        into 'ocr' (no rollup). Returns {submission_id, homework_id, homework_status}."""
+        submission = await self.db.homework_submission_onetime.find_unique(where={"id": submission_id})
+        if not submission:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Submission not found",
+            )
+
+        async with self.db.tx() as tx:
+            # ownership enforced here: only updates if this teacher owns the homework
+            owned = await tx.homework.update_many(
+                where={"id": submission.homework_id, "teacher_id": teacher_id},
+                data={"status": "ocr"},
+            )
+            if owned == 0:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Submission not found",
+                )
+            await tx.homework_submission_onetime.update(
+                where={"id": submission_id}, data={"status": "ocr"}
+            )
+
+        return {
+            "submission_id": submission_id,
+            "homework_id": submission.homework_id,
+            "homework_status": "ocr",
+        }
 
     async def generate_signed_upload_url(self, file_path: str) -> str:
         supabase_url = os.getenv("SUPABASE_URL")

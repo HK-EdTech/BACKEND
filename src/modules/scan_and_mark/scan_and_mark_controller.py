@@ -78,6 +78,7 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
             for submission in submission_infos:
                 signed_url = await service.generate_signed_upload_url(submission["file_path"])
                 submission_signed_urls.append({
+                    "id": submission["id"],
                     "student_name": submission["student_name"],
                     "file_name": submission["file_name"],
                     "signed_url": signed_url,
@@ -103,3 +104,11 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
     except Exception as e:
         print(f"[upload-for-signed-url] Unexpected error: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
+
+
+@router.patch("/submissions/{submission_id}/confirm")
+async def confirm_submission(submission_id: str, request: Request):
+    """Confirm one submission's upload — moves it and its homework to the 'ocr' phase."""
+    teacher_id = request.state.user.get("sub")
+    service = ScanAndMarkService(prisma_client)
+    return await service.confirm_submission_upload(submission_id, teacher_id)
