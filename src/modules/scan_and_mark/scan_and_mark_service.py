@@ -45,7 +45,7 @@ class ScanAndMarkService:
                 "homework_type": homework_type,
                 "marking_scheme_id": marking_scheme_id,
                 "has_marking_scheme": has_marking_scheme,
-                "status": "uploading",
+                "status": "prepare_upload",
             }
         )
 
@@ -117,9 +117,9 @@ class ScanAndMarkService:
         return ms_id, {"file_name": ms.file_name, "file_path": file_path}
 
     async def confirm_submission_upload(self, submission_id: str, teacher_id: str) -> dict:
-        """On upload confirmation, move the submission and its homework to the 'ocr' phase.
-        Homework status is a coarse phase marker: any confirmed submission puts the homework
-        into 'ocr' (no rollup). Returns {submission_id, homework_id, homework_status}."""
+        """On upload confirmation, move ONLY the submission to the 'ocr' phase.
+        The homework status is left unchanged (no coarse phase marker).
+        Returns {submission_id, homework_id, homework_status}."""
         submission = await self.db.homework_submission_onetime.find_unique(where={"id": submission_id})
         if not submission:
             raise HTTPException(
@@ -127,25 +127,24 @@ class ScanAndMarkService:
                 detail="Submission not found",
             )
 
-        async with self.db.tx() as tx:
-            # ownership enforced here: only updates if this teacher owns the homework
-            owned = await tx.homework.update_many(
-                where={"id": submission.homework_id, "teacher_id": teacher_id},
-                data={"status": "ocr"},
+        # ownership check only — do NOT change the homework status here
+        homework = await self.db.homework.find_first(
+            where={"id": submission.homework_id, "teacher_id": teacher_id}
+        )
+        if not homework:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Homework not found",
             )
-            if owned == 0:
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail="Submission not found",
-                )
-            await tx.homework_submission_onetime.update(
-                where={"id": submission_id}, data={"status": "ocr"}
-            )
+
+        await self.db.homework_submission_onetime.update(
+            where={"id": submission_id}, data={"status": "ocr"}
+        )
 
         return {
             "submission_id": submission_id,
             "homework_id": submission.homework_id,
-            "homework_status": "ocr",
+            "homework_status": homework.status,
         }
 
     async def confirm_marking_scheme_upload(self, marking_scheme_id: str, teacher_id: str) -> dict:
