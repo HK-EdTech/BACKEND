@@ -5,7 +5,11 @@ on:
     # branches: [ main, dev, milton ]
     branches: [ main, milton ]
   workflow_dispatch:
-
+    inputs:
+      ttl_hours:
+        description: 'amount of hours until the instance auto-terminates'
+        required: false
+        default: '1.5'
 
 jobs:
   build-and-deploy:
@@ -77,6 +81,7 @@ jobs:
         TF_VAR_ssh_public_key: ${{ secrets.DEV_PUBLIC_KEY }}
         TF_VAR_ssh_private_key_path: ~/.ssh/deploy_key
         TF_VAR_environment: dev
+        TF_VAR_ttl_hours: ${{ github.event.inputs.ttl_hours || '1' }}
       run: terraform apply -auto-approve -replace=aws_instance.app
 
     - name: Step 7C - Export EC2 public IP from tf
@@ -157,7 +162,7 @@ jobs:
            echo 'Swagger: http://dev.markflowhk.com/docs'"
 
         TTL=${{ steps.tf_output.outputs.ttl_hours }}
-        EXPIRES=$(date -u -d "+${TTL} hours" "+%Y-%m-%d %H:%M UTC")
+        EXPIRES=$(TZ='Asia/Hong_Kong' date -d "+${TTL} hours" "+%Y-%m-%d %H:%M HKT")
         echo ""
         echo "LIVE → http://dev.markflowhk.com"
         echo "Docs → http://dev.markflowhk.com/docs"
