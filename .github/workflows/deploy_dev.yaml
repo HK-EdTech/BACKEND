@@ -81,7 +81,7 @@ jobs:
         TF_VAR_ssh_public_key: ${{ secrets.DEV_PUBLIC_KEY }}
         TF_VAR_ssh_private_key_path: ~/.ssh/deploy_key
         TF_VAR_environment: dev
-        TF_VAR_ttl_hours: ${{ github.event.inputs.ttl_hours || '1' }}
+        TF_VAR_ttl_hours: ${{ github.event.inputs.ttl_hours }}
       run: terraform apply -auto-approve -replace=aws_instance.app
 
     - name: Step 7C - Export EC2 public IP from tf
