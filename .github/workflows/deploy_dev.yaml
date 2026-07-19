@@ -6,6 +6,7 @@ on:
     branches: [ main, milton ]
   workflow_dispatch:
 
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -81,7 +82,9 @@ jobs:
     - name: Step 7C - Export EC2 public IP from tf
       id: tf_output
       working-directory: terraform
-      run: echo "host=$(terraform output -raw public_ip)" >> $GITHUB_OUTPUT
+      run: |
+        echo "host=$(terraform output -raw public_ip)" >> $GITHUB_OUTPUT
+        echo "ttl_hours=$(terraform output -raw ttl_hours)" >> $GITHUB_OUTPUT
 
     - name: Step 8 - Configure SSH for dynamic host on EC2
       run: |
@@ -150,10 +153,14 @@ jobs:
              -v /home/ubuntu/gcv_api_key.json:/gcv_api_key.json:ro \
              myfastapi:latest \
              uvicorn src.main:app --host 0.0.0.0 --port 8000 && \
-           echo 'DEPLOYED SUCCESSFULLY! Open https://dev.markflowhk.com now' && \
-           echo 'Swagger: https://dev.markflowhk.com/docs'"
+           echo 'DEPLOYED SUCCESSFULLY! Open http://dev.markflowhk.com now' && \
+           echo 'Swagger: http://dev.markflowhk.com/docs'"
 
+        TTL=${{ steps.tf_output.outputs.ttl_hours }}
+        EXPIRES=$(date -u -d "+${TTL} hours" "+%Y-%m-%d %H:%M UTC")
         echo ""
-        echo "LIVE → https://dev.markflowhk.com"
-        echo "Docs → https://dev.markflowhk.com/docs"
+        echo "LIVE → http://dev.markflowhk.com"
+        echo "Docs → http://dev.markflowhk.com/docs"
         echo "Public IP → ${HOST}"
+        echo "Non-DNS routed EIP swagger: → http://${HOST}/docs"
+        echo "TTL → ${TTL}h (instance auto-terminates at ${EXPIRES})"
