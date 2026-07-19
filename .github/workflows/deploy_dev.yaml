@@ -150,10 +150,10 @@ jobs:
              -v /home/ubuntu/gcv_api_key.json:/gcv_api_key.json:ro \
              myfastapi:latest \
              uvicorn src.main:app --host 0.0.0.0 --port 8000 && \
-           echo 'DEPLOYED SUCCESSFULLY! Open https://dev.markflow.com now' && \
-           echo 'Swagger: https://dev.markflow.com/docs'"
+           echo 'DEPLOYED SUCCESSFULLY! Open https://dev.markflowhk.com now' && \
+           echo 'Swagger: https://dev.markflowhk.com/docs'"
 
         echo ""
-        echo "LIVE → https://dev.markflow.com"
-        echo "Docs → https://dev.markflow.com/docs"
+        echo "LIVE → https://dev.markflowhk.com"
+        echo "Docs → https://dev.markflowhk.com/docs"
         echo "Public IP → ${HOST}"
