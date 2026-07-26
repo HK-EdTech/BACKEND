@@ -3,7 +3,7 @@ name: Deploy FastAPI
 on:
   push:
     # branches: [ main, dev, milton ]
-    branches: [ main, milton ]
+    branches: [ main, milton, louis ]
   workflow_dispatch:
     inputs:
       ttl_hours:
