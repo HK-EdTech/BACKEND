@@ -9,10 +9,13 @@ on:
       ttl_hours:
         description: 'amount of hours until the instance auto-terminates'
         required: false
-        default: '1.5'
+        default: '3' # For manual only
 
+# Single source of truth for the actual value: falls back to 0.75h (45 min) on
+# push runs (which have no inputs) and on dispatch runs where the box was cleared.
+# example: gh workflow run deploy_dev.yaml --ref master -f ttl_hours=3
 env:
-  TTL_HOURS: ${{ github.event.inputs.ttl_hours || '1.5' }}
+  TTL_HOURS: ${{ github.event.inputs.ttl_hours || '0.75' }}
 
 jobs:
   build-and-deploy:
@@ -165,7 +168,8 @@ jobs:
            echo 'Swagger: http://dev.markflowhk.com/docs'"
 
         TTL=${{ steps.tf_output.outputs.ttl_hours }}
-        EXPIRES=$(TZ='Asia/Hong_Kong' date -d "+${TTL} hours" "+%Y-%m-%d %H:%M HKT")
+        TTL_MINUTES=$(awk "BEGIN{printf \"%d\", ${TTL}*60}")
+        EXPIRES=$(TZ='Asia/Hong_Kong' date -d "+${TTL_MINUTES} minutes" "+%Y-%m-%d %H:%M HKT")
         echo ""
         echo "LIVE → http://dev.markflowhk.com"
         echo "Docs → http://dev.markflowhk.com/docs"
