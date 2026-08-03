@@ -1,8 +1,25 @@
-from pydantic import BaseModel
-from typing import List, Literal, Union
+from typing import Annotated, List
+from uuid import UUID
+
+from pydantic import AfterValidator, BaseModel
 
 
-class HomeworkPdfMetadata(BaseModel):
+def _validate_uuid(v: str) -> str:
+    # Client-generated ids are the DB primary keys (@db.Uuid columns). Validate the format
+    # here so a malformed id returns a clean 422 instead of a raw Postgres 22P02 (500).
+    try:
+        UUID(v)
+    except (ValueError, AttributeError, TypeError):
+        raise ValueError("must be a valid UUID")
+    return v
+
+
+# A UUID string kept as `str` (Prisma's @db.Uuid columns take str), validated on the way in.
+UuidStr = Annotated[str, AfterValidator(_validate_uuid)]
+
+
+class SubmissionPdfMetadata(BaseModel):
+    submission_id: UuidStr  # client-generated; used as the homework_submission_onetime PK
     file_name: str
     content_type: str
     file_size: int
@@ -29,5 +46,6 @@ class ClassCriteria(BaseModel):
 
 
 class UploadForSignedUrlRequest(BaseModel):
-    homework_pdf_entries: List[HomeworkPdfMetadata]
+    homework_id: UuidStr  # client-generated; used as the homework PK
+    submission_pdf_entries: List[SubmissionPdfMetadata]
     homework_criteria: List  # [type_flag: 'onetime'|'class', criteria: dict]

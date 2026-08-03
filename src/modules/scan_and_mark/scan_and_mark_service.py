@@ -7,7 +7,7 @@ from fastapi import HTTPException, status
 from prisma import Prisma
 
 from .pydantic_model.scan_and_mark_pydantic_model import (
-    HomeworkPdfMetadata,
+    SubmissionPdfMetadata,
     MarkingSchemeMetadata,
     OnetimeCriteria,
 )
@@ -54,12 +54,12 @@ class ScanAndMarkService:
         org_id: str,
         teacher_id: str,
         homework_id: str,
-        pdf_entries: List[HomeworkPdfMetadata],
+        pdf_entries: List[SubmissionPdfMetadata],
     ) -> List[dict]:
         path_template = os.getenv("STORAGE_PATH_ONETIME", "")
         results = []
         for pdf in pdf_entries:
-            sub_id = str(uuid4())
+            sub_id = pdf.submission_id  # client-generated PK
             file_path = path_template.format(
                 educational_organization_id=org_id,
                 teacher_id=teacher_id,

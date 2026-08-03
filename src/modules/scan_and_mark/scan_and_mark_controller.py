@@ -1,9 +1,9 @@
 import os
-from uuid import uuid4
 
 import httpx
 from fastapi import APIRouter, HTTPException, Request
 from google.cloud import vision
+from prisma.errors import UniqueViolationError
 from pydantic import BaseModel, ValidationError
 
 from ...database import prisma_client
@@ -24,12 +24,12 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
     homework_type = body.homework_criteria[0] if body.homework_criteria else "unknown"
     raw_criteria = body.homework_criteria[1] if len(body.homework_criteria) > 1 else {}
 
-    print(f"[upload-for-signed-url] Teacher: {teacher_id} | Type: {homework_type} | PDFs: {len(body.homework_pdf_entries)}")
+    print(f"[upload-for-signed-url] Teacher: {teacher_id} | Type: {homework_type} | PDFs: {len(body.submission_pdf_entries)}")
 
     try:
         service = ScanAndMarkService(prisma_client)
         org_id = await service.get_teacher_org_id(teacher_id)
-        homework_id = str(uuid4())
+        homework_id = body.homework_id  # client-generated PK
 
 
         #process the homework criteria from different type of homework first then create the marking scheme db record
@@ -66,12 +66,12 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
                 case _:
                     print(f"  Unknown homework_type: {homework_type}")
 
-            for pdf in body.homework_pdf_entries:
+            for pdf in body.submission_pdf_entries:
                 print(f"  - student: {pdf.student_name} | {pdf.file_name} | {pdf.file_size} bytes | checksum: {pdf.checksum}")
 
             # After match block — create submissions (onetime only)
             if homework_type == "onetime":
-                submission_infos = await tx_service.create_onetime_submissions(org_id, teacher_id, homework_id, body.homework_pdf_entries)
+                submission_infos = await tx_service.create_onetime_submissions(org_id, teacher_id, homework_id, body.submission_pdf_entries)
 
         # Generate signed upload URLs after transaction (external HTTP calls)
         marking_scheme_signed_url = None
@@ -103,6 +103,11 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
 
     except HTTPException:
         raise
+    except UniqueViolationError:
+        # Client re-sent ids that already exist (e.g. a retry hitting this endpoint instead of the
+        # reconcile endpoint). The rows are already there — signal a conflict rather than duplicating.
+        print(f"[upload-for-signed-url] Duplicate id — homework_id: {homework_id}")
+        raise HTTPException(status_code=409, detail="Homework or submission with this id already exists")
     except ValidationError as e:
         print(f"[upload-for-signed-url] Validation error: {e}")
         raise HTTPException(status_code=422, detail=str(e))
