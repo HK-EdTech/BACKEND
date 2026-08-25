@@ -133,6 +133,7 @@ jobs:
         DB_PROJECT_REF: ${{ vars.DB_PROJECT_REF }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         GCV_API_KEY_B64: ${{ secrets.GCV_API_KEY_B64 }}
+        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
       #  Good to know 
       #
       run: |
@@ -161,6 +162,7 @@ jobs:
              -e SUPABASE_SERVICE_ROLE_KEY='${SUPABASE_SERVICE_ROLE_KEY}' \
              -e DATABASE_URL='postgresql://postgres.${DB_PROJECT_REF}:${DB_PASSWORD}@aws-1-ap-northeast-1.pooler.supabase.com:5432/postgres' \
              -e GOOGLE_APPLICATION_CREDENTIALS='/gcv_api_key.json' \
+             -e OPENROUTER_API_KEY='${OPENROUTER_API_KEY}' \
              -v /home/ubuntu/gcv_api_key.json:/gcv_api_key.json:ro \
              myfastapi:latest \
              uvicorn src.main:app --host 0.0.0.0 --port 8000 && \

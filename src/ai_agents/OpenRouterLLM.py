@@ -1,5 +1,6 @@
 import os
 import json
+from pathlib import Path
 from typing import Any
 import httpx
 
@@ -8,20 +9,36 @@ from ..utils.logger import get_logger
 logger = get_logger(name=__name__)
 
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
+CONFIG_PATH = Path(__file__).parent.parent.parent / "cfg" / "free_models.cfg"
+
+
+def load_free_models(config_path: Path = CONFIG_PATH) -> list[str]:
+    """Load free models from config file."""
+    models = []
+    if config_path.exists():
+        with open(config_path) as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    models.append(line)
+    if not models:
+        # Fallback if config is missing or empty
+        models = ["meta-llama/llama-3.2-3b-instruct:free"]
+        logger.warning(f"No models in {config_path}, using fallback: {models[0]}")
+    return models
 
 
 class OpenRouterLLM:
     """
     OpenRouter LLM client for processing OCR results.
     Uses free models available on OpenRouter to structure and validate OCR output.
+
+    Note: Free models on OpenRouter do NOT support tool/function calling (skills).
+    They are text-in/text-out only. For tool use, you need paid models like
+    Claude, GPT-4, or Gemini Pro.
     """
 
-    # Free models on OpenRouter (as of 2024)
-    FREE_MODELS = [
-        "meta-llama/llama-3.2-3b-instruct:free",
-        "google/gemma-2-9b-it:free",
-        "qwen/qwen-2-7b-instruct:free",
-    ]
+    FREE_MODELS = load_free_models()
 
     def __init__(self, api_key: str | None = None, model: str | None = None):
         """
