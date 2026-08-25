@@ -15,6 +15,8 @@ class TeacherHomeworkResponse(BaseModel):
     class_name: Optional[str] = None
     due_date: Optional[datetime] = None
     full_score: Optional[float] = None
+    homework_type: Optional[str] = None
+    homework_type_value: Optional[str] = None
     assigned_classes: int
     assigned_class_ids: List[UUID] = Field(default_factory=list)
     assigned_students: int
@@ -31,6 +33,7 @@ class CreateTeacherHomeworkRequest(BaseModel):
     subject: Optional[str] = Field(None, max_length=120)
     due_date: Optional[datetime] = None
     full_score: Optional[float] = Field(None, ge=0)
+    homework_type: Optional[str] = Field(None, max_length=50)
     class_ids: List[UUID] = Field(default_factory=list)
 
 

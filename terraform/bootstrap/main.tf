@@ -33,7 +33,7 @@ variable "aws_region" {
 variable "project_name" {
   description = "Short project identifier used in resource names"
   type        = string
-  default     = "hk-edtech"
+  default     = "hk-edtech-707938860146"
 }
 
 resource "aws_s3_bucket" "tfstate" {
