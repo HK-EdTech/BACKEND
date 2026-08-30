@@ -132,6 +132,26 @@ async def confirm_marking_scheme(marking_scheme_id: str, request: Request):
     return await service.confirm_marking_scheme_upload(marking_scheme_id, teacher_id)
 
 
+class SetErrRequest(BaseModel):
+    err: str
+
+
+@router.patch("/submissions/{submission_id}/err")
+async def set_submission_err(submission_id: str, body: SetErrRequest, request: Request):
+    """Set a submission's err (e.g. 'uploading' when its file upload failed)."""
+    teacher_id = request.state.user.get("sub")
+    service = ScanAndMarkService(prisma_client)
+    return await service.set_submission_err(submission_id, teacher_id, body.err)
+
+
+@router.patch("/marking-scheme/{marking_scheme_id}/err")
+async def set_marking_scheme_err(marking_scheme_id: str, body: SetErrRequest, request: Request):
+    """Set the marking scheme's err."""
+    teacher_id = request.state.user.get("sub")
+    service = ScanAndMarkService(prisma_client)
+    return await service.set_marking_scheme_err(marking_scheme_id, teacher_id, body.err)
+
+
 class OcrTestRequest(BaseModel):
     bucket: str
     file_path: str
