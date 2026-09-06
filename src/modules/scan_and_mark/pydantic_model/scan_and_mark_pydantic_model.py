@@ -1,4 +1,4 @@
-from typing import Annotated, List
+from typing import Annotated, List, Optional
 from uuid import UUID
 
 from pydantic import AfterValidator, BaseModel
@@ -28,6 +28,7 @@ class SubmissionPdfMetadata(BaseModel):
 
 
 class MarkingSchemeMetadata(BaseModel):
+    marking_scheme_id: Optional[UuidStr] = None  # client-generated PK; None when no marking scheme
     file_name: str
     file_size: int
     content_type: str

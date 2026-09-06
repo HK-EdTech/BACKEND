@@ -35,7 +35,7 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
         #process the homework criteria from different type of homework first then create the marking scheme db record
         criteria = OnetimeCriteria(**raw_criteria) if homework_type == "onetime" else None
         marking_scheme_id = None
-        marking_scheme_info = None
+        marking_scheme_filename_and_filepath = None
         submission_infos = []
 
         # Marking scheme is optional. Only create the record when the teacher actually
@@ -50,7 +50,8 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
 
             #create the marking_scheme record first then pass it to create the homework record
             if has_marking_scheme:
-                marking_scheme_id, marking_scheme_info = await tx_service.create_marking_scheme_record(
+                marking_scheme_id = criteria.markingScheme.marking_scheme_id
+                marking_scheme_filename_and_filepath = await tx_service.create_marking_scheme_record(
                     org_id, teacher_id, homework_id, criteria.markingScheme
                 )
                 print(f"  marking_scheme_id: {marking_scheme_id} | {criteria.markingScheme.file_name} | {criteria.markingScheme.file_size} bytes | checksum: {criteria.markingScheme.checksum}")
@@ -76,8 +77,8 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
         # Generate signed upload URLs after transaction (external HTTP calls)
         marking_scheme_signed_url = None
         submission_signed_urls = []
-        if marking_scheme_info:
-            marking_scheme_signed_url = await service.generate_signed_upload_url(marking_scheme_info["file_path"])
+        if marking_scheme_filename_and_filepath:
+            marking_scheme_signed_url = await service.generate_signed_upload_url(marking_scheme_filename_and_filepath["file_path"])
         if homework_type == "onetime":
             for submission in submission_infos:
                 signed_url = await service.generate_signed_upload_url(submission["file_path"])
@@ -93,10 +94,10 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
             "marking_scheme_upload": (
                 {
                     "id": marking_scheme_id,
-                    "file_name": marking_scheme_info["file_name"],
+                    "file_name": marking_scheme_filename_and_filepath["file_name"],
                     "signed_url": marking_scheme_signed_url,
                 }
-                if marking_scheme_info else None
+                if marking_scheme_filename_and_filepath else None
             ),
             "submission_uploads": submission_signed_urls,
         }
