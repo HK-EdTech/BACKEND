@@ -50,3 +50,9 @@ class UploadForSignedUrlRequest(BaseModel):
     homework_id: UuidStr  # client-generated; used as the homework PK
     submission_pdf_entries: List[SubmissionPdfMetadata]
     homework_criteria: List  # [type_flag: 'onetime'|'class', criteria: dict]
+
+
+class RetryCheckStorageRequest(BaseModel):
+    homework_id: UuidStr
+    submission_ids: List[UuidStr]
+    marking_scheme_id: Optional[UuidStr] = None
