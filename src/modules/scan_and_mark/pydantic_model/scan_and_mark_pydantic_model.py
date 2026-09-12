@@ -46,7 +46,7 @@ class ClassCriteria(BaseModel):
     pass  # TODO: define class criteria fields
 
 
-class UploadForSignedUrlRequest(BaseModel):
+class CreateDatabaseRecordAndGetSignedUrlRequest(BaseModel):
     homework_id: UuidStr  # client-generated; used as the homework PK
     submission_pdf_entries: List[SubmissionPdfMetadata]
     homework_criteria: List  # [type_flag: 'onetime'|'class', criteria: dict]

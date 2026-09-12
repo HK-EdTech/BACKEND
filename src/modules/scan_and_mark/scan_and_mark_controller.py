@@ -9,7 +9,7 @@ from pydantic import BaseModel, ValidationError
 from ...database import prisma_client
 from ...ocrs.models.GoogleCloudVisionAPI import GoogleCloudVisionAPI
 from .pydantic_model.scan_and_mark_pydantic_model import (
-    UploadForSignedUrlRequest,
+    CreateDatabaseRecordAndGetSignedUrlRequest,
     RetryCheckStorageRequest,
     OnetimeCriteria,
     ClassCriteria,
@@ -19,13 +19,13 @@ from .scan_and_mark_service import ScanAndMarkService
 router = APIRouter(prefix="/scan-and-mark", tags=["Scan and Mark"])
 
 
-@router.post("/upload-for-signed-url")
-async def upload_for_signed_url(request: Request, body: UploadForSignedUrlRequest):
+@router.post("/create-database-record-and-get-signed-url")
+async def create_database_record_and_get_signed_url(request: Request, body: CreateDatabaseRecordAndGetSignedUrlRequest):
     teacher_id = request.state.user.get("sub")
     homework_type = body.homework_criteria[0] if body.homework_criteria else "unknown"
     raw_criteria = body.homework_criteria[1] if len(body.homework_criteria) > 1 else {}
 
-    print(f"[upload-for-signed-url] Teacher: {teacher_id} | Type: {homework_type} | PDFs: {len(body.submission_pdf_entries)}")
+    print(f"[create-database-record-and-get-signed-url] Teacher: {teacher_id} | Type: {homework_type} | PDFs: {len(body.submission_pdf_entries)}")
 
     try:
         service = ScanAndMarkService(prisma_client)
@@ -108,20 +108,20 @@ async def upload_for_signed_url(request: Request, body: UploadForSignedUrlReques
     except UniqueViolationError:
         # Client re-sent ids that already exist (e.g. a retry hitting this endpoint instead of the
         # reconcile endpoint). The rows are already there — signal a conflict rather than duplicating.
-        print(f"[upload-for-signed-url] Duplicate id — homework_id: {homework_id}")
+        print(f"[create-database-record-and-get-signed-url] Duplicate id — homework_id: {homework_id}")
         raise HTTPException(status_code=409, detail="Homework or submission with this id already exists")
     except ValidationError as e:
-        print(f"[upload-for-signed-url] Validation error: {e}")
+        print(f"[create-database-record-and-get-signed-url] Validation error: {e}")
         raise HTTPException(status_code=422, detail=str(e))
     except Exception as e:
-        print(f"[upload-for-signed-url] Unexpected error: {e}")
+        print(f"[create-database-record-and-get-signed-url] Unexpected error: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @router.post("/retry-ensure-records")
-async def retry_ensure_records(request: Request, body: UploadForSignedUrlRequest):
+async def retry_ensure_records(request: Request, body: CreateDatabaseRecordAndGetSignedUrlRequest):
     """Retry: create-if-missing the homework, marking scheme and submission records, then return signed
-    upload URLs (same response shape as upload-for-signed-url). Idempotent — re-sent ids reuse the
+    upload URLs (same response shape as create-database-record-and-get-signed-url). Idempotent — re-sent ids reuse the
     existing rows instead of conflicting."""
     teacher_id = request.state.user.get("sub")
     homework_type = body.homework_criteria[0] if body.homework_criteria else "unknown"
