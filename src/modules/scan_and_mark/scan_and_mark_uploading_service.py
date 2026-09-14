@@ -12,7 +12,7 @@ from .pydantic_model.scan_and_mark_pydantic_model import (
 )
 
 
-class ScanAndMarkService:
+class ScanAndMarkUploadingService:
     def __init__(self, db: Prisma):
         self.db = db
 

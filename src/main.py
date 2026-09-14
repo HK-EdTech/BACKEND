@@ -23,7 +23,8 @@ from .ocrs.models.GoogleCloudVisionAPI import GoogleCloudVisionAPI
 # Import routers from modules
 from .modules.profile.profile_controller import router as profile_router
 from .modules.homework.homework_controller import router as homework_router
-from .modules.scan_and_mark.scan_and_mark_controller import router as scan_and_mark_router
+from .modules.scan_and_mark.scan_and_mark_uploading_controller import router as scan_and_mark_uploading_router
+from .modules.scan_and_mark.scan_and_mark_ocr_controller import router as scan_and_mark_ocr_router
 # from .modules.class.class_controller import router as class_router
 import importlib
 class_router = importlib.import_module(".modules.class.class_controller", package=__package__).router
@@ -82,7 +83,8 @@ app.add_middleware(
 app.include_router(profile_router)
 app.include_router(class_router)
 app.include_router(homework_router)
-app.include_router(scan_and_mark_router)
+app.include_router(scan_and_mark_uploading_router)
+app.include_router(scan_and_mark_ocr_router)
 
 # PUBLIC ENDPOINTS
 @app.get("/health", tags=[Tags.health], include_in_schema=True)

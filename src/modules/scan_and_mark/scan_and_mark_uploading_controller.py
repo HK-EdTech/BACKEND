@@ -1,20 +1,15 @@
-import os
-
-import httpx
 from fastapi import APIRouter, HTTPException, Request
-from google.cloud import vision
 from prisma.errors import UniqueViolationError
 from pydantic import BaseModel, ValidationError
 
 from ...database import prisma_client
-from ...ocrs.models.GoogleCloudVisionAPI import GoogleCloudVisionAPI
 from .pydantic_model.scan_and_mark_pydantic_model import (
     CreateDatabaseRecordAndGetSignedUrlRequest,
     RetryCheckStorageRequest,
     OnetimeCriteria,
     ClassCriteria,
 )
-from .scan_and_mark_service import ScanAndMarkService
+from .scan_and_mark_uploading_service import ScanAndMarkUploadingService
 
 router = APIRouter(prefix="/scan-and-mark", tags=["Scan and Mark"])
 
@@ -28,7 +23,7 @@ async def create_database_record_and_get_signed_url(request: Request, body: Crea
     print(f"[create-database-record-and-get-signed-url] Teacher: {teacher_id} | Type: {homework_type} | PDFs: {len(body.submission_pdf_entries)}")
 
     try:
-        service = ScanAndMarkService(prisma_client)
+        service = ScanAndMarkUploadingService(prisma_client)
         org_id = await service.get_teacher_org_id(teacher_id)
         homework_id = body.homework_id  # client-generated PK
 
@@ -47,7 +42,7 @@ async def create_database_record_and_get_signed_url(request: Request, body: Crea
         )
 
         async with prisma_client.tx() as tx:
-            tx_service = ScanAndMarkService(tx)
+            tx_service = ScanAndMarkUploadingService(tx)
 
             #create the marking_scheme record first then pass it to create the homework record
             if has_marking_scheme:
@@ -130,7 +125,7 @@ async def retry_ensure_records(request: Request, body: CreateDatabaseRecordAndGe
     print(f"[retry-ensure-records] Teacher: {teacher_id} | Type: {homework_type} | PDFs: {len(body.submission_pdf_entries)}")
 
     try:
-        service = ScanAndMarkService(prisma_client)
+        service = ScanAndMarkUploadingService(prisma_client)
         org_id = await service.get_teacher_org_id(teacher_id)
         homework_id = body.homework_id
 
@@ -144,7 +139,7 @@ async def retry_ensure_records(request: Request, body: CreateDatabaseRecordAndGe
         )
 
         async with prisma_client.tx() as tx:
-            tx_service = ScanAndMarkService(tx)
+            tx_service = ScanAndMarkUploadingService(tx)
 
             if has_marking_scheme:
                 marking_scheme_id = criteria.markingScheme.marking_scheme_id
@@ -202,7 +197,7 @@ async def retry_check_storage(request: Request, body: RetryCheckStorageRequest):
     """Retry: per submission id (and the marking scheme), report whether the file is already in Supabase
     Storage; return a fresh signed upload URL for the not-stored ones."""
     teacher_id = request.state.user.get("sub")
-    service = ScanAndMarkService(prisma_client)
+    service = ScanAndMarkUploadingService(prisma_client)
     return await service.retry_check_storage(
         teacher_id, body.homework_id, body.submission_ids, body.marking_scheme_id
     )
@@ -212,7 +207,7 @@ async def retry_check_storage(request: Request, body: RetryCheckStorageRequest):
 async def confirm_submission(submission_id: str, request: Request):
     """Confirm one submission's upload — moves it and its homework to the 'ocr' phase."""
     teacher_id = request.state.user.get("sub")
-    service = ScanAndMarkService(prisma_client)
+    service = ScanAndMarkUploadingService(prisma_client)
     return await service.confirm_submission_upload(submission_id, teacher_id)
 
 
@@ -220,7 +215,7 @@ async def confirm_submission(submission_id: str, request: Request):
 async def confirm_marking_scheme(marking_scheme_id: str, request: Request):
     """Confirm the marking scheme's upload — moves it to the 'ocr' phase."""
     teacher_id = request.state.user.get("sub")
-    service = ScanAndMarkService(prisma_client)
+    service = ScanAndMarkUploadingService(prisma_client)
     return await service.confirm_marking_scheme_upload(marking_scheme_id, teacher_id)
 
 
@@ -232,7 +227,7 @@ class SetErrRequest(BaseModel):
 async def set_submission_err(submission_id: str, body: SetErrRequest, request: Request):
     """Set a submission's err (e.g. 'uploading' when its file upload failed)."""
     teacher_id = request.state.user.get("sub")
-    service = ScanAndMarkService(prisma_client)
+    service = ScanAndMarkUploadingService(prisma_client)
     return await service.set_submission_err(submission_id, teacher_id, body.err)
 
 
@@ -240,43 +235,5 @@ async def set_submission_err(submission_id: str, body: SetErrRequest, request: R
 async def set_marking_scheme_err(marking_scheme_id: str, body: SetErrRequest, request: Request):
     """Set the marking scheme's err."""
     teacher_id = request.state.user.get("sub")
-    service = ScanAndMarkService(prisma_client)
+    service = ScanAndMarkUploadingService(prisma_client)
     return await service.set_marking_scheme_err(marking_scheme_id, teacher_id, body.err)
-
-
-class OcrTestRequest(BaseModel):
-    bucket: str
-    file_path: str
-
-
-@router.post("/ocr/test")
-async def test_ocr_from_supabase(request: Request, body: OcrTestRequest):
-    """Download a PDF from Supabase Storage and run Google Cloud Vision OCR on it."""
-    supabase_url = os.getenv("SUPABASE_URL")
-    if not supabase_url:
-        raise HTTPException(status_code=500, detail="SUPABASE_URL not configured")
-
-    # Use the user's bearer token to access Supabase Storage
-    raw_token = request.headers.get("Authorization", "")[7:]  # strip "Bearer "
-
-    download_url = f"{supabase_url}/storage/v1/object/{body.bucket}/{body.file_path}"
-
-    supabase_anon_key = os.getenv("SUPABASE_ANON_KEY", "")
-    async with httpx.AsyncClient() as client:
-        resp = await client.get(
-            download_url,
-            headers={
-                "Authorization": f"Bearer {raw_token}",
-                "apikey": supabase_anon_key,
-            },
-        )
-        if resp.status_code != 200:
-            raise HTTPException(
-                status_code=resp.status_code,
-                detail=f"Failed to download from Supabase Storage: {resp.text}",
-            )
-        pdf_bytes = resp.content
-
-    gcv_client = vision.ImageAnnotatorClient()
-    result = GoogleCloudVisionAPI._detect_pdf(gcv_client, pdf_bytes)
-    return result
