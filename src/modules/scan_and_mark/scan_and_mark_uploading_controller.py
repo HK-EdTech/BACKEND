@@ -1,0 +1,239 @@
+from fastapi import APIRouter, HTTPException, Request
+from prisma.errors import UniqueViolationError
+from pydantic import BaseModel, ValidationError
+
+from ...database import prisma_client
+from .pydantic_model.scan_and_mark_pydantic_model import (
+    CreateDatabaseRecordAndGetSignedUrlRequest,
+    RetryCheckStorageRequest,
+    OnetimeCriteria,
+    ClassCriteria,
+)
+from .scan_and_mark_uploading_service import ScanAndMarkUploadingService
+
+router = APIRouter(prefix="/scan-and-mark", tags=["Scan and Mark"])
+
+
+@router.post("/create-database-record-and-get-signed-url")
+async def create_database_record_and_get_signed_url(request: Request, body: CreateDatabaseRecordAndGetSignedUrlRequest):
+    teacher_id = request.state.user.get("sub")
+    homework_type = body.homework_criteria[0] if body.homework_criteria else "unknown"
+    raw_criteria = body.homework_criteria[1] if len(body.homework_criteria) > 1 else {}
+
+    print(f"[create-database-record-and-get-signed-url] Teacher: {teacher_id} | Type: {homework_type} | PDFs: {len(body.submission_pdf_entries)}")
+
+    try:
+        service = ScanAndMarkUploadingService(prisma_client)
+        org_id = await service.get_teacher_org_id(teacher_id)
+        homework_id = body.homework_id  # client-generated PK
+
+
+        #process the homework criteria from different type of homework first then create the marking scheme db record
+        criteria = OnetimeCriteria(**raw_criteria) if homework_type == "onetime" else None
+        marking_scheme_id = None
+        marking_scheme_filename_and_filepath = None
+        submission_infos = []
+
+        # Marking scheme is optional. Only create the record when the teacher actually
+        # picked a file (non-empty file_name). criteria is None for class -> skips safely.
+        has_marking_scheme = (
+            criteria is not None
+            and bool((criteria.markingScheme.file_name or "").strip())
+        )
+
+        async with prisma_client.tx() as tx:
+            tx_service = ScanAndMarkUploadingService(tx)
+
+            #create the marking_scheme record first then pass it to create the homework record
+            if has_marking_scheme:
+                marking_scheme_id = criteria.markingScheme.marking_scheme_id
+                marking_scheme_filename_and_filepath = await tx_service.create_marking_scheme_record(
+                    org_id, teacher_id, homework_id, criteria.markingScheme
+                )
+                print(f"  marking_scheme_id: {marking_scheme_id} | {criteria.markingScheme.file_name} | {criteria.markingScheme.file_size} bytes | checksum: {criteria.markingScheme.checksum}")
+            else:
+                print("  no marking scheme provided — skipping marking_scheme record and signed URL")
+
+            match homework_type:
+                case "onetime":
+                    print(f"  homeworkTitle: {criteria.homeworkTitle} | level: {criteria.selectedLevel} | subject: {criteria.selectedOneTimeSubject}")
+                    await tx_service.create_onetime_homework(teacher_id, homework_type, criteria, homework_id, marking_scheme_id, has_marking_scheme)
+                case "class":
+                    criteria = ClassCriteria(**raw_criteria)
+                case _:
+                    print(f"  Unknown homework_type: {homework_type}")
+
+            for pdf in body.submission_pdf_entries:
+                print(f"  - student: {pdf.student_name} | {pdf.file_name} | {pdf.file_size} bytes | checksum: {pdf.checksum}")
+
+            # After match block — create submissions (onetime only)
+            if homework_type == "onetime":
+                submission_infos = await tx_service.create_onetime_submissions(org_id, teacher_id, homework_id, body.submission_pdf_entries)
+
+        # Generate signed upload URLs after transaction (external HTTP calls)
+        marking_scheme_signed_url = None
+        submission_signed_urls = []
+        if marking_scheme_filename_and_filepath:
+            marking_scheme_signed_url = await service.generate_signed_upload_url(marking_scheme_filename_and_filepath["file_path"])
+        if homework_type == "onetime":
+            for submission in submission_infos:
+                signed_url = await service.generate_signed_upload_url(submission["file_path"])
+                submission_signed_urls.append({
+                    "id": submission["id"],
+                    "student_name": submission["student_name"],
+                    "file_name": submission["file_name"],
+                    "signed_url": signed_url,
+                })
+
+        return {
+            "homework_id": homework_id,
+            "marking_scheme_upload": (
+                {
+                    "id": marking_scheme_id,
+                    "file_name": marking_scheme_filename_and_filepath["file_name"],
+                    "signed_url": marking_scheme_signed_url,
+                }
+                if marking_scheme_filename_and_filepath else None
+            ),
+            "submission_uploads": submission_signed_urls,
+        }
+
+    except HTTPException:
+        raise
+    except UniqueViolationError:
+        # Client re-sent ids that already exist (e.g. a retry hitting this endpoint instead of the
+        # reconcile endpoint). The rows are already there — signal a conflict rather than duplicating.
+        print(f"[create-database-record-and-get-signed-url] Duplicate id — homework_id: {homework_id}")
+        raise HTTPException(status_code=409, detail="Homework or submission with this id already exists")
+    except ValidationError as e:
+        print(f"[create-database-record-and-get-signed-url] Validation error: {e}")
+        raise HTTPException(status_code=422, detail=str(e))
+    except Exception as e:
+        print(f"[create-database-record-and-get-signed-url] Unexpected error: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
+@router.post("/retry-ensure-records")
+async def retry_ensure_records(request: Request, body: CreateDatabaseRecordAndGetSignedUrlRequest):
+    """Retry: create-if-missing the homework, marking scheme and submission records, then return signed
+    upload URLs (same response shape as create-database-record-and-get-signed-url). Idempotent — re-sent ids reuse the
+    existing rows instead of conflicting."""
+    teacher_id = request.state.user.get("sub")
+    homework_type = body.homework_criteria[0] if body.homework_criteria else "unknown"
+    raw_criteria = body.homework_criteria[1] if len(body.homework_criteria) > 1 else {}
+
+    print(f"[retry-ensure-records] Teacher: {teacher_id} | Type: {homework_type} | PDFs: {len(body.submission_pdf_entries)}")
+
+    try:
+        service = ScanAndMarkUploadingService(prisma_client)
+        org_id = await service.get_teacher_org_id(teacher_id)
+        homework_id = body.homework_id
+
+        criteria = OnetimeCriteria(**raw_criteria) if homework_type == "onetime" else None
+        marking_scheme_id = None
+        marking_scheme_filename_and_filepath = None
+        submission_infos = []
+        has_marking_scheme = (
+            criteria is not None
+            and bool((criteria.markingScheme.file_name or "").strip())
+        )
+
+        async with prisma_client.tx() as tx:
+            tx_service = ScanAndMarkUploadingService(tx)
+
+            if has_marking_scheme:
+                marking_scheme_id = criteria.markingScheme.marking_scheme_id
+                marking_scheme_filename_and_filepath = await tx_service.ensure_marking_scheme_record(
+                    org_id, teacher_id, homework_id, criteria.markingScheme
+                )
+
+            if homework_type == "onetime":
+                await tx_service.ensure_onetime_homework(
+                    teacher_id, homework_type, criteria, homework_id, marking_scheme_id, has_marking_scheme
+                )
+                submission_infos = await tx_service.ensure_onetime_submissions(
+                    org_id, teacher_id, homework_id, body.submission_pdf_entries
+                )
+
+        marking_scheme_signed_url = None
+        submission_signed_urls = []
+        if marking_scheme_filename_and_filepath:
+            marking_scheme_signed_url = await service.generate_signed_upload_url(marking_scheme_filename_and_filepath["file_path"])
+        if homework_type == "onetime":
+            for submission in submission_infos:
+                signed_url = await service.generate_signed_upload_url(submission["file_path"])
+                submission_signed_urls.append({
+                    "id": submission["id"],
+                    "student_name": submission["student_name"],
+                    "file_name": submission["file_name"],
+                    "signed_url": signed_url,
+                })
+
+        return {
+            "homework_id": homework_id,
+            "marking_scheme_upload": (
+                {
+                    "id": marking_scheme_id,
+                    "file_name": marking_scheme_filename_and_filepath["file_name"],
+                    "signed_url": marking_scheme_signed_url,
+                }
+                if marking_scheme_filename_and_filepath else None
+            ),
+            "submission_uploads": submission_signed_urls,
+        }
+
+    except HTTPException:
+        raise
+    except ValidationError as e:
+        print(f"[retry-ensure-records] Validation error: {e}")
+        raise HTTPException(status_code=422, detail=str(e))
+    except Exception as e:
+        print(f"[retry-ensure-records] Unexpected error: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
+@router.post("/retry-check-storage")
+async def retry_check_storage(request: Request, body: RetryCheckStorageRequest):
+    """Retry: per submission id (and the marking scheme), report whether the file is already in Supabase
+    Storage; return a fresh signed upload URL for the not-stored ones."""
+    teacher_id = request.state.user.get("sub")
+    service = ScanAndMarkUploadingService(prisma_client)
+    return await service.retry_check_storage(
+        teacher_id, body.homework_id, body.submission_ids, body.marking_scheme_id
+    )
+
+
+@router.patch("/submissions/{submission_id}/confirm")
+async def confirm_submission(submission_id: str, request: Request):
+    """Confirm one submission's upload — moves it and its homework to the 'ocr' phase."""
+    teacher_id = request.state.user.get("sub")
+    service = ScanAndMarkUploadingService(prisma_client)
+    return await service.confirm_submission_upload(submission_id, teacher_id)
+
+
+@router.patch("/marking-scheme/{marking_scheme_id}/confirm")
+async def confirm_marking_scheme(marking_scheme_id: str, request: Request):
+    """Confirm the marking scheme's upload — moves it to the 'ocr' phase."""
+    teacher_id = request.state.user.get("sub")
+    service = ScanAndMarkUploadingService(prisma_client)
+    return await service.confirm_marking_scheme_upload(marking_scheme_id, teacher_id)
+
+
+class SetErrRequest(BaseModel):
+    err: str
+
+
+@router.patch("/submissions/{submission_id}/err")
+async def set_submission_err(submission_id: str, body: SetErrRequest, request: Request):
+    """Set a submission's err (e.g. 'uploading' when its file upload failed)."""
+    teacher_id = request.state.user.get("sub")
+    service = ScanAndMarkUploadingService(prisma_client)
+    return await service.set_submission_err(submission_id, teacher_id, body.err)
+
+
+@router.patch("/marking-scheme/{marking_scheme_id}/err")
+async def set_marking_scheme_err(marking_scheme_id: str, body: SetErrRequest, request: Request):
+    """Set the marking scheme's err."""
+    teacher_id = request.state.user.get("sub")
+    service = ScanAndMarkUploadingService(prisma_client)
+    return await service.set_marking_scheme_err(marking_scheme_id, teacher_id, body.err)
