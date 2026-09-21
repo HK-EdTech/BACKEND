@@ -63,6 +63,7 @@ class ScanAndMarkUploadingService:
                 educational_organization_id=org_id,
                 teacher_id=teacher_id,
                 homework_id=homework_id,
+                submission_id=pdf.submission_id,
                 file_name=pdf.file_name,
             )
             await self.db.homework_submission_onetime.create(
@@ -278,6 +279,7 @@ class ScanAndMarkUploadingService:
                 educational_organization_id=org_id,
                 teacher_id=teacher_id,
                 homework_id=homework_id,
+                submission_id=pdf.submission_id,
                 file_name=pdf.file_name,
             )
             await self.db.homework_submission_onetime.create(
