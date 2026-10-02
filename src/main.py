@@ -19,11 +19,12 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from .deps import get_current_user
 from .database import connect_db, disconnect_db
 from .ocrs.models.GoogleCloudVisionAPI import GoogleCloudVisionAPI
+from .ai_agents.OpenRouterLLM import OpenRouterLLM
 
 # Import routers from modules
 from .modules.profile.profile_controller import router as profile_router
 from .modules.homework.homework_controller import router as homework_router
-from .modules.scan_and_mark.scan_and_mark_controller import router as scan_and_mark_router
+from .modules.scan_and_mark.scan_and_mark_uploading_controller import router as scan_and_mark_uploading_router
 # from .modules.class.class_controller import router as class_router
 import importlib
 class_router = importlib.import_module(".modules.class.class_controller", package=__package__).router
@@ -82,7 +83,7 @@ app.add_middleware(
 app.include_router(profile_router)
 app.include_router(class_router)
 app.include_router(homework_router)
-app.include_router(scan_and_mark_router)
+app.include_router(scan_and_mark_uploading_router)
 
 # PUBLIC ENDPOINTS
 @app.get("/health", tags=[Tags.health], include_in_schema=True)
@@ -193,4 +194,16 @@ async def test_ocr_from_storage(body: OcrStoragePathRequest):
     if is_pdf:
         return GoogleCloudVisionAPI._detect_pdf(gcv_client, content)
     return GoogleCloudVisionAPI._detect_image(gcv_client, content)
+
+
+# OpenRouter LLM endpoints
+@app.get("/ai/health", tags=[Tags.health])
+async def ai_health_check():
+    """Check OpenRouter LLM connection."""
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    if not api_key:
+        return {"healthy": False, "error": "OPENROUTER_API_KEY not configured"}
+
+    llm = OpenRouterLLM(api_key=api_key)
+    return await llm.health_check()
 
