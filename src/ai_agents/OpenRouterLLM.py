@@ -8,9 +8,11 @@ from openai import AsyncOpenAI
 try:
     # When running as part of src package (FastAPI)
     from ..utils.logger import get_logger
+    from ..common.json_extract import parse_json_response
 except ImportError:
     # When running standalone (tox/pytest with PYTHONPATH=src)
     from utils.logger import get_logger
+    from common.json_extract import parse_json_response
 
 logger = get_logger(name=__name__)
 
@@ -35,7 +37,7 @@ def load_free_models(config_path: Path = CONFIG_PATH) -> list[str]:
 
 class OpenRouterLLM:
     """
-    OpenRouter LLM client for processing OCR results.
+    OpenRouter LLM client (text completions).
     Uses OpenAI SDK with OpenRouter's base_url for compatibility.
 
     Note: We use specific models from cfg/free_models.cfg rather than
@@ -79,73 +81,6 @@ class OpenRouterLLM:
                 "X-Title": "HK EdTech Post OCR Processing",
             },
         )
-
-    async def process_ocr_result(
-        self, ocr_text: str, expected_fields: list[str] | None = None
-    ) -> dict[str, Any]:
-        """
-        Process OCR text and extract structured data.
-
-        Args:
-            ocr_text: Raw text from OCR
-            expected_fields: Optional list of fields to extract (e.g., ["name", "date", "score"])
-
-        Returns:
-            Dict with extracted fields and confidence
-        """
-        field_instruction = ""
-        if expected_fields:
-            field_instruction = f"\nExtract these specific fields: {', '.join(expected_fields)}"
-
-        system_prompt = """You are an OCR post-processor. Your job is to:
-1. Clean up and structure raw OCR text
-2. Extract key information into structured fields
-3. Fix obvious OCR errors (like 0/O, 1/l confusion)
-4. Rate your confidence in the extraction (0.0 to 1.0)
-
-IMPORTANT: Respond with ONLY valid JSON, no explanation. Use this format:
-{"extracted_data": {...}, "cleaned_text": "...", "confidence": 0.95, "corrections_made": ["..."]}"""
-
-        user_prompt = f"""Process this OCR text and extract structured data:{field_instruction}
-
-OCR TEXT:
-{ocr_text}
-
-JSON response:"""
-
-        return await self._chat_completion(system_prompt, user_prompt)
-
-    async def validate_homework_answer(
-        self, student_answer: str, expected_answer: str, question: str | None = None
-    ) -> dict[str, Any]:
-        """
-        Validate a student's answer against expected answer.
-
-        Args:
-            student_answer: The OCR-extracted student answer
-            expected_answer: The correct answer
-            question: Optional question text for context
-
-        Returns:
-            Dict with is_correct, score, feedback
-        """
-        context = f"Question: {question}\n" if question else ""
-
-        system_prompt = """You are a homework grading assistant. Compare the student's answer to the expected answer.
-Consider:
-- Partial credit for partially correct answers
-- Common OCR errors that might affect the text
-- Mathematical equivalence (e.g., 1/2 = 0.5)
-
-IMPORTANT: Respond with ONLY valid JSON, no explanation. Use this format:
-{"is_correct": true, "score": 1.0, "feedback": "...", "ocr_issues_detected": []}"""
-
-        user_prompt = f"""{context}Student's answer: {student_answer}
-Expected answer: {expected_answer}
-
-JSON response:"""
-
-        return await self._chat_completion(system_prompt, user_prompt)
 
     async def _chat_completion(
         self, system_prompt: str, user_prompt: str, max_retries: int = 3
@@ -216,8 +151,7 @@ JSON response:"""
                 reasoning_details = getattr(response.choices[0].message, "reasoning_details", None)
 
                 # Extract JSON from response
-                json_content = self._extract_json(content)
-                result = self._parse_json_response(json_content)
+                result = parse_json_response(content)
 
                 # Attach metadata with model and usage info
                 result["_meta"] = {
@@ -236,62 +170,16 @@ JSON response:"""
                 logger.warning(f"JSON parse failed (attempt {attempt + 1}): {e}")
                 last_error = f"Invalid JSON response: {e}"
                 if attempt == max_retries - 1:
-                    return {"error": "Invalid JSON response", "raw_content": content or "", "usage": total_usage}
+                    return {"error": "Invalid JSON response", "raw_content": content or "",
+                            "_meta": {"usage": total_usage, "attempts": attempt + 1}}
             except Exception as e:
                 logger.warning(f"Request failed (attempt {attempt + 1}): {e}")
                 last_error = str(e)
                 if attempt == max_retries - 1:
-                    return {"error": last_error, "usage": total_usage}
+                    return {"error": last_error, "_meta": {"usage": total_usage, "attempts": attempt + 1}}
 
-        return {"error": last_error or "Max retries exceeded", "usage": total_usage}
-
-    def _extract_json(self, content: str) -> str:
-        """Extract JSON from response, handling markdown blocks and prose."""
-        # Handle markdown code blocks
-        if "```json" in content:
-            return content.split("```json")[1].split("```")[0].strip()
-        if "```" in content:
-            parts = content.split("```")
-            if len(parts) >= 2:
-                return parts[1].strip()
-
-        # Find JSON object in response (model may add explanation before/after)
-        start = content.find("{")
-        end = content.rfind("}")
-        if start != -1 and end != -1 and end > start:
-            return content[start:end + 1]
-
-        return content.strip()
-
-    def _parse_json_response(self, content: str) -> dict[str, Any]:
-        """Parse JSON response, attempting to repair truncated responses."""
-        if not content:
-            raise json.JSONDecodeError("Empty content", "", 0)
-
-        try:
-            return json.loads(content)
-        except json.JSONDecodeError:
-            # Try to repair truncated JSON by closing open structures
-            repaired = content.rstrip()
-
-            # Count open brackets/braces
-            open_brackets = repaired.count("[") - repaired.count("]")
-            open_braces = repaired.count("{") - repaired.count("}")
-
-            # If no JSON structure found, raise
-            if open_braces <= 0 and "{" not in repaired:
-                raise
-
-            # Truncate at last complete value if in the middle of a string
-            if repaired.count('"') % 2 == 1:
-                last_quote = repaired.rfind('"')
-                repaired = repaired[:last_quote] + '..."'
-
-            # Close arrays and objects
-            repaired += "]" * max(0, open_brackets) + "}" * max(0, open_braces)
-
-            logger.warning("Repaired truncated JSON response")
-            return json.loads(repaired)
+        return {"error": last_error or "Max retries exceeded",
+                "_meta": {"usage": total_usage, "attempts": max_retries}}
 
     async def health_check(self, max_retries: int = 3) -> dict[str, Any]:
         """Test the OpenRouter connection with a simple request. Retries on failure."""

@@ -197,49 +197,6 @@ async def test_ocr_from_storage(body: OcrStoragePathRequest):
 
 
 # OpenRouter LLM endpoints
-class ProcessOcrRequest(BaseModel):
-    ocr_text: str
-    expected_fields: list[str] | None = None
-
-
-class ValidateAnswerRequest(BaseModel):
-    student_answer: str
-    expected_answer: str
-    question: str | None = None
-
-
-@app.post("/ai/process-ocr", tags=[Tags.health])
-async def process_ocr_with_llm(body: ProcessOcrRequest):
-    """Process OCR text with LLM to extract structured data."""
-    api_key = os.getenv("OPENROUTER_API_KEY")
-    if not api_key:
-        raise HTTPException(status_code=500, detail="OPENROUTER_API_KEY not configured")
-
-    llm = OpenRouterLLM(api_key=api_key)
-    result = await llm.process_ocr_result(body.ocr_text, body.expected_fields)
-
-    if "error" in result:
-        raise HTTPException(status_code=500, detail=result)
-    return result
-
-
-@app.post("/ai/validate-answer", tags=[Tags.health])
-async def validate_homework_answer(body: ValidateAnswerRequest):
-    """Validate a student answer against expected answer using LLM."""
-    api_key = os.getenv("OPENROUTER_API_KEY")
-    if not api_key:
-        raise HTTPException(status_code=500, detail="OPENROUTER_API_KEY not configured")
-
-    llm = OpenRouterLLM(api_key=api_key)
-    result = await llm.validate_homework_answer(
-        body.student_answer, body.expected_answer, body.question
-    )
-
-    if "error" in result:
-        raise HTTPException(status_code=500, detail=result)
-    return result
-
-
 @app.get("/ai/health", tags=[Tags.health])
 async def ai_health_check():
     """Check OpenRouter LLM connection."""

@@ -17,3 +17,5 @@ bcrypt==4.2.1
 prometheus-fastapi-instrumentator
 # For OpenRouter LLM (uses OpenAI SDK with custom base_url)
 openai>=1.0.0
+# Tolerant JSON parsing for LLM responses (and the base for LangGraph later)
+langchain-core>=1.0

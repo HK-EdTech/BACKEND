@@ -11,12 +11,10 @@ Or run directly (manual test):
     OPENROUTER_API_KEY=sk-or-... python src/tests/ai_agents/test_openrouter.py
 """
 import asyncio
-import json
 import os
 import sys
 
 import pytest
-import pytest_asyncio
 
 # Add src to path for imports when running directly
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -49,12 +47,6 @@ def llm():
     return OpenRouterLLM()
 
 
-@pytest.fixture
-def llm_with_reasoning():
-    """Create OpenRouterLLM instance with reasoning enabled."""
-    return OpenRouterLLM(enable_reasoning=True)
-
-
 @pytest.mark.asyncio
 async def test_health_check(llm):
     """Test OpenRouter connection."""
@@ -66,70 +58,18 @@ async def test_health_check(llm):
 
 
 @pytest.mark.asyncio
-async def test_process_ocr_result(llm):
-    """Test OCR text processing and extraction."""
-    sample_ocr = """
-    Student Name: J0hn Sm1th
-    Date: 2024-O1-15
-    Score: 85/1OO
-    """
-
-    result = await llm.process_ocr_result(
-        sample_ocr,
-        expected_fields=["student_name", "date", "score"]
+async def test_chat_completion_tracks_usage(llm):
+    """_chat_completion returns parsed JSON and accumulates token usage under _meta."""
+    result = await llm._chat_completion(
+        system_prompt='Respond with ONLY valid JSON, no explanation.',
+        user_prompt='Return {"answer": 4} for 2+2. JSON response:',
     )
-    print_usage(result, "process_ocr")
+    print_usage(result, "chat_completion")
 
-    assert "error" not in result, f"OCR processing failed: {result}"
-    assert "extracted_data" in result
-    assert "confidence" in result
+    assert "error" not in result, f"Chat completion failed: {result}"
     assert "_meta" in result
-    assert "usage" in result["_meta"]
-
-
-@pytest.mark.asyncio
-async def test_validate_homework_answer_correct(llm):
-    """Test homework validation with correct answer."""
-    result = await llm.validate_homework_answer(
-        student_answer="4",
-        expected_answer="4",
-        question="What is 2+2?"
-    )
-    print_usage(result, "validate_correct")
-
-    assert "error" not in result, f"Validation failed: {result}"
-    assert result.get("is_correct") is True
-    assert result.get("score", 0) >= 0.9
-
-
-@pytest.mark.asyncio
-async def test_validate_homework_answer_incorrect(llm):
-    """Test homework validation with incorrect answer."""
-    result = await llm.validate_homework_answer(
-        student_answer="5",
-        expected_answer="4",
-        question="What is 2+2?"
-    )
-    print_usage(result, "validate_incorrect")
-
-    assert "error" not in result, f"Validation failed: {result}"
-    assert result.get("is_correct") is False
-    assert result.get("score", 1) < 0.5
-
-
-@pytest.mark.asyncio
-async def test_validate_with_reasoning(llm_with_reasoning):
-    """Test validation with reasoning enabled."""
-    result = await llm_with_reasoning.validate_homework_answer(
-        student_answer="3.14159",
-        expected_answer="pi",
-        question="What is the ratio of a circle's circumference to its diameter?"
-    )
-    print_usage(result, "validate_reasoning")
-
-    assert "error" not in result, f"Validation failed: {result}"
-    assert "_meta" in result
-    assert result["_meta"]["reasoning_enabled"] is True
+    assert result["_meta"]["usage"]["total_tokens"] > 0
+    assert result["_meta"]["attempts"] >= 1
 
 
 # Direct execution for quick manual testing
@@ -163,52 +103,24 @@ async def main():
         print("\nHealth check failed, stopping.")
         return
 
-    # Process OCR
+    # Chat completion
     print("\n" + "-" * 40)
-    print("2. Processing sample OCR text")
+    print("2. Chat completion (JSON + token accounting)")
     print("-" * 40)
-    sample_ocr = """
-    Student Name: J0hn Sm1th
-    Date: 2024-O1-15
-    Score: 85/1OO
-    """
-    result = await llm.process_ocr_result(
-        sample_ocr,
-        expected_fields=["student_name", "date", "score"]
+    result = await llm._chat_completion(
+        system_prompt='Respond with ONLY valid JSON, no explanation.',
+        user_prompt='Return {"answer": 4} for 2+2. JSON response:',
     )
 
+    meta = result.get("_meta", {})
     if "error" not in result:
-        print(f"   Extracted: {json.dumps(result.get('extracted_data', {}), indent=2)}")
-        print(f"   Confidence: {result.get('confidence')}")
-        meta = result.get("_meta", {})
+        print(f"   Parsed: {result}")
         print(f"   Model used: {meta.get('model')}")
-        usage = meta.get("usage", {})
-        print(f"   Tokens: {usage.get('prompt_tokens', 0)} + {usage.get('completion_tokens', 0)} = {usage.get('total_tokens', 0)}")
-        total_tokens += usage.get("total_tokens", 0)
     else:
         print(f"   ERROR: {result.get('error')}")
-
-    # Validate answer
-    print("\n" + "-" * 40)
-    print("3. Validating homework answer (correct)")
-    print("-" * 40)
-    validation = await llm.validate_homework_answer(
-        student_answer="4",
-        expected_answer="4",
-        question="What is 2+2?"
-    )
-
-    if "error" not in validation:
-        print(f"   Is correct: {validation.get('is_correct')}")
-        print(f"   Score: {validation.get('score')}")
-        print(f"   Feedback: {validation.get('feedback')}")
-        meta = validation.get("_meta", {})
-        print(f"   Model used: {meta.get('model')}")
-        usage = meta.get("usage", {})
-        print(f"   Tokens: {usage.get('prompt_tokens', 0)} + {usage.get('completion_tokens', 0)} = {usage.get('total_tokens', 0)}")
-        total_tokens += usage.get("total_tokens", 0)
-    else:
-        print(f"   ERROR: {validation.get('error')}")
+    usage = meta.get("usage", {})
+    print(f"   Tokens: {usage.get('prompt_tokens', 0)} + {usage.get('completion_tokens', 0)} = {usage.get('total_tokens', 0)}")
+    total_tokens += usage.get("total_tokens", 0)
 
     # Summary
     print("\n" + "=" * 60)
