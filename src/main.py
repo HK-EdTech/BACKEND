@@ -25,6 +25,7 @@ from .ai_agents.OpenRouterLLM import OpenRouterLLM
 from .modules.profile.profile_controller import router as profile_router
 from .modules.homework.homework_controller import router as homework_router
 from .modules.scan_and_mark.scan_and_mark_uploading_controller import router as scan_and_mark_uploading_router
+from .modules.raw_homework_processing.raw_homework_processing_controller import router as raw_homework_router
 # from .modules.class.class_controller import router as class_router
 import importlib
 class_router = importlib.import_module(".modules.class.class_controller", package=__package__).router
@@ -62,6 +63,7 @@ app = FastAPI(
         {"name": "User Management"},
         {"name": "Items"},
         {"name": "Profile", "description": "User profile management"},
+        {"name": "Raw Homework Processing", "description": "Agentic homework marking"},
     ],
     # This makes the lock appear
     dependencies=[Depends(security)],   # ← important
@@ -84,6 +86,7 @@ app.include_router(profile_router)
 app.include_router(class_router)
 app.include_router(homework_router)
 app.include_router(scan_and_mark_uploading_router)
+app.include_router(raw_homework_router)
 
 # PUBLIC ENDPOINTS
 @app.get("/health", tags=[Tags.health], include_in_schema=True)

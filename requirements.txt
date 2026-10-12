@@ -1,5 +1,6 @@
 # For Fast API
 fastapi==0.115.2
+pydantic>=2.7.4,<3
 uvicorn[standard]==0.32.0
 python-jose[cryptography]==3.3.0
 httpx==0.27.0
@@ -19,3 +20,10 @@ prometheus-fastapi-instrumentator
 openai>=1.0.0
 # Tolerant JSON parsing for LLM responses (and the base for LangGraph later)
 langchain-core>=1.0
+# Explicit tracing dependency used by local LangSmith configuration
+langsmith>=0.3.45,<1
+# FastAPI multipart file uploads
+python-multipart>=0.0.9
+# Agentic homework marking (LangGraph orchestration + OpenRouter via the OpenAI-compatible API)
+langchain-openai>=1.0
+langgraph>=1.0
