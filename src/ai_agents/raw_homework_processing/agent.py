@@ -3,10 +3,10 @@ from typing import Any, Callable
 
 try:
     from ...common.images import ImageBundle
-    from .llm import Tier, make_llm_factory
+    from ..llm import Tier, make_llm_factory
 except ImportError:
     from common.images import ImageBundle
-    from ai_agents.raw_homework_processing.llm import Tier, make_llm_factory
+    from ai_agents.llm import Tier, make_llm_factory
 
 
 class WorkflowNotImplementedError(NotImplementedError):

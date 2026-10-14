@@ -13,12 +13,12 @@ from fastapi import HTTPException, UploadFile
 try:
     from ...ai_agents.raw_homework_processing import RawHomeworkProcessingAgent
     from ...ai_agents.raw_homework_processing.agent import WorkflowNotImplementedError
-    from ...ai_agents.raw_homework_processing.llm import make_llm_factory
+    from ...ai_agents.llm import make_llm_factory
     from ...common.images import SUPPORTED_MIMES, ImageBundle, sniff_mime
 except ImportError:
     from ai_agents.raw_homework_processing import RawHomeworkProcessingAgent
     from ai_agents.raw_homework_processing.agent import WorkflowNotImplementedError
-    from ai_agents.raw_homework_processing.llm import make_llm_factory
+    from ai_agents.llm import make_llm_factory
     from common.images import SUPPORTED_MIMES, ImageBundle, sniff_mime
 
 SOURCE_SUBMISSIONS = "submissions"

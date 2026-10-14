@@ -1,5 +1,9 @@
 # Agentic homework marking — slice 1: RawHomeworkProcessingAgent
 
+> Historical design document: the legacy `OpenRouterLLM.py`, its free-model config,
+> `/ai/health` endpoint, and `openrouter` tox environment have since been removed.
+> References to those components below describe the earlier design, not current setup.
+
 ## Context
 
 The OCR-first approach is abandoned. Google Vision reads text but destroys what marking

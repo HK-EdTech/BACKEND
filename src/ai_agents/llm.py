@@ -3,14 +3,15 @@ from __future__ import annotations
 
 from typing import Any, Callable, Literal, Protocol, TypedDict
 import os
+from pathlib import Path
 
 from langchain_core.messages import BaseMessage, SystemMessage
 from langchain_core.runnables import RunnableConfig
 from langchain_openai import ChatOpenAI
 
 try:
-    from ...common.json_extract import parse_json_response
-    from ...common.llm_usage import EMPTY_USAGE, add_usage, model_from_ai_message, usage_from_ai_message
+    from ..common.json_extract import parse_json_response
+    from ..common.llm_usage import EMPTY_USAGE, add_usage, model_from_ai_message, usage_from_ai_message
 except ImportError:
     from common.json_extract import parse_json_response
     from common.llm_usage import EMPTY_USAGE, add_usage, model_from_ai_message, usage_from_ai_message
@@ -45,9 +46,20 @@ def model_for_tier(tier: Tier) -> str:
     return os.getenv("OPENROUTER_VL_MODEL", DEFAULT_CHEAP_MODEL)
 
 
-def build_chat_model(tier: Tier, api_key: str) -> ChatOpenAI:
+def free_model() -> str:
+    """Use the first configured free model, falling back to OpenRouter's free router."""
+    path = Path(__file__).resolve().parents[2] / "cfg" / "free_models.cfg"
+    if path.exists():
+        for line in path.read_text(encoding="utf-8").splitlines():
+            model = line.strip()
+            if model and not model.startswith("#"):
+                return model
+    return "openrouter/free"
+
+
+def build_chat_model(tier: Tier, api_key: str, *, model: str | None = None) -> ChatOpenAI:
     return ChatOpenAI(
-        model=model_for_tier(tier),
+        model=model or model_for_tier(tier),
         base_url=OPENROUTER_BASE_URL,
         api_key=api_key,
         temperature=0.1,
@@ -75,11 +87,11 @@ class OpenRouterCaller:
     JSON is requested in the prompt without a schema or provider response-format
     constraint. No graph-specific interpretation or validation is performed.
     """
-    def __init__(self, tier: Tier, api_key: str, max_retries: int = 3):
+    def __init__(self, tier: Tier, api_key: str, max_retries: int = 3, *, model: str | None = None):
         if max_retries < 1:
             raise ValueError("max_retries must be at least 1")
-        self.model = model_for_tier(tier)
-        self.llm = build_chat_model(tier, api_key)
+        self.model = model or model_for_tier(tier)
+        self.llm = build_chat_model(tier, api_key, model=self.model)
         self.max_retries = max_retries
 
     async def __call__(self, messages: list[BaseMessage], node_name: str, *,
