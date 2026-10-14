@@ -41,6 +41,123 @@ from utils.logger import get_logger
 
 logger = get_logger(name=__name__)
 
+_BREAK_WHITESPACE = {
+    vision.TextAnnotation.DetectedBreak.BreakType.SPACE: " ",
+    vision.TextAnnotation.DetectedBreak.BreakType.SURE_SPACE: " ",
+    vision.TextAnnotation.DetectedBreak.BreakType.EOL_SURE_SPACE: "\n",
+    vision.TextAnnotation.DetectedBreak.BreakType.LINE_BREAK: "\n",
+    vision.TextAnnotation.DetectedBreak.BreakType.HYPHEN: "\n",
+}
+
+"""
+GOOGLE VISION RESPONSE STRUCTURE — reference notes
+==================================================
+Verified against google-cloud-vision 3.11.0 (proto descriptors dumped 2026-09-22).
+Field names below are the PYTHON names; the REST docs use camelCase (full_text_annotation
+-> fullTextAnnotation). Re-verify if the package version changes.
+
+Docs:
+  https://docs.cloud.google.com/vision/docs/reference/rest/v1/AnnotateImageResponse
+  https://docs.cloud.google.com/vision/deprecation/reference/rest/v1/files/annotate
+  https://docs.cloud.google.com/vision/docs/pdf
+
+
+1. PDF PATH — client.batch_annotate_files(requests=[AnnotateFileRequest])
+--------------------------------------------------------------------------
+BatchAnnotateFilesResponse
+`-- responses[]: AnnotateFileResponse          one per FILE sent (we send 1)
+    |-- input_config: InputConfig              echo of the request
+    |   |-- gcs_source.uri: str
+    |   |-- content: bytes
+    |   `-- mime_type: str
+    |-- responses[]: AnnotateImageResponse     one per PAGE (max 5)
+    |   |-- full_text_annotation: TextAnnotation      <- the OCR result (see 3)
+    |   |-- error: Status {code, message, details[]}  <- PER-PAGE failure
+    |   |-- context: ImageAnnotationContext {uri, page_number}   page_number is 1-indexed
+    |   `-- (12 unused siblings: face_annotations, label_annotations, web_detection,
+    |        safe_search_annotation, image_properties_annotation, crop_hints_annotation,
+    |        product_search_results, text_annotations, logo_annotations,
+    |        landmark_annotations, localized_object_annotations)
+    |-- total_pages: int                       REAL page count of the file
+    `-- error: Status                          FILE-level failure (we do not check this)
+
+
+2. IMAGE PATH — client.document_text_detection(image=vision.Image(content=...))
+--------------------------------------------------------------------------
+AnnotateImageResponse                          a single response, NOT wrapped in a file
+|-- full_text_annotation: TextAnnotation       its pages[] always has exactly 1 entry
+`-- error: Status
+
+vision.Image has only two fields, content (raw bytes) and source (URI) — there is no
+mime_type, which is why PDFs cannot use this path and need InputConfig instead.
+
+
+3. TextAnnotation — the same hierarchy for both paths
+--------------------------------------------------------------------------
+TextAnnotation
+|-- text: str                      whole document text, correctly spaced by Google
+`-- pages[]: Page
+    |-- property: TextProperty
+    |-- width / height: int        POINTS for PDF, PIXELS for images (A4 PDF = 595x842)
+    |-- confidence: float          [0, 1]
+    `-- blocks[]: Block
+        |-- property: TextProperty
+        |-- bounding_box: BoundingPoly
+        |-- block_type: enum  UNKNOWN | TEXT | TABLE | PICTURE | RULER | BARCODE
+        |-- confidence: float
+        `-- paragraphs[]: Paragraph
+            |-- property / bounding_box / confidence
+            `-- words[]: Word
+                |-- property / bounding_box / confidence
+                `-- symbols[]: Symbol
+                    |-- property / bounding_box / confidence
+                    `-- text: str          ONE character
+
+TextProperty (present at every level above)
+|-- detected_languages[]: DetectedLanguage {language_code (BCP-47), confidence}
+`-- detected_break: DetectedBreak
+    |-- type_: enum  UNKNOWN | SPACE | SURE_SPACE | EOL_SURE_SPACE | HYPHEN | LINE_BREAK
+    `-- is_prefix: bool             break comes BEFORE the symbol instead of after
+
+BoundingPoly  (order: top-left, top-right, bottom-right, bottom-left)
+|-- vertices[]: Vertex                     {x: int, y: int}      IMAGES only (pixels)
+`-- normalized_vertices[]: NormalizedVertex {x: float, y: float}  PDF/TIFF only ([0, 1])
+
+
+4. LIMITS
+--------------------------------------------------------------------------
+- batch_annotate_files processes at most 5 pages/frames per file. AnnotateFileRequest.pages
+  chooses WHICH 5 (we never set it, so pages 6+ of a long scan are silently dropped;
+  file_response.total_pages still reports the true length).
+- files.annotate accepts only application/pdf, image/tiff, image/gif.
+- Over 5 pages needs async_batch_annotate_files, which writes JSON to a GCS bucket.
+- Inline content (bytes) works for batch_annotate_files but NOT for the async variant.
+
+
+5. WHAT _parse_annotation BELOW KEEPS / DROPS
+--------------------------------------------------------------------------
+Kept: page width/height/confidence, block confidence + block_type + bounding_box,
+paragraph text + confidence, word text + confidence, symbol text + confidence +
+break_type/break_is_prefix.
+
+bounding_box is emitted in PAGE UNITS for both paths: images populate .vertices (pixels)
+directly, PDFs populate .normalized_vertices ([0,1]) which _vertices() multiplies by
+page width/height (points).
+
+Spaces are NOT symbols — Vision emits one Symbol per visible glyph only. Whitespace is
+carried by property.detected_break on the PRECEDING symbol (is_prefix flips it to the
+following one), which _symbol_text() turns back into " " or "\n". That is how paragraph
+text gets its spacing; full_text already arrives correctly spaced from Google.
+
+Still dropped: bounding_box on paragraph/symbol (blocks and words keep one), and
+detected_languages. Add them if per-symbol highlighting or language routing is needed.
+
+Careful: total_pages in OUR return value counts only pages WITH text (blank pages are
+skipped by the `continue` in _detect_pdf), which is NOT the document length.
+AnnotateFileResponse.total_pages is the real count, and we do not surface it.
+"""
+
+
 class GoogleCloudVisionAPI:
 
     @staticmethod
@@ -49,19 +166,23 @@ class GoogleCloudVisionAPI:
         pages = []
         for page in annotation.pages:
             page_data = {
-                "width": page.width,
-                "height": page.height,
-                "confidence": page.confidence,
+                "width": page.width, #whole page width
+                "height": page.height, #whole page height
+                "confidence": page.confidence, #average confidence for each block 
                 "blocks": []
             }
             for block in page.blocks:
                 block_data = {
                     "confidence": block.confidence,
-                    "bounding_box": [[v.x, v.y] for v in block.bounding_box.vertices],
+                    "block_type": block.block_type.name,
+                    "bounding_box": GoogleCloudVisionAPI._vertices(block.bounding_box, page.width, page.height),
                     "paragraphs": []
                 }
                 for paragraph in block.paragraphs:
-                    para_text = "".join([symbol.text for word in paragraph.words for symbol in word.symbols])
+                    para_text = "".join(
+                        GoogleCloudVisionAPI._symbol_text(symbol)
+                        for word in paragraph.words for symbol in word.symbols
+                    ).rstrip()
                     paragraph_data = {
                         "text": para_text,
                         "confidence": paragraph.confidence,
@@ -72,11 +193,14 @@ class GoogleCloudVisionAPI:
                         word_data = {
                             "text": word_text,
                             "confidence": word.confidence,
+                            "bounding_box": GoogleCloudVisionAPI._vertices(word.bounding_box, page.width, page.height),
                             "symbols": [
                                 {
                                     "text": symbol.text,
                                     "confidence": symbol.confidence,
-                                    "is_break": hasattr(symbol.property, 'detected_break')
+                                    "break_type": symbol.property.detected_break.type_.name
+                                                  if symbol.property.detected_break.type_ else None,
+                                    "break_is_prefix": symbol.property.detected_break.is_prefix,
                                 }
                                 for symbol in word.symbols
                             ]
@@ -86,6 +210,20 @@ class GoogleCloudVisionAPI:
                 page_data["blocks"].append(block_data)
             pages.append(page_data)
         return pages
+
+    @staticmethod
+    def _symbol_text(symbol) -> str:
+        """The symbol plus the whitespace its detected_break stands for (Vision emits no space symbols)."""
+        brk = symbol.property.detected_break
+        whitespace = _BREAK_WHITESPACE.get(brk.type_, "")
+        return whitespace + symbol.text if brk.is_prefix else symbol.text + whitespace
+
+    @staticmethod
+    def _vertices(bounding_box, width: int, height: int) -> List[List[int]]:
+        """Box corners in page units. PDFs populate normalized_vertices ([0,1]) instead of vertices."""
+        if bounding_box.vertices:
+            return [[v.x, v.y] for v in bounding_box.vertices]
+        return [[round(v.x * width), round(v.y * height)] for v in bounding_box.normalized_vertices]
 
     @staticmethod
     def detect_document(path: str) -> Dict[str, Any]:

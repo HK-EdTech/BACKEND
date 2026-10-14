@@ -12,18 +12,21 @@ from fastapi.middleware.cors import CORSMiddleware
 from enum import Enum
 from contextlib import asynccontextmanager
 from pydantic import BaseModel
+from langchain_core.messages import HumanMessage
 from google.cloud import vision
 
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from .deps import get_current_user
 from .database import connect_db, disconnect_db
+from .ai_agents.llm import OpenRouterCaller, free_model
 from .ocrs.models.GoogleCloudVisionAPI import GoogleCloudVisionAPI
 
 # Import routers from modules
 from .modules.profile.profile_controller import router as profile_router
 from .modules.homework.homework_controller import router as homework_router
-from .modules.scan_and_mark.scan_and_mark_controller import router as scan_and_mark_router
+from .modules.scan_and_mark.scan_and_mark_uploading_controller import router as scan_and_mark_uploading_router
+from .modules.raw_homework_processing.raw_homework_processing_controller import router as raw_homework_router
 # from .modules.class.class_controller import router as class_router
 import importlib
 class_router = importlib.import_module(".modules.class.class_controller", package=__package__).router
@@ -61,6 +64,7 @@ app = FastAPI(
         {"name": "User Management"},
         {"name": "Items"},
         {"name": "Profile", "description": "User profile management"},
+        {"name": "Raw Homework Processing", "description": "Agentic homework marking"},
     ],
     # This makes the lock appear
     dependencies=[Depends(security)],   # ← important
@@ -82,7 +86,8 @@ app.add_middleware(
 app.include_router(profile_router)
 app.include_router(class_router)
 app.include_router(homework_router)
-app.include_router(scan_and_mark_router)
+app.include_router(scan_and_mark_uploading_router)
+app.include_router(raw_homework_router)
 
 # PUBLIC ENDPOINTS
 @app.get("/health", tags=[Tags.health], include_in_schema=True)
@@ -194,3 +199,27 @@ async def test_ocr_from_storage(body: OcrStoragePathRequest):
         return GoogleCloudVisionAPI._detect_pdf(gcv_client, content)
     return GoogleCloudVisionAPI._detect_image(gcv_client, content)
 
+
+@app.get("/ai/health", tags=[Tags.health])
+async def ai_health_check():
+    """Check OpenRouter using the free model configured in cfg/free_models.cfg."""
+    api_key = os.getenv("OPENROUTER_API_KEY")
+    if not api_key:
+        return {"healthy": False, "error": "OPENROUTER_API_KEY not configured"}
+
+    caller = OpenRouterCaller("cheap", api_key, model=free_model())
+    result, call = await caller(
+        [HumanMessage(content='Respond with exactly: {"status": "ok"}')],
+        "ai_health_check",
+        response_format="json",
+    )
+    healthy = call["ok"] and isinstance(result, dict) and result.get("status") == "ok"
+    return {
+        "healthy": healthy,
+        "model": call["model"],
+        "model_requested": call["model_requested"],
+        "usage": call["usage"],
+        "attempts": call["attempts"],
+        "response": result,
+        "error": None if healthy else (call["error"] or "Unexpected model response"),
+    }

@@ -5,7 +5,7 @@
 - VisionTransformer
 
 # Others
-- LiteLLM
+- OpenRouter (LLM)
     - 
 
 
