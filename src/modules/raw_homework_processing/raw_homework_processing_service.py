@@ -1,47 +1,28 @@
 """Validation and image loading for the raw homework processing endpoint.
 
-Uploads are validated and encoded here, before the graph runs, so a bad file fails as
-an HTTP error rather than from somewhere inside an agent.
+Uploads are validated here. Processing remains unavailable until the teacher
+assistant is connected.
 """
 from __future__ import annotations
 
-import os
 from typing import List, Optional
 
 from fastapi import HTTPException, UploadFile
 
 try:
-    from ...ai_agents.raw_homework_processing import RawHomeworkProcessingAgent
-    from ...ai_agents.raw_homework_processing.agent import WorkflowNotImplementedError
-    from ...ai_agents.llm import make_llm_factory
+    from ...common.constants import (
+        MAX_IMAGE_BYTES, MAX_IMAGES, MAX_TOTAL_BYTES,
+        SOURCE_MARKING_SCHEME, SOURCE_QUESTION_IMAGES, SOURCE_SUBMISSIONS,
+    )
     from ...common.images import SUPPORTED_MIMES, ImageBundle, sniff_mime
 except ImportError:
-    from ai_agents.raw_homework_processing import RawHomeworkProcessingAgent
-    from ai_agents.raw_homework_processing.agent import WorkflowNotImplementedError
-    from ai_agents.llm import make_llm_factory
+    from common.constants import (
+        MAX_IMAGE_BYTES, MAX_IMAGES, MAX_TOTAL_BYTES,
+        SOURCE_MARKING_SCHEME, SOURCE_QUESTION_IMAGES, SOURCE_SUBMISSIONS,
+    )
     from common.images import SUPPORTED_MIMES, ImageBundle, sniff_mime
 
-SOURCE_SUBMISSIONS = "submissions"
-SOURCE_QUESTION_IMAGES = "question_images"
-SOURCE_MARKING_SCHEME = "marking_scheme"
-
-MAX_IMAGE_BYTES = 10 * 1024 * 1024
-MAX_TOTAL_BYTES = 40 * 1024 * 1024
-MAX_IMAGES = 20
-
-
 class RawHomeworkProcessingService:
-    def __init__(self, agent: Optional[RawHomeworkProcessingAgent] = None) -> None:
-        self._agent = agent
-
-    def _get_agent(self) -> RawHomeworkProcessingAgent:
-        if self._agent is not None:
-            return self._agent
-        api_key = os.getenv("OPENROUTER_API_KEY")
-        if not api_key:
-            raise HTTPException(status_code=500, detail="OPENROUTER_API_KEY not configured")
-        return RawHomeworkProcessingAgent(llm_factory=make_llm_factory(api_key))
-
     async def _load(self, bundle: ImageBundle, files: Optional[List[UploadFile]], role: str, total: int) -> int:
         for upload in files or []:
             # Swagger UI submits an empty file part for optional List[UploadFile] fields.
@@ -94,8 +75,8 @@ class RawHomeworkProcessingService:
         total = await self._load(bundle, question_images, SOURCE_QUESTION_IMAGES, total)
         await self._load(bundle, marking_scheme_images, SOURCE_MARKING_SCHEME, total)
 
-        agent = self._get_agent()
-        try:
-            return await agent.run(bundle=bundle, extra_information=extra_information)
-        except WorkflowNotImplementedError as exc:
-            raise HTTPException(status_code=501, detail=str(exc)) from exc
+        # Upload validation remains available, but graph integration is deferred.
+        raise HTTPException(
+            status_code=501,
+            detail="Raw homework processing is awaiting implementation.",
+        )

@@ -9,7 +9,7 @@ from __future__ import annotations
 from langchain_core.runnables import RunnableConfig
 
 try:
-    from ....common.images import ImageBundle
+    from .....common.images import ImageBundle
 except ImportError:
     from common.images import ImageBundle
 

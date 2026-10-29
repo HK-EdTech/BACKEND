@@ -6,7 +6,6 @@ from unittest.mock import AsyncMock, patch
 from langchain_core.messages import AIMessage, HumanMessage
 from fastapi import UploadFile, HTTPException
 from ai_agents.llm import OpenRouterCaller
-from ai_agents.raw_homework_processing.agent import RawHomeworkProcessingAgent
 from modules.raw_homework_processing.raw_homework_processing_service import RawHomeworkProcessingService
 
 def response(text):
@@ -49,8 +48,7 @@ class InfrastructureTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(meta["attempts"], 2)
 
     async def test_service_validation_and_unimplemented(self):
-        agent = RawHomeworkProcessingAgent(llm_factory=lambda tier: None)
-        service = RawHomeworkProcessingService(agent)
+        service = RawHomeworkProcessingService()
         with self.assertRaises(HTTPException) as caught:
             await service.process([])
         self.assertEqual(caught.exception.status_code, 422)
