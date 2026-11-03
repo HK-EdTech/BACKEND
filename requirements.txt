@@ -27,3 +27,6 @@ python-multipart>=0.0.9
 # Agentic homework marking (LangGraph orchestration + OpenRouter via the OpenAI-compatible API)
 langchain-openai>=1.0
 langgraph>=1.0
+# Durable LangGraph checkpoints in Supabase PostgreSQL
+langgraph-checkpoint-postgres==3.2.0
+psycopg[binary]==3.3.6

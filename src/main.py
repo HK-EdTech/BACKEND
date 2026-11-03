@@ -13,13 +13,15 @@ from enum import Enum
 from contextlib import asynccontextmanager
 from pydantic import BaseModel
 from langchain_core.messages import HumanMessage
+from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 from google.cloud import vision
 
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from .deps import get_current_user
 from .database import connect_db, disconnect_db
-from .ai_agents.llm import OpenRouterCaller, free_model
+from .ai_agents.llm import OpenRouterCaller, free_model, make_llm_factory
+from .ai_agents.teacher_assistant.runtime import build_runtime_graph
 from .ocrs.models.GoogleCloudVisionAPI import GoogleCloudVisionAPI
 
 # Import routers from modules
@@ -44,11 +46,25 @@ class Tags(str, Enum):
 # Database lifecycle management
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    checkpoint_url = os.getenv("LANGGRAPH_DATABASE_URL")
+    if not checkpoint_url:
+        raise RuntimeError("Set LANGGRAPH_DATABASE_URL for graph checkpoints")
     # Startup: Connect to database
     await connect_db()
-    yield
-    # Shutdown: Disconnect from database
-    await disconnect_db()
+    try:
+        # Keep the checkpoint connection open for the graph's full lifetime.
+        async with AsyncPostgresSaver.from_conn_string(checkpoint_url) as checkpointer:
+            # Prepare tables before startup with:
+            # python -m src.ai_agents.teacher_assistant.setup_checkpoints
+            # Normal server restarts must not apply database migrations.
+            app.state.teacher_assistant_graph = build_runtime_graph(
+                make_llm_factory(os.getenv("OPENROUTER_API_KEY", "")),
+                checkpointer=checkpointer,
+            )
+            yield
+    finally:
+        # Shutdown: Disconnect from database
+        await disconnect_db()
 
 app = FastAPI(
     title="HK EdTech API",

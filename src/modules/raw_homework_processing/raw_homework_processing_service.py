@@ -6,16 +6,23 @@ assistant is connected.
 from __future__ import annotations
 
 from typing import List, Optional
+from uuid import uuid4
 
 from fastapi import HTTPException, UploadFile
 
 try:
+    from ...ai_agents.teacher_assistant.workflow_config import (
+        RAW_HOMEWORK_PROCESSING,
+    )
     from ...common.constants import (
         MAX_IMAGE_BYTES, MAX_IMAGES, MAX_TOTAL_BYTES,
         SOURCE_MARKING_SCHEME, SOURCE_QUESTION_IMAGES, SOURCE_SUBMISSIONS,
     )
     from ...common.images import SUPPORTED_MIMES, ImageBundle, sniff_mime
 except ImportError:
+    from ai_agents.teacher_assistant.workflow_config import (
+        RAW_HOMEWORK_PROCESSING,
+    )
     from common.constants import (
         MAX_IMAGE_BYTES, MAX_IMAGES, MAX_TOTAL_BYTES,
         SOURCE_MARKING_SCHEME, SOURCE_QUESTION_IMAGES, SOURCE_SUBMISSIONS,
@@ -65,6 +72,8 @@ class RawHomeworkProcessingService:
         question_images: Optional[List[UploadFile]] = None,
         marking_scheme_images: Optional[List[UploadFile]] = None,
         extra_information: Optional[str] = None,
+        *,
+        teacher_assistant_graph,
     ) -> dict:
         bundle = ImageBundle()
         total = 0
@@ -75,8 +84,35 @@ class RawHomeworkProcessingService:
         total = await self._load(bundle, question_images, SOURCE_QUESTION_IMAGES, total)
         await self._load(bundle, marking_scheme_images, SOURCE_MARKING_SCHEME, total)
 
-        # Upload validation remains available, but graph integration is deferred.
-        raise HTTPException(
-            status_code=501,
-            detail="Raw homework processing is awaiting implementation.",
+        conversation_id = str(uuid4())
+        initial_task_inputs = {
+            "submission_image_ids": bundle.ids_for_role(SOURCE_SUBMISSIONS),
+            "question_image_ids": bundle.ids_for_role(SOURCE_QUESTION_IMAGES),
+            "marking_scheme_image_ids": bundle.ids_for_role(SOURCE_MARKING_SCHEME),
+            "extra_information": extra_information or "",
+        }
+
+        # Image bytes stay outside graph state. They remain available to the
+        # initial handler through runtime config for this invocation only.
+        result = await teacher_assistant_graph.ainvoke(
+            {
+                "messages": [],
+                "tasks": [],
+                "coordinator_decision": None,
+            },
+            config={
+                "configurable": {
+                    "thread_id": conversation_id,
+                    "initial_task_type": RAW_HOMEWORK_PROCESSING,
+                    "initial_task_inputs": initial_task_inputs,
+                    "image_bundle": bundle,
+                }
+            },
         )
+
+        messages = result["messages"]
+        return {
+            "conversation_id": conversation_id,
+            "response": messages[-1].content if messages else None,
+            "tasks": result["tasks"],
+        }

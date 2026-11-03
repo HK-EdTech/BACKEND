@@ -31,4 +31,5 @@ async def process_raw_homework(
         question_images=question_images,
         marking_scheme_images=marking_scheme_images,
         extra_information=extra_information,
+        teacher_assistant_graph=request.app.state.teacher_assistant_graph,
     )
