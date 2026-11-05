@@ -9,6 +9,7 @@ from .pydantic_model.scan_and_mark_pydantic_model import (
     SubmissionPdfMetadata,
     MarkingSchemeMetadata,
     OnetimeCriteria,
+    QuestionDocumentMetadata,
 )
 
 
@@ -31,7 +32,7 @@ class ScanAndMarkUploadingService:
         homework_type: str,
         criteria: OnetimeCriteria,
         homework_id: str,
-        marking_scheme_id: str,
+        marking_scheme_id: str | None,
         has_marking_scheme: bool,
     ) -> None:
         await self.db.homework.create(
@@ -45,6 +46,10 @@ class ScanAndMarkUploadingService:
                 "marking_scheme_id": marking_scheme_id,
                 "has_marking_scheme": has_marking_scheme,
                 "status": "prepare_upload",
+                "question_text": criteria.extra_information.questions,
+                "marking_guidance": criteria.extra_information.marking_guidance,
+                "marking_answers": criteria.extra_information.marking_answers,
+                "question_filter": criteria.extra_information.question_filter,
             }
         )
 
@@ -116,6 +121,87 @@ class ScanAndMarkUploadingService:
             }
         )
         return {"file_name": ms.file_name, "file_path": file_path}
+
+    async def _owned_homework(self, homework_id: str, teacher_id: str):
+        homework = await self.db.homework.find_first(
+            where={"id": homework_id, "teacher_id": teacher_id}
+        )
+        if not homework:
+            raise HTTPException(status_code=404, detail="Homework not found")
+        return homework
+
+    async def _owned_question_document(self, document_id: str, teacher_id: str):
+        document = await self.db.homework_question_document.find_unique(where={"id": document_id})
+        if not document:
+            raise HTTPException(status_code=404, detail="Question document not found")
+        await self._owned_homework(document.homework_id, teacher_id)
+        return document
+
+    async def create_question_document_record(
+        self, org_id: str, teacher_id: str, homework_id: str,
+        document: QuestionDocumentMetadata,
+    ) -> dict:
+        await self._owned_homework(homework_id, teacher_id)
+        template = os.getenv("STORAGE_PATH_QUESTION_DOCUMENT") or (
+            "educational_organization/{educational_organization_id}/teacher/{teacher_id}/"
+            "homework/{homework_id}/question_document/{question_document_id}/{file_name}"
+        )
+        file_path = template.format(
+            educational_organization_id=org_id, teacher_id=teacher_id,
+            homework_id=homework_id, question_document_id=document.question_document_id,
+            file_name=document.file_name,
+        )
+        await self.db.homework_question_document.create(data={
+            "id": document.question_document_id,
+            "homework_id": homework_id,
+            "file_name": document.file_name,
+            "file_path": file_path,
+            "file_size_bytes": document.file_size,
+            "content_type": document.content_type,
+            "checksum": document.checksum,
+            "status": "uploading",
+        })
+        return {"id": document.question_document_id, "file_name": document.file_name, "file_path": file_path}
+
+    async def ensure_question_document_record(
+        self, org_id: str, teacher_id: str, homework_id: str,
+        document: QuestionDocumentMetadata,
+    ) -> dict:
+        await self._owned_homework(homework_id, teacher_id)
+        existing = await self.db.homework_question_document.find_unique(
+            where={"id": document.question_document_id}
+        )
+        if existing:
+            if existing.homework_id != homework_id:
+                raise HTTPException(status_code=404, detail="Question document not found")
+            # A retry refers to the same artifact; do not issue a URL for a
+            # different file under an already-committed document identity.
+            if any((
+                existing.file_name != document.file_name,
+                existing.file_size_bytes != document.file_size,
+                existing.content_type != document.content_type,
+                existing.checksum != document.checksum,
+            )):
+                raise HTTPException(status_code=409, detail="Question document metadata differs from the existing upload")
+            return {"id": existing.id, "file_name": existing.file_name, "file_path": existing.file_path}
+        previous = await self.db.homework_question_document.find_unique(where={"homework_id": homework_id})
+        if previous:
+            raise HTTPException(status_code=409, detail="This homework already has a question document")
+        return await self.create_question_document_record(org_id, teacher_id, homework_id, document)
+
+    async def confirm_question_document_upload(self, document_id: str, teacher_id: str) -> dict:
+        document = await self._owned_question_document(document_id, teacher_id)
+        if not await self.storage_object_exists(document.file_path):
+            raise HTTPException(status_code=409, detail="Question PDF is not available in storage yet")
+        await self.db.homework_question_document.update(
+            where={"id": document_id}, data={"status": "ocr", "err": None}
+        )
+        return {"question_document_id": document_id, "status": "ocr"}
+
+    async def set_question_document_err(self, document_id: str, teacher_id: str, err: str) -> dict:
+        await self._owned_question_document(document_id, teacher_id)
+        await self.db.homework_question_document.update(where={"id": document_id}, data={"err": err})
+        return {"question_document_id": document_id, "err": err}
 
     async def confirm_submission_upload(self, submission_id: str, teacher_id: str) -> dict:
         """On upload confirmation, move ONLY the submission to the 'ocr' phase.
@@ -244,13 +330,22 @@ class ScanAndMarkUploadingService:
         homework_type: str,
         criteria: OnetimeCriteria,
         homework_id: str,
-        marking_scheme_id: str,
+        marking_scheme_id: str | None,
         has_marking_scheme: bool,
     ) -> None:
         existing = await self.db.homework.find_unique(where={"id": homework_id})
         if existing:
             if existing.teacher_id != teacher_id:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Homework not found")
+            # Legacy requests omit this object. A retry must not erase text
+            # already saved by a newer client just because fields were omitted.
+            information = criteria.extra_information.model_dump(
+                include=criteria.extra_information.model_fields_set
+            )
+            if "questions" in information:
+                information["question_text"] = information.pop("questions")
+            if information:
+                await self.db.homework.update(where={"id": homework_id}, data=information)
             return
         await self.create_onetime_homework(
             teacher_id, homework_type, criteria, homework_id, marking_scheme_id, has_marking_scheme
@@ -309,6 +404,7 @@ class ScanAndMarkUploadingService:
         homework_id: str,
         submission_ids: List[str],
         marking_scheme_id: str | None,
+        question_document_id: str | None = None,
     ) -> dict:
         """Per id, report whether the file is already in storage; for the not-stored ones, hand back a
         fresh signed upload URL so the frontend can re-PUT. Ownership is verified via the homework."""
@@ -338,4 +434,13 @@ class ScanAndMarkUploadingService:
             signed_url = None if stored else await self.generate_signed_upload_url(ms.file_path)
             marking_scheme = {"id": marking_scheme_id, "stored": stored, "signed_url": signed_url}
 
-        return {"submissions": submissions, "marking_scheme": marking_scheme}
+        question_document = None
+        if question_document_id:
+            document = await self._owned_question_document(question_document_id, teacher_id)
+            if document.homework_id != homework_id:
+                raise HTTPException(status_code=404, detail="Question document not found")
+            stored = await self.storage_object_exists(document.file_path)
+            signed_url = None if stored else await self.generate_signed_upload_url(document.file_path)
+            question_document = {"id": document.id, "stored": stored, "signed_url": signed_url}
+
+        return {"submissions": submissions, "marking_scheme": marking_scheme, "question_document": question_document}

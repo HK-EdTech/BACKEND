@@ -13,10 +13,21 @@ from .pydantic_model.scan_and_mark_pydantic_model import (
     RetryCheckStorageRequest,
     OnetimeCriteria,
     ClassCriteria,
+    UuidStr,
 )
 from .scan_and_mark_uploading_service import ScanAndMarkUploadingService
 
 router = APIRouter(prefix="/scan-and-mark", tags=["Scan and Mark"])
+
+
+async def _question_document_upload(service: ScanAndMarkUploadingService, document: dict | None):
+    if document is None:
+        return None
+    return {
+        "id": document["id"],
+        "file_name": document["file_name"],
+        "signed_url": await service.generate_signed_upload_url(document["file_path"]),
+    }
 
 
 @router.post("/create-database-record-and-get-signed-url")
@@ -38,6 +49,7 @@ async def create_database_record_and_get_signed_url(request: Request, body: Crea
         marking_scheme_id = None
         marking_scheme_filename_and_filepath = None
         submission_infos = []
+        question_document = None
 
         # Marking scheme is optional. Only create the record when the teacher actually
         # picked a file (non-empty file_name). criteria is None for class -> skips safely.
@@ -74,6 +86,10 @@ async def create_database_record_and_get_signed_url(request: Request, body: Crea
             # After match block — create submissions (onetime only)
             if homework_type == "onetime":
                 submission_infos = await tx_service.create_onetime_submissions(org_id, teacher_id, homework_id, body.submission_pdf_entries)
+                if criteria.questionDocument:
+                    question_document = await tx_service.create_question_document_record(
+                        org_id, teacher_id, homework_id, criteria.questionDocument
+                    )
 
         # Generate signed upload URLs after transaction (external HTTP calls)
         marking_scheme_signed_url = None
@@ -101,6 +117,7 @@ async def create_database_record_and_get_signed_url(request: Request, body: Crea
                 if marking_scheme_filename_and_filepath else None
             ),
             "submission_uploads": submission_signed_urls,
+            "question_document_upload": await _question_document_upload(service, question_document),
         }
 
     except HTTPException:
@@ -138,6 +155,7 @@ async def retry_ensure_records(request: Request, body: CreateDatabaseRecordAndGe
         marking_scheme_id = None
         marking_scheme_filename_and_filepath = None
         submission_infos = []
+        question_document = None
         has_marking_scheme = (
             criteria is not None
             and bool((criteria.markingScheme.file_name or "").strip())
@@ -159,6 +177,10 @@ async def retry_ensure_records(request: Request, body: CreateDatabaseRecordAndGe
                 submission_infos = await tx_service.ensure_onetime_submissions(
                     org_id, teacher_id, homework_id, body.submission_pdf_entries
                 )
+                if criteria.questionDocument:
+                    question_document = await tx_service.ensure_question_document_record(
+                        org_id, teacher_id, homework_id, criteria.questionDocument
+                    )
 
         marking_scheme_signed_url = None
         submission_signed_urls = []
@@ -185,6 +207,7 @@ async def retry_ensure_records(request: Request, body: CreateDatabaseRecordAndGe
                 if marking_scheme_filename_and_filepath else None
             ),
             "submission_uploads": submission_signed_urls,
+            "question_document_upload": await _question_document_upload(service, question_document),
         }
 
     except HTTPException:
@@ -192,6 +215,8 @@ async def retry_ensure_records(request: Request, body: CreateDatabaseRecordAndGe
     except ValidationError as e:
         print(f"[retry-ensure-records] Validation error: {e}")
         raise HTTPException(status_code=422, detail=str(e))
+    except UniqueViolationError:
+        raise HTTPException(status_code=409, detail="Homework or document already exists; retry with its original ID")
     except Exception as e:
         print(f"[retry-ensure-records] Unexpected error: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
@@ -204,7 +229,8 @@ async def retry_check_storage(request: Request, body: RetryCheckStorageRequest):
     teacher_id = request.state.user.get("sub")
     service = ScanAndMarkUploadingService(prisma_client)
     return await service.retry_check_storage(
-        teacher_id, body.homework_id, body.submission_ids, body.marking_scheme_id
+        teacher_id, body.homework_id, body.submission_ids, body.marking_scheme_id,
+        body.question_document_id,
     )
 
 
@@ -222,6 +248,12 @@ async def confirm_marking_scheme(marking_scheme_id: str, request: Request):
     teacher_id = request.state.user.get("sub")
     service = ScanAndMarkUploadingService(prisma_client)
     return await service.confirm_marking_scheme_upload(marking_scheme_id, teacher_id)
+
+
+@router.patch("/question-document/{question_document_id}/confirm")
+async def confirm_question_document(question_document_id: UuidStr, request: Request):
+    service = ScanAndMarkUploadingService(prisma_client)
+    return await service.confirm_question_document_upload(question_document_id, request.state.user.get("sub"))
 
 
 class SetErrRequest(BaseModel):
@@ -242,6 +274,12 @@ async def set_marking_scheme_err(marking_scheme_id: str, body: SetErrRequest, re
     teacher_id = request.state.user.get("sub")
     service = ScanAndMarkUploadingService(prisma_client)
     return await service.set_marking_scheme_err(marking_scheme_id, teacher_id, body.err)
+
+
+@router.patch("/question-document/{question_document_id}/err")
+async def set_question_document_err(question_document_id: UuidStr, body: SetErrRequest, request: Request):
+    service = ScanAndMarkUploadingService(prisma_client)
+    return await service.set_question_document_err(question_document_id, request.state.user.get("sub"), body.err)
 
 
 class OcrTestRequest(BaseModel):

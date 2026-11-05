@@ -622,6 +622,11 @@ model homework {
   status                        String?
   level                         String?
   has_marking_scheme            Boolean?
+  question_text                 String                         @default("")
+  marking_guidance              String                         @default("")
+  marking_answers               String                         @default("")
+  question_filter               String                         @default("")
+  homework_question_document    homework_question_document?
   master_homework_homework_type master_homework_homework_type? @relation(fields: [homework_type], references: [type], onDelete: NoAction, onUpdate: NoAction)
   marking_scheme                marking_scheme?                @relation(fields: [marking_scheme_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   master_homework_status        master_homework_status?        @relation(fields: [status], references: [status], onDelete: NoAction, onUpdate: NoAction)
@@ -656,6 +661,25 @@ model homework_sheets {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+/// Backend-managed question PDF. RLS and the nonnegative file-size check are
+/// defined in 20261104_add_homework_question_document.sql.
+model homework_question_document {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  homework_id     String   @unique @db.Uuid
+  file_name       String
+  file_path       String
+  file_size_bytes BigInt
+  content_type    String   @default("application/pdf")
+  checksum        String
+  status          String   @default("uploading")
+  err             String?
+  created_at      DateTime @default(now()) @db.Timestamptz(6)
+  homework        homework @relation(fields: [homework_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  master_homework_question_document master_homework_question_document @relation(fields: [status], references: [status], onDelete: NoAction, onUpdate: NoAction)
+
+  @@schema("public")
+}
+
 model marking_scheme {
   id                    String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at            DateTime               @default(now()) @db.Timestamptz(6)
@@ -852,6 +876,15 @@ model master_homework_submssion_status {
 }
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model master_homework_question_document {
+  status_id                  BigInt                       @id @default(autoincrement())
+  created_at                 DateTime                     @default(now()) @db.Timestamptz(6)
+  status                     String?                      @unique
+  homework_question_document homework_question_document[]
+
+  @@schema("public")
+}
+
 model master_marking_scheme {
   status_id      BigInt           @id @default(autoincrement())
   created_at     DateTime         @default(now()) @db.Timestamptz(6)
