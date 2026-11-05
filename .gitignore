@@ -216,3 +216,5 @@ src/*/api_keys/*.json
 # AWS specifics
 *.tfvars
 *.tfstate 
+# Local LangGraph server checkpoints
+.langgraph_api/

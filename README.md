@@ -62,6 +62,30 @@ run: `ansible-playbook -i inventory/hosts.ini bootstrap_setup_ec2.yaml`
 ### Debugging grafana
 `ssh -i ~/.ssh/markflow_deploy ubuntu@13.55.xx.xx "docker ps -a"`
 
+## LangGraph PostgreSQL checkpoints
+
+Set `LANGGRAPH_DATABASE_URL` in your local `.env` to the Supabase session-pooler
+connection string (port `5432`, with `sslmode=require`). Use the database password
+URL-encoded in the connection string, without surrounding quotes when saving it
+as a GitHub secret.
+
+Before first local use, or after deliberately upgrading the checkpoint package,
+prepare the database explicitly:
+
+```bash
+python -m src.ai_agents.teacher_assistant.setup_checkpoints
+python -m local_develop_session_for_graphs.manual_teacher_assistant_session
+```
+
+To reopen a saved conversation, add `--thread-id YOUR_CONVERSATION_ID` to the
+session command. FastAPI and the local session connect to existing checkpoint
+tables; they do not apply migrations at startup.
+
+For `.github/workflows/deploy_dev.yaml`, configure the Actions secret
+`DEV_LANGGRAPH_DATABASE_URL`. An organization secret must grant this repository
+access. It maps to the application's `LANGGRAPH_DATABASE_URL`.
+
+
 ## TODO List:
 Add a real domain + free HTTPS (one command):Bashsudo certbot --nginx -d yourdomain.com
 Add health checks + auto-rollback in GitHub Actions (I’ll give you the 5-line addition)
