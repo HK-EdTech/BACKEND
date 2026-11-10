@@ -2,10 +2,10 @@
 
 from langchain_core.messages import AIMessage
 
-from ..state import TeacherAssistantState
+from ..state import CoordinatorState
 
 
-def respond(state: TeacherAssistantState) -> dict:
+def respond(state: CoordinatorState) -> dict:
     proposal = state["coordinator_decision"]["proposal"]
 
     # Validation has ensured that respond contains nonblank text.

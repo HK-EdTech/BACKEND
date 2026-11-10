@@ -1,13 +1,13 @@
-"""Parent graph topology for the general teacher assistant."""
+"""Coordinator graph topology for task orchestration."""
 
 from langchain_core.runnables import RunnableConfig
 from langgraph.graph import END, START, StateGraph
 
-from .state import TeacherAssistantState
+from .state import CoordinatorState
 
 
 def route_entry(
-    state: TeacherAssistantState,
+    state: CoordinatorState,
     config: RunnableConfig,
 ) -> str:
     # The adapter supplies this only when starting a new conversation with an
@@ -18,7 +18,7 @@ def route_entry(
     return "coordinator"
 
 
-def route_action(state: TeacherAssistantState) -> str:
+def route_action(state: CoordinatorState) -> str:
     envelope = state["coordinator_decision"]
 
     # Rejected proposals return to the coordinator for correction. Validation
@@ -29,7 +29,7 @@ def route_action(state: TeacherAssistantState) -> str:
     return envelope["proposal"]["action"]
 
 
-def build_teacher_assistant_graph(
+def build_coordinator_graph(
     *,
     initial_dispatch,
     coordinator,
@@ -46,7 +46,7 @@ def build_teacher_assistant_graph(
     Node implementations live in nodes/. Supplying them here keeps model
     clients, task handlers, and other runtime dependencies outside graph state.
     """
-    builder = StateGraph(TeacherAssistantState)
+    builder = StateGraph(CoordinatorState)
 
     builder.add_node("initial_dispatch", initial_dispatch)
     builder.add_node("coordinator", coordinator)

@@ -8,8 +8,8 @@ from langchain_core.runnables import (
     RunnableLambda,
 )
 
-from ..state import Task, TeacherAssistantState
-from ..workflow_config import TaskStatus
+from ..state import CoordinatorState, Task
+from ..agent_configuration import TaskStatus
 from .task_validation import validate_handler_result
 
 
@@ -17,7 +17,7 @@ def build_execute_task(handlers: Mapping[str, Runnable]):
     registered_handlers = dict(handlers)
 
     async def execute_task(
-        state: TeacherAssistantState,
+        state: CoordinatorState,
         config: RunnableConfig,
     ) -> dict:
         proposal = state["coordinator_decision"]["proposal"]

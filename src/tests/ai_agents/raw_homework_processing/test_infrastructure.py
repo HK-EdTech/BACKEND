@@ -1,12 +1,11 @@
 """Offline checks for infrastructure retained during the graph rebuild."""
-import io
-from PIL import Image
 import unittest
+from types import SimpleNamespace
 from unittest.mock import AsyncMock, patch
 from langchain_core.messages import AIMessage, HumanMessage
-from fastapi import UploadFile, HTTPException
+from fastapi import HTTPException
 from ai_agents.llm import OpenRouterCaller
-from modules.raw_homework_processing.raw_homework_processing_service import RawHomeworkProcessingService
+from src.modules.raw_homework_processing.raw_homework_processing_service import RawHomeworkProcessingService
 
 def response(text):
     return AIMessage(content=text, usage_metadata={"input_tokens": 2, "output_tokens": 3, "total_tokens": 5})
@@ -47,57 +46,82 @@ class InfrastructureTests(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(meta["ok"])
         self.assertEqual(meta["attempts"], 2)
 
-    async def test_service_validation_and_initial_graph_invocation(self):
-        service = RawHomeworkProcessingService()
-
-        class FakeGraph:
-            async def ainvoke(self, state, config):
-                self.state = state
-                self.config = config
-                return {
-                    "messages": [AIMessage(content="Review is ready.")],
-                    "tasks": [{"task_id": "task-1"}],
-                }
-
-        graph = FakeGraph()
-        with self.assertRaises(HTTPException) as caught:
-            await service.process([], teacher_assistant_graph=graph)
-        self.assertEqual(caught.exception.status_code, 422)
-        bad = UploadFile(filename="bad.pdf", file=io.BytesIO(b"%PDF-1.4"))
-        bad.read = AsyncMock(return_value=b"%PDF-1.4")
-        with self.assertRaises(HTTPException) as caught:
-            await service.process([bad], teacher_assistant_graph=graph)
-        self.assertEqual(caught.exception.status_code, 415)
-        buffer = io.BytesIO()
-        Image.new("RGB", (1, 1), "white").save(buffer, format="PNG")
-        image = UploadFile(filename="s.png", file=io.BytesIO(buffer.getvalue()))
-        image.read = AsyncMock(return_value=buffer.getvalue())
-
-        result = await service.process(
-            [image],
-            extra_information="Mark question 1",
-            teacher_assistant_graph=graph,
+    def homework_fixture(self):
+        document = SimpleNamespace(
+            id="document-1", file_name="questions.pdf", file_path="homework/questions.pdf",
+            content_type="application/pdf", checksum="checksum", status="ocr", err=None,
+            student_name="Student",
         )
+        homework = SimpleNamespace(
+            id="homework-1", title="Algebra", subject="Mathematics", level="Secondary 1",
+            homework_type="onetime", classes=None, homework_classes=[],
+            homework_submission_onetime=[document], homework_submission_class=[],
+            homework_question_document=document, marking_scheme=None,
+            question_text="Solve x + 1 = 2", marking_guidance="Show working",
+            marking_answers="x = 1", question_filter="1",
+        )
+        db = SimpleNamespace(homework=SimpleNamespace(find_first=AsyncMock(return_value=homework)))
+        graph = SimpleNamespace(ainvoke=AsyncMock(return_value={
+            "messages": [AIMessage(content="Review is ready.")], "tasks": [{"task_id": "task-1"}],
+        }))
+        return db, homework, document, graph
 
-        self.assertEqual(result["response"], "Review is ready.")
-        self.assertEqual(result["tasks"], [{"task_id": "task-1"}])
-        self.assertTrue(result["conversation_id"])
-        self.assertEqual(graph.state, {
-            "messages": [],
-            "tasks": [],
-            "coordinator_decision": None,
-        })
-        runtime = graph.config["configurable"]
+    async def test_service_loads_owned_homework_and_initial_graph_inputs(self):
+        db, homework, document, graph = self.homework_fixture()
+        teacher_id = "5a32ca73-354b-4ad8-bcc5-8e10631c2a29"
+        with patch.dict("os.environ", {"SUPABASE_STORAGE_BUCKET_PATH": "storage/v1/object/upload/sign/homework"}):
+            result = await RawHomeworkProcessingService(db).process(
+                homework.id, teacher_id, homework_marking_graph=graph,
+            )
+        self.assertEqual(db.homework.find_first.call_args.kwargs["where"],
+                         {"id": homework.id, "teacher_id": teacher_id})
+        state = graph.ainvoke.call_args.args[0]
+        self.assertEqual(state, {"messages": [], "tasks": [], "coordinator_decision": None})
+        runtime = graph.ainvoke.call_args.kwargs["config"]["configurable"]
         self.assertEqual(runtime["thread_id"], result["conversation_id"])
-        self.assertEqual(
-            runtime["initial_task_type"], "raw_homework_processing"
-        )
-        self.assertEqual(
-            runtime["initial_task_inputs"],
-            {
-                "submission_image_ids": ["submissions-1"],
-                "question_image_ids": [],
-                "marking_scheme_image_ids": [],
-                "extra_information": "Mark question 1",
-            },
-        )
+        self.assertEqual(runtime["initial_task_type"], "raw_homework_processing")
+        inputs = runtime["initial_task_inputs"]
+        self.assertEqual(inputs["question_document"]["file_path"], document.file_path)
+        self.assertEqual(inputs["submissions"][0]["student_name"], "Student")
+        self.assertEqual(inputs["storage_bucket"], "homework")
+        self.assertEqual(inputs["extra_information"]["question_text"], homework.question_text)
+        self.assertIsNone(inputs["marking_scheme"])
+        self.assertNotIn("image_bundle", runtime)
+        self.assertEqual(result["response"], "Review is ready.")
+
+    async def test_service_rejects_missing_or_unowned_homework(self):
+        db, homework, _, graph = self.homework_fixture()
+        db.homework.find_first.return_value = None
+        with self.assertRaises(HTTPException) as caught:
+            await RawHomeworkProcessingService(db).process(
+                homework.id, "5a32ca73-354b-4ad8-bcc5-8e10631c2a29", homework_marking_graph=graph,
+            )
+        self.assertEqual(caught.exception.status_code, 404)
+        graph.ainvoke.assert_not_awaited()
+
+    async def test_service_rejects_unfinished_documents_and_empty_submissions(self):
+        for scenario, code in (("uploading", 409), ("failed", 409), ("empty", 422)):
+            with self.subTest(scenario=scenario):
+                db, homework, document, graph = self.homework_fixture()
+                if scenario == "empty":
+                    homework.homework_submission_onetime = []
+                elif scenario == "failed":
+                    document.err = "upload_failed"
+                else:
+                    document.status = "uploading"
+                with self.assertRaises(HTTPException) as caught:
+                    await RawHomeworkProcessingService(db).process(
+                        homework.id, "5a32ca73-354b-4ad8-bcc5-8e10631c2a29", homework_marking_graph=graph,
+                    )
+                self.assertEqual(caught.exception.status_code, code)
+                graph.ainvoke.assert_not_awaited()
+
+    async def test_service_rejects_debug_identity_without_database_access(self):
+        db, homework, _, graph = self.homework_fixture()
+        with self.assertRaises(HTTPException) as caught:
+            await RawHomeworkProcessingService(db).process(
+                homework.id, "debug-user", homework_marking_graph=graph,
+            )
+        self.assertEqual(caught.exception.status_code, 403)
+        db.homework.find_first.assert_not_awaited()
+        graph.ainvoke.assert_not_awaited()

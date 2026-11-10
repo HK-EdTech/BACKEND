@@ -1,10 +1,10 @@
 """Complete a task after its coordinator decision passes validation."""
 
-from ..state import Task, TeacherAssistantState
-from ..workflow_config import TaskStatus
+from ..state import CoordinatorState, Task
+from ..agent_configuration import TaskStatus
 
 
-def complete_task(state: TeacherAssistantState) -> dict:
+def complete_task(state: CoordinatorState) -> dict:
     proposal = state["coordinator_decision"]["proposal"]
 
     matches = [
@@ -16,7 +16,7 @@ def complete_task(state: TeacherAssistantState) -> dict:
         raise ValueError("Expected exactly one selected task")
 
     # Central validation has checked result_ready status, outstanding
-    # issues, and any required teacher approval.
+    # issues, and any required user approval.
     task = Task.model_validate(matches[0])
     task.status = TaskStatus.COMPLETED
 

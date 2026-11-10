@@ -160,7 +160,7 @@ jobs:
         docker run --rm \
           -e LANGGRAPH_DATABASE_URL \
           myfastapi:latest \
-          python -m src.ai_agents.teacher_assistant.setup_checkpoints
+          python -m src.ai_agents.coordinator.setup_checkpoints
 
         # Quote the complete -e argument for the remote Bash shell so password
         # characters are passed literally rather than interpreted as commands.

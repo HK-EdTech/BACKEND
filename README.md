@@ -73,12 +73,12 @@ Before first local use, or after deliberately upgrading the checkpoint package,
 prepare the database explicitly:
 
 ```bash
-python -m src.ai_agents.teacher_assistant.setup_checkpoints
-python -m local_develop_session_for_graphs.manual_teacher_assistant_session
+python -m src.ai_agents.coordinator.setup_checkpoints
+PYTHONPATH=.:src python -m local_develop_session_for_graphs.manual_coordinator_session --agent-configuration HOMEWORK_MARKING
 ```
 
 To reopen a saved conversation, add `--thread-id YOUR_CONVERSATION_ID` to the
-session command. FastAPI and the local session connect to existing checkpoint
+session command, using the same agent configuration. FastAPI and the local session connect to existing checkpoint
 tables; they do not apply migrations at startup.
 
 For `.github/workflows/deploy_dev.yaml`, configure the Actions secret

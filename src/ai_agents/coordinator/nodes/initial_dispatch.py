@@ -4,8 +4,8 @@ from collections.abc import Mapping
 
 from langchain_core.runnables import RunnableConfig
 
-from ..state import CoordinatorDecision, Task, TeacherAssistantState
-from ..workflow_config import TaskDefinition
+from ..state import CoordinatorDecision, CoordinatorState, Task
+from ..task_definitions import TaskDefinition
 
 
 def build_initial_dispatch(
@@ -14,7 +14,7 @@ def build_initial_dispatch(
     registry = dict(task_registry)
 
     def initial_dispatch(
-        state: TeacherAssistantState,
+        state: CoordinatorState,
         config: RunnableConfig,
     ) -> dict:
         runtime = config.get("configurable") or {}

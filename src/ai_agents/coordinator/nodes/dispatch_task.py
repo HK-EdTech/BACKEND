@@ -1,10 +1,10 @@
 """Prepare a selected task for execution."""
 
-from ..state import Task, TeacherAssistantState
-from ..workflow_config import TaskStatus
+from ..state import CoordinatorState, Task
+from ..agent_configuration import TaskStatus
 
 
-def dispatch_task(state: TeacherAssistantState) -> dict:
+def dispatch_task(state: CoordinatorState) -> dict:
     envelope = state["coordinator_decision"]
     proposal = envelope["proposal"]
 

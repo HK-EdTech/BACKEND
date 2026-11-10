@@ -1,11 +1,9 @@
-"""Assemble the teacher-assistant graph from its runtime dependencies."""
+"""Assemble a coordinator graph using an agent configuration."""
 
-from collections.abc import Callable, Mapping
-
-from langchain_core.runnables import Runnable
+from collections.abc import Callable
 
 from ..llm import LLMCaller, Tier
-from .graph import build_teacher_assistant_graph
+from .graph import build_coordinator_graph
 from .nodes.complete_task import complete_task
 from .nodes.coordinator import build_coordinator
 from .nodes.create_task import create_task
@@ -14,12 +12,9 @@ from .nodes.execute_task import build_execute_task
 from .nodes.initial_dispatch import build_initial_dispatch
 from .nodes.respond import respond
 from .nodes.task_validation import build_validation_node
-from .raw_homework_processing import build_raw_homework_graph
-from .workflow_config import (
+from .agent_configuration import (
+    AgentConfiguration,
     DEFAULT_SETTINGS,
-    RAW_HOMEWORK_PROCESSING,
-    TASK_REGISTRY,
-    TaskDefinition,
     WorkflowSettings,
 )
 
@@ -28,8 +23,7 @@ def build_runtime_graph(
     llm_factory: Callable[[Tier], LLMCaller],
     *,
     checkpointer,
-    task_registry: Mapping[str, TaskDefinition] | None = None,
-    handlers: Mapping[str, Runnable] | None = None,
+    configuration: AgentConfiguration,
     settings: WorkflowSettings = DEFAULT_SETTINGS,
     tier: Tier = "cheap",
 ):
@@ -39,23 +33,24 @@ def build_runtime_graph(
     implement execution. Keeping them separate lets a future handler be a
     subgraph, a tool adapter, or another runnable without changing task state.
     """
-    registry = dict(TASK_REGISTRY if task_registry is None else task_registry)
-    registered_handlers = (
-        {RAW_HOMEWORK_PROCESSING: build_raw_homework_graph()}
-        if handlers is None
-        else dict(handlers)
-    )
+    registry = dict(configuration.task_registry)
 
-    if set(registry) != set(registered_handlers):
+    if set(registry) != set(configuration.handler_builders):
         raise ValueError(
             "Task definitions and handlers must register the same task types"
         )
 
-    return build_teacher_assistant_graph(
+    registered_handlers = {
+        task_type: build_handler()
+        for task_type, build_handler in configuration.handler_builders.items()
+    }
+
+    return build_coordinator_graph(
         initial_dispatch=build_initial_dispatch(registry),
         coordinator=build_coordinator(
             llm_factory,
             task_registry=registry,
+            coordinator_instructions=configuration.coordinator_instructions,
             tier=tier,
         ),
         validate_decision=build_validation_node(registry, settings=settings),

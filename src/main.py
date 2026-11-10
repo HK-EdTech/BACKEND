@@ -21,7 +21,8 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from .deps import get_current_user
 from .database import connect_db, disconnect_db
 from .ai_agents.llm import OpenRouterCaller, free_model, make_llm_factory
-from .ai_agents.teacher_assistant.runtime import build_runtime_graph
+from .ai_agents.coordinator.runtime import build_runtime_graph
+from .ai_agents.coordinator.agent_configuration import HOMEWORK_MARKING
 from .ocrs.models.GoogleCloudVisionAPI import GoogleCloudVisionAPI
 
 # Import routers from modules
@@ -55,11 +56,12 @@ async def lifespan(app: FastAPI):
         # Keep the checkpoint connection open for the graph's full lifetime.
         async with AsyncPostgresSaver.from_conn_string(checkpoint_url) as checkpointer:
             # Prepare tables before startup with:
-            # python -m src.ai_agents.teacher_assistant.setup_checkpoints
+            # python -m src.ai_agents.coordinator.setup_checkpoints
             # Normal server restarts must not apply database migrations.
-            app.state.teacher_assistant_graph = build_runtime_graph(
+            app.state.homework_marking_graph = build_runtime_graph(
                 make_llm_factory(os.getenv("OPENROUTER_API_KEY", "")),
                 checkpointer=checkpointer,
+                configuration=HOMEWORK_MARKING,
             )
             yield
     finally:

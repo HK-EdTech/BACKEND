@@ -8,16 +8,16 @@ from pydantic import ValidationError
 from ..state import (
     CoordinatorDecision,
     Task,
-    TeacherAssistantState,
+    CoordinatorState,
     validate_coordinator_decision,
     validate_task_list,
 )
-from ..workflow_config import (
+from ..agent_configuration import (
     DEFAULT_SETTINGS,
-    TaskDefinition,
     TaskStatus,
     WorkflowSettings,
 )
+from ..task_definitions import TaskDefinition
 
 
 def build_decision_validator(
@@ -27,7 +27,7 @@ def build_decision_validator(
     registry = dict(task_registry)
 
     def validate(
-        state: TeacherAssistantState,
+        state: CoordinatorState,
         config: RunnableConfig,
     ) -> CoordinatorDecision:
         # Call the plain helper, not its runnable wrapper, so format and task
@@ -70,10 +70,10 @@ def build_decision_validator(
             raise ValueError("Task type is not registered")
 
         # These permissions come from the application's interpretation of an
-        # explicit teacher action, never from model-generated decision fields.
+        # explicit user action, never from model-generated decision fields.
         runtime = config.get("configurable") or {}
-        approved_ids = runtime.get("teacher_approved_task_ids", ())
-        retry_ids = runtime.get("teacher_retry_task_ids", ())
+        approved_ids = runtime.get("user_approved_task_ids", ())
+        retry_ids = runtime.get("user_retry_task_ids", ())
 
         if decision.action == "dispatch":
             if task.status not in (TaskStatus.QUEUED, TaskStatus.RESULT_READY):
@@ -106,14 +106,14 @@ def build_decision_validator(
         elif decision.action == "complete_task":
             if task.status != TaskStatus.RESULT_READY:
                 raise ValueError("Only result_ready tasks can be completed")
-            # Teacher approval cannot bypass issues or execution errors.
+            # User approval cannot bypass issues or execution errors.
             if task.has_issues or task.error:
                 raise ValueError("Resolve task issues and errors before completion")
             if (
                 registry[task.task_type].approval_required
                 and task.task_id not in approved_ids
             ):
-                raise ValueError("This task requires explicit teacher approval")
+                raise ValueError("This task requires explicit user approval")
 
         return decision
 
@@ -130,7 +130,7 @@ def build_validation_node(
     validator = build_decision_validator(task_registry)
 
     async def validate_decision(
-        state: TeacherAssistantState,
+        state: CoordinatorState,
         config: RunnableConfig,
     ) -> dict:
         envelope = state["coordinator_decision"] or {

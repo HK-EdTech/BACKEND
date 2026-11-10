@@ -1,4 +1,4 @@
-"""Task contracts and shared teacher assistant graph state."""
+"""Task contracts and shared coordinator graph state."""
 
 from typing import Annotated, Literal, TypedDict
 from uuid import uuid4
@@ -7,7 +7,7 @@ from langchain_core.messages import AnyMessage
 from langgraph.graph.message import add_messages
 from pydantic import BaseModel, ConfigDict, Field, JsonValue, model_validator
 
-from .workflow_config import TaskStatus
+from .agent_configuration import TaskStatus
 
 
 class Contract(BaseModel):
@@ -70,10 +70,10 @@ def validate_task_list(tasks: list[dict[str, JsonValue]]) -> list[Task]:
 class CoordinatorDecision(Contract):
     """One proposed action; the parent graph validates it against task state."""
 
-    # respond: send response to the teacher without changing a task.
+    # respond: send response to the user without changing a task.
     # create_task: create a queued task from task_type, title, and inputs.
     # dispatch: run an existing task's handler, optionally with new guidance.
-    # complete_task: accept a result_ready task after required teacher approval.
+    # complete_task: accept a result_ready task after required user approval.
     action: Literal[
         "respond",
         "create_task",
@@ -95,7 +95,7 @@ class CoordinatorDecision(Contract):
     # Only dispatch uses guidance, for execution instructions or a rerun.
     guidance: str | None = None
 
-    # Required for respond; other actions may also include a teacher-facing message.
+    # Required for respond; other actions may also include a user-facing message.
     response: str | None = None
 
 
@@ -134,7 +134,7 @@ def validate_coordinator_decision(value: object) -> CoordinatorDecision:
         raise ValueError("guidance is only allowed for dispatch")
 
     # Task existence, current status, registry membership, plan ordering,
-    # and teacher approval require parent state, so the graph checks those.
+    # and user approval require parent state, so the graph checks those.
     return decision
 
 
@@ -174,7 +174,7 @@ class DecisionEnvelope(TypedDict):
     validation_error: DecisionValidationError
 
 
-class TeacherAssistantState(TypedDict):
+class CoordinatorState(TypedDict):
     messages: Annotated[list[AnyMessage], add_messages]
     tasks: list[dict[str, JsonValue]]
     coordinator_decision: DecisionEnvelope | None

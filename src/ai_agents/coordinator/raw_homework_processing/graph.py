@@ -5,7 +5,8 @@ from typing import TypedDict
 from langgraph.graph import END, START, StateGraph
 
 from ..state import Task
-from ..workflow_config import RAW_HOMEWORK_PROCESSING, TaskStatus
+from ..agent_configuration import TaskStatus
+from ..task_definitions import RAW_HOMEWORK_PROCESSING
 
 
 class RawHomeworkState(TypedDict):

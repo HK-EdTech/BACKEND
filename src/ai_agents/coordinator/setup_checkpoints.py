@@ -1,7 +1,7 @@
 """Explicitly initialize or migrate the LangGraph checkpoint database.
 
 Run from the repository root before starting the application:
-    python -m src.ai_agents.teacher_assistant.setup_checkpoints
+    python -m src.ai_agents.coordinator.setup_checkpoints
 
 Uses LANGGRAPH_DATABASE_URL from the environment or .env. Deployment must run
 this command once, using the same application image that will serve requests.
